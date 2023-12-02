@@ -4,7 +4,7 @@ const listen = require('test-listen');
 const got = require('got');
 const app = require('../index');
 
-const { getUserDetails } = require('../service/UserUserService');
+const { getUserDetails, editUserDetails } = require('../service/UserUserService');
 
 test.before(async (t) => {
     t.context.server = http.createServer(app);
@@ -147,7 +147,6 @@ test('PUT editUserDetails returns success response with required fields', async 
     t.truthy(body.weight);
 });
 
-
 test('PUT editUserDetails with invalid userID returns fail response - 400 ', async (t) => {
     for (const userID of userIDfor400) {
         const nonNumericUserID = userID;
@@ -215,3 +214,35 @@ test('PUT editUserDetails with invalid userID returns fail response 404 ', async
     }
 });
 
+test('editUserDetails successfully edits user details', async (t) => {
+    const userID = 123;
+    const mockRequestBody = {
+        "birthday": "2000-01-23T04:56:07.000+00:00",
+        "meal": "meal",
+        "allergies": "allergies",
+        "goal": "goal",
+        "gender": "gender",
+        "level": "level",
+        "weight": 1.4658129805029452,
+        "restrictions": "restrictions",
+        "userID": 0,
+        "username": "username",
+        "height": 6.027456183070403
+    };
+
+    const result = await editUserDetails(mockRequestBody, userID);
+    // Assertions
+    t.deepEqual(result, {
+        "birthday": "2000-01-23T04:56:07.000+00:00",
+        "meal": "meal",
+        "allergies": "allergies",
+        "goal": "goal",
+        "gender": "gender",
+        "level": "level",
+        "weight": 1.4658129805029452,
+        "restrictions": "restrictions",
+        "userID": 0,
+        "username": "username",
+        "height": 6.027456183070403
+    });
+});
