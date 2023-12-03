@@ -9,9 +9,9 @@ info:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
   version: 2.0.0
-servers:
-- url: https://virtserver.swaggerhub.com/DIMOSKOMPITSELIDIS/Team27/2.0.0
-  description: SwaggerHub API Auto Mocking
+# servers:
+# - url: https://virtserver.swaggerhub.com/DIMOSKOMPITSELIDIS/Team27/2.0.0
+#   description: SwaggerHub API Auto Mocking
 tags:
 - name: exercise-user
   description: user actions on exercises
