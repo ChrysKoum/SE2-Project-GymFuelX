@@ -3,7 +3,7 @@ const test = require('ava');
 const listen = require('test-listen');
 const got = require('got');
 
-const { deleteReportNutritionist } = require("../service/ReportNutritionistService");
+const { deleteReportTrainer } = require("../service/ReportTrainerService");
 const app = require('../index.js');
 
 test.before(async (t) => {
@@ -16,14 +16,14 @@ test.after.always((t) => {
     t.context.server.close();
 });
 
-const nutritionistID = generateTestnutritionistID();
+const TrainerID = generateTestTrainerID();
 const reportID = generateTestReportID();
 
 //Delete Report
 test('Test of the Delete Report with success', async (t) => {
 
     const { body, statusCode } = await t.context.got.delete(
-        `nutritionist/${nutritionistID}/report/${reportID}`
+        `Trainer/${TrainerID}/report/${reportID}`
     );
 
     //status Code should be 200
@@ -36,7 +36,7 @@ test('Test of the Delete Report with 400 error code', async (t) => {
 
     try {
         const { body, statusCode } = await t.context.got.delete(
-            `nutritionist/${nutritionistID}/report/${wrongReportId}`
+            `Trainer/${TrainerID}/report/${wrongReportId}`
         );
 
     } catch (error) {
@@ -52,7 +52,7 @@ test('Test of the Delete Report with 400 error code', async (t) => {
 });
 
 
-function generateTestnutritionistID() {
+function generateTestTrainerID() {
     return Math.floor(Math.random() * 100000) + 1;
 }
 
