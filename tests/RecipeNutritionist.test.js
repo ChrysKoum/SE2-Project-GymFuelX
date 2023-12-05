@@ -25,7 +25,7 @@ test('Test of the stracture that get gives', async (t) => {
     );
 
     //status Code should be 200
-    t.is(statusCode, 200, "Should return 200 OK for valid userID");
+    t.is(statusCode, 200, "Should return 200");
 
     //Checking the Arrays
     t.true(Array.isArray(body.IngredientsName) && Array.isArray(body.Instructions)
@@ -137,7 +137,6 @@ test('PUT RecipeNutritionist returns error 400 with bad parameters', async (t) =
     } catch (error) {
         // Assert that the error status code is 400
         t.is(error.response.statusCode, 400, 'Should return 400 with bad parameters');
-        console.log(error.response.body);
         t.like(error.response.body.errors,[
             {
               path: '.body.time',
@@ -146,6 +145,40 @@ test('PUT RecipeNutritionist returns error 400 with bad parameters', async (t) =
             }
           ]);
     }
+});
+
+//Delete Recipe
+test('Test of the Delete Recipe with success', async (t) => {
+
+    const { body, statusCode } = await t.context.got.delete(
+        `nutritionist/${nutritionistID}/recipe/${recipeID}`
+    );
+
+    //status Code should be 200
+    t.is(statusCode, 200, "Should return 200 when recipe is deleted");
+
+});
+
+test('Test of the Delete Recipe with 400 error code', async (t) => {
+    const wrongRecipeId = '@';
+
+    try {
+        const { body, statusCode } = await t.context.got.delete(
+            `nutritionist/${nutritionistID}/recipe/${wrongRecipeId}`
+        );
+
+    } catch (error) {
+        t.is(error.response.statusCode, 400, "Should return 400 when there is a bad parameter");
+        t.like(error.response.body.errors,[
+            {
+                path: '.params.recipeID',
+                message: 'should be integer',
+                errorCode: 'type.openapi.validation'
+            }
+          ]);
+    }
+    
+
 });
 
 
