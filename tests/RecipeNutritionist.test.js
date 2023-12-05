@@ -4,7 +4,7 @@ const test = require('ava');
 const listen = require('test-listen');
 const got = require('got');
 
-const { booksGET } = require("../service/RecipeNutritionistService");
+const { getRecipeNutrionist, postRecipeNutritionist, deleteRecipeNutritionist } = require("../service/RecipeNutritionistService");
 const app = require('../index.js');
 
 test.before(async (t) => {
