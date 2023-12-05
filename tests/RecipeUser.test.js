@@ -170,13 +170,11 @@ test.before(async (t) => {
 
 
 test('getRecipe with minimum valid user ID and recipeID returns correct response', async (t) => {
-    const userID = 12;
-    const recipeID = 15;
     const { body, statusCode } = await t.context.got(`user/1/recipe/1`);
     t.is(statusCode, 200, "Should return 200 OK for valid userID and recipeID");
 });
 test('getRecipe with maximum valid user ID and recipeID returns correct response', async (t) => {
-    const { body, statusCode } = await t.context.got(`user/100000/recipe/100000`);
+    const { body, statusCode } = await t.context.got(`user/10000000/recipe/10000000`);
     t.is(statusCode, 200, "Should return 200 OK for valid userID and recipeID");
 });
 
@@ -221,7 +219,7 @@ test('getRecipe with valid user ID and non Numeric recipeID returns 400', async 
 });
 
 const userIDfor404 = ['', []]
-test('getRecipe with non-numeric user ID and valid recipeID returns 404', async (t) => {
+test('getRecipe with empty user ID and valid recipeID returns 404', async (t) => {
     for (const userID of userIDfor404) {
         const nonNumericUserID = userID;
 
@@ -241,7 +239,7 @@ test('getRecipe with non-numeric user ID and valid recipeID returns 404', async 
 });
 
 const recipeIDfor404 = ['', []]
-test('getRecipe with valid user ID and non-numeric recipeID returns 404', async (t) => {
+test('getRecipe with valid user ID and empty recipeID returns 404', async (t) => {
     for (const recipeID of recipeIDfor404) {
         const nonNumericrecipeID = recipeID;
 
@@ -439,7 +437,7 @@ test('getAllRecipies with non-numeric user ID returns 400', async (t) => {
     }
 });
 
-test('getAllRecipies with non-numeric user ID returns 404', async (t) => {
+test('getAllRecipies with empty userID returns 404', async (t) => {
     for (const userID of userIDfor404) {
         const nonNumericUserID = userID;
 
