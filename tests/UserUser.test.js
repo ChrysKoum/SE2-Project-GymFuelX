@@ -4,7 +4,7 @@ const listen = require('test-listen');
 const got = require('got');
 const app = require('../index');
 
-const { getUserDetails, editUserDetails } = require('../service/UserUserService');
+const { getUserDetails, editUserDetails, addUserDetails } = require('../service/UserUserService');
 
 test.before(async (t) => {
     t.context.server = http.createServer(app);
@@ -246,3 +246,38 @@ test('editUserDetails successfully edits user details', async (t) => {
         "height": 6.027456183070403
     });
 });
+
+
+        // //////
+
+        // test('addUserDetails returns correct response', async (t) => {
+        //     const mockRequestBody = {
+        //         "birthday": "2000-01-23T04:56:07.000+00:00",
+        //         "meal": "meal",
+        //         "allergies": "allergies",
+        //         "goal": "goal",
+        //         "gender": "gender",
+        //         "level": "level",
+        //         "weight": 1.4658129805029452,
+        //         "restrictions": "restrictions",
+        //         "userID": 0,
+        //         "username": "username",
+        //         "height": 6.027456183070403
+        //     };
+
+        //     const result = await addUserDetails(mockRequestBody, 123);
+        //     // Assertions
+        //     t.deepEqual(result, {
+        //         "birthday": "2000-01-23T04:56:07.000+00:00",
+        //         "meal": "meal",
+        //         "allergies": "allergies",
+        //         "goal": "goal",
+        //         "gender": "gender",
+        //         "level": "level",
+        //         "weight": 1.4658129805029452,
+        //         "restrictions": "restrictions",
+        //         "userID": 0,
+        //         "username": "username",
+        //         "height": 6.027456183070403
+        //     });
+        // });
