@@ -17,6 +17,7 @@ const nutritionistID = generateTestnutritionistID();
 const recipeID = generateTestRecipeID();
 const maxRecipeID = Math.pow(10, 6); //the max Id a Nutritionist can have
 
+//Get Request
 test('Test of the stracture that get gives', async (t) => {
 
     const { body, statusCode } = await t.context.got.get(
@@ -40,10 +41,114 @@ test('Test of the stracture that get gives', async (t) => {
     t.is(typeof body.recipeID, 'number');
     t.is(typeof body.time, 'number');
 
-    console.log('my prints');
-    console.log(body);
-    console.log(typeof body.recipeID);
 })
+
+//Put Request
+test('PUT RecipeNutritionist returns corect response with required fields', async (t) => {
+    
+    const mockRecipeData = {
+        IngredientsName: ["Chicken Breast", "Olive Oil", "Garlic", "Lemon Juice", "Paprika", "Salt", "Black Pepper", "Fresh Parsley"],
+        difficulty: "Easy",
+        servings: "4",
+        recipeType: "Main Course",
+        Instructions: [
+          "Preheat oven to 375°F (190°C).",
+          "In a bowl, mix olive oil, minced garlic, lemon juice, paprika, salt, and black pepper.",
+          "Place chicken breasts in a baking dish and pour the mixture over them.",
+          "Bake in the preheated oven for 25-30 minutes or until chicken is cooked through.",
+          "Garnish with chopped fresh parsley before serving."
+        ],
+        NutritionalTable: [
+          "Calories: 165",
+          "Protein: 26g",
+          "Fat: 4.5g",
+          "Carbohydrates: 3g",
+          "Sodium: 322mg"
+        ],
+        IngredientsQuantity: [
+          "4 medium-sized chicken breasts",
+          "2 tablespoons olive oil",
+          "3 cloves garlic, minced",
+          "2 tablespoons lemon juice",
+          "1 teaspoon paprika",
+          "1/2 teaspoon salt",
+          "1/4 teaspoon black pepper",
+          "2 tablespoons chopped fresh parsley"
+        ],
+        time: 35,
+        recipeID: 101,
+        imgRecipe: "https://example.com/images/chicken-breast-recipe.jpg"
+      };
+      
+    const { body, statusCode } = await t.context.got.put(
+        `nutritionist/${nutritionistID}/recipe/${recipeID}`, {
+        json: mockRecipeData,
+    });
+    // Assertions
+    t.is(statusCode, 200, 'Should return 200 ');
+    
+    console.log(body);
+});
+
+
+test('PUT RecipeNutritionist returns error 400 with bad parameters', async (t) => {
+    // Assuming mockRecipeData contains some invalid parameters
+    const mockRecipeData = {
+        IngredientsName: ["Chicken Breast", "Olive Oil", "Garlic", "Lemon Juice", "Paprika", "Salt", "Black Pepper", "Fresh Parsley"],
+        difficulty: "Easy",
+        servings: "invalid_number", // Intentionally incorrect type for testing
+        recipeType: "Main Course",
+        Instructions: [
+          "Preheat oven to 375°F (190°C).",
+          "In a bowl, mix olive oil, minced garlic, lemon juice, paprika, salt, and black pepper.",
+          "Place chicken breasts in a baking dish and pour the mixture over them.",
+          "Bake in the preheated oven for 25-30 minutes or until chicken is cooked through.",
+          "Garnish with chopped fresh parsley before serving."
+        ],
+        NutritionalTable: [
+          "Calories: 165",
+          "Protein: 26g",
+          "Fat: 4.5g",
+          "Carbohydrates: 3g",
+          "Sodium: 322mg"
+        ],
+        IngredientsQuantity: [
+          "4 medium-sized chicken breasts",
+          "2 tablespoons olive oil",
+          "3 cloves garlic, minced",
+          "2 tablespoons lemon juice",
+          "1 teaspoon paprika",
+          "1/2 teaspoon salt",
+          "1/4 teaspoon black pepper",
+          "2 tablespoons chopped fresh parsley"
+        ],
+        time: "5", // Assuming this should be a number
+        recipeID: 101,
+        imgRecipe: "https://example.com/images/chicken-breast-recipe.jpg"
+    };
+
+    try {
+        const { body, statusCode } = await t.context.got.put(
+            `nutritionist/${nutritionistID}/recipe/${recipeID}`, {
+            json: mockRecipeData,
+        });
+
+        
+    } catch (error) {
+        // Assert that the error status code is 400
+        t.is(error.response.statusCode, 400, 'Should return 400 with bad parameters');
+        console.log(error.response.body);
+        t.like(error.response.body.errors,[
+            {
+              path: '.body.time',
+              message: 'should be integer',
+              errorCode: 'type.openapi.validation'
+            }
+          ]);
+    }
+});
+
+
 
 
 test.after.always((t) => {
@@ -57,3 +162,5 @@ function generateTestnutritionistID() {
 function generateTestRecipeID() {
     return Math.floor(Math.random() * 1000000) + 1;
 }
+
+
