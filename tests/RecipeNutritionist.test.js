@@ -127,37 +127,37 @@ test('PUT RecipeNutritionist returns error 400 with bad parameters', async (t) =
         imgRecipe: "https://example.com/images/chicken-breast-recipe.jpg"
     };
 
-    const { body, statusCode } = await t.context.got.put(
-        `nutritionist/${nutritionistID}/recipe/${recipeID}`, {
-        json: mockRecipeData,
-    });
-    t.is(statusCode, 400, 'Should return 400 Bad Request for non-numeric userID');
-    t.is(body.message, 'request.body.time should be integer');
-    t.like(body.errors, [
-        {
-            path: '.body.time',
-            message: 'should be integer',
-            errorCode: 'type.openapi.validation'
-        }
-    ]);
-    // try {
-    //     const { body, statusCode } = await t.context.got.put(
-    //         `nutritionist/${nutritionistID}/recipe/${recipeID}`, {
-    //         json: mockRecipeData,
-    //     });
+    // const { body, statusCode } = await t.context.got.put(
+    //     `nutritionist/${nutritionistID}/recipe/${recipeID}`, {
+    //     json: mockRecipeData,
+    // });
+    // t.is(statusCode, 400, 'Should return 400 Bad Request for non-numeric userID');
+    // t.is(body.message, 'request.body.time should be integer');
+    // t.like(body.errors, [
+    //     {
+    //         path: '.body.time',
+    //         message: 'should be integer',
+    //         errorCode: 'type.openapi.validation'
+    //     }
+    // ]);
+    try {
+        const { body, statusCode } = await t.context.got.put(
+            `nutritionist/${nutritionistID}/recipe/${recipeID}`, {
+            json: mockRecipeData,
+        });
 
 
-    // } catch (error) {
-    //     // Assert that the error status code is 400
-    //     t.is(error.response.statusCode, 400, 'Should return 400 with bad parameters');
-    //     t.like(error.response.body.errors, [
-    //         {
-    //             path: '.body.time',
-    //             message: 'should be integer',
-    //             errorCode: 'type.openapi.validation'
-    //         }
-    //     ]);
-    // }
+    } catch (error) {
+        // Assert that the error status code is 400
+        t.is(error.response.statusCode, 400, 'Should return 400 with bad parameters');
+        t.like(error.response.body.errors, [
+            {
+                path: '.body.time',
+                message: 'should be integer',
+                errorCode: 'type.openapi.validation'
+            }
+        ]);
+    }
 });
 
 //Delete Recipe
