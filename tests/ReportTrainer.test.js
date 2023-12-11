@@ -2,15 +2,73 @@ const http = require('http');
 const test = require('ava');
 const listen = require('test-listen');
 const got = require('got');
+
 const app = require('../index');
 
-const { getGymProgramReports, getGymProgramReport } = require('../service/ReportTrainerService');
+const { getGymProgramReports, getGymProgramReport, deleteReportTrainer } = require('../service/ReportTrainerService');
+
 
 test.before(async (t) => {
     t.context.server = http.createServer(app);
     t.context.prefixUrl = await listen(t.context.server);
-    t.context.got = got.extend({ prefixUrl: t.context.prefixUrl, responseType: "json", throwHttpErrors: false });
+    t.context.got = got.extend({ prefixUrl: t.context.prefixUrl, responseType: 'json', throwHttpErrors: false});
 });
+
+test.after.always((t) => {
+    t.context.server.close();
+});
+
+const TrainerID = generateTestTrainerID();
+const reportID = generateTestReportID();
+
+//Delete Report
+test('Test of the Delete Report with success', async (t) => {
+    const { body, statusCode } = await t.context.got.delete(
+        `Trainer/${TrainerID}/report/${reportID}`
+    );
+
+    //status Code should be 200
+    t.is(statusCode, 200, "Should return 200 when report is deleted");
+});
+
+test('Test of the Delete Report with 400 error code', async (t) => {
+    const wrongReportId = '@';
+    const TrainerID = generateTestTrainerID(); // Define TrainerID variable
+
+    const { body, statusCode } = await t.context.got.delete(
+        `Trainer/${TrainerID}/report/${wrongReportId}`
+    );
+
+    t.is(statusCode, 400, "Should return 400 when there is a bad parameter");
+    t.like(body.errors,[
+        {
+            path: '.params.reportID',
+            message: 'should be integer',
+            errorCode: 'type.openapi.validation'
+        }
+    ]);
+});
+
+test('Test of the Delete Report with 405 error code', async (t) => {
+    const nonExistingReportId = '';
+    const TrainerID = generateTestTrainerID(); // Define TrainerID variable
+
+    const { statusCode, body } = await t.context.got.delete(
+        `Trainer/${TrainerID}/report/${nonExistingReportId}`
+    );
+    
+    t.is(statusCode, 405, "Should return 405 DELETE method not allowed");
+});
+
+function generateTestTrainerID() {
+    return Math.floor(Math.random() * 100000) + 1;
+}
+
+function generateTestReportID() {
+    return Math.floor(Math.random() * 100000) + 1;
+}
+    
+
 test.after.always((t) => {
     t.context.server.close();
 })
