@@ -64,37 +64,42 @@ test('getRecipeReport with maximum valid nutritionistID and reportID returns cor
 const nutritionistIDfor400 = [3.4, 'abcs', true, '@special', null, undefined, '!', '@', '^', '&', '*',];
 const reportIDfor400 = [3.4, 'abcs', true, '@special', null, undefined, '!', '@', '^', '&', '*',];
 
-nutritionistIDfor400.forEach(async (nutritionistID) => {
-    test(`getRecipeReport with invalid nutritionistID ${nutritionistID} returns 400`, async (t) => {
-        const { body,statusCode } = await t.context.got(`nutritionist/${nutritionistID}/report/5`);
+test(`getRecipeReport with invalid nutritionistID  returns 400`, async (t) => {
+    for (const nutritionistID of nutritionistIDfor400) {
+        invalidnutritionistID = nutritionistID;
+        const { body, statusCode } = await t.context.got(`nutritionist/${invalidnutritionistID}/report/5`);
         t.is(statusCode, 400, "Should return 400 Bad Request for invalid nutritionistID");
         t.is(body.message, 'request.params.NutritionistID should be integer')
         t.assert(body.message);
-        t.deepEqual(body.errors,[
+        t.deepEqual(body.errors, [
             {
                 path: '.params.NutritionistID',
                 message: 'should be integer',
                 errorCode: 'type.openapi.validation'
             }
         ]);
-    });
+    }
+
 });
 
-reportIDfor400.forEach(async (reportID) => {
-    test(`getRecipeReport with invalid reportID ${reportID} returns 400`, async (t) => {
-        const { body,statusCode } = await t.context.got(`nutritionist/5/report/${reportID}`);
+test(`getRecipeReport with invalid reportID returns 400`, async (t) => { 
+    for (const reportID of reportIDfor400) {
+        invalidreportID = reportID;
+        const { body, statusCode } = await t.context.got(`nutritionist/5/report/${invalidreportID}`);
         t.is(statusCode, 400, "Should return 400 Bad Request for invalid reportID");
         t.is(body.message, 'request.params.reportID should be integer')
         t.assert(body.message);
-        t.deepEqual(body.errors,[
+        t.deepEqual(body.errors, [
             {
                 path: '.params.reportID',
                 message: 'should be integer',
                 errorCode: 'type.openapi.validation'
             }
         ]);
-    });
+    }
+
 });
+
 
 const nutritionistIDfor404 = ['', []]
 const reportIDfor404 = ['', []]
