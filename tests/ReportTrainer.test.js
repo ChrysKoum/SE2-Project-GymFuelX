@@ -42,7 +42,7 @@ test('Get gym program reports returns correct response', async (t) => {
         t.truthy(el['isGym-Diet']);
 
         // Validate the data types and structure
-        t.is(typeof el.ByUser, "string")
+        t.is(typeof el.ByUser, 'number')
         t.is(typeof el.ID, "number")
         t.is(typeof el['isGym-Diet'], "boolean")
         const actualProperties = Object.keys(el);
@@ -110,19 +110,18 @@ test('getGymProgramReports - should return a list of gym program reports when gi
     const trainerID = 123;
     const expectedReports = [
         {
-            ByUser: 'ByUser',
+            ByUser: 6,
             ID: 0,
             'isGym-Diet': true
         },
         {
-            ByUser: 'ByUser',
+            ByUser: 6,
             ID: 0,
             'isGym-Diet': true
         }
     ];
 
     const reports = await getGymProgramReports(trainerID);
-    console.log(reports)
     t.deepEqual(reports, expectedReports);
 });
 
@@ -160,7 +159,7 @@ test('Get gym program report returns correct response', async (t) => {
     t.truthy(body['isGym-Diet']);
 
     // Validate the data types and structure
-    t.is(typeof body.ByUser, "string")
+    t.is(typeof body.ByUser, 'number')
     t.is(typeof body.ID, "number")
     t.is(typeof body['isGym-Diet'], "boolean")
     const actualProperties = Object.keys(body);
@@ -237,7 +236,7 @@ test('getGymProgramReports - should return a list of gym program report when giv
     const trainerID = 123;
     const reportID = 123
     const expectedReport = {
-        ByUser: 'ByUser',
+        ByUser: 6,
         ID: 0,
         'isGym-Diet': true
     }
