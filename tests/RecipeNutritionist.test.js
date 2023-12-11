@@ -1,4 +1,3 @@
-
 const http = require('http');
 const test = require('ava');
 const listen = require('test-listen');
@@ -10,7 +9,7 @@ const app = require('../index.js');
 test.before(async (t) => {
     t.context.server = http.createServer(app);
     t.context.prefixUrl = await listen(t.context.server);
-    t.context.got = got.extend({ prefixUrl: t.context.prefixUrl, responseType: 'json' });
+    t.context.got = got.extend({ prefixUrl: t.context.prefixUrl, responseType: 'json', throwHttpErrors: false });
 });
 
 const nutritionistID = generateTestnutritionistID();
@@ -19,7 +18,6 @@ const maxRecipeID = Math.pow(10, 6); //the max Id a Nutritionist can have
 
 //Get Request
 test('Test of the stracture that get gives', async (t) => {
-
     const { body, statusCode } = await t.context.got.get(
         `nutritionist/${nutritionistID}/recipe/${recipeID}`
     );
@@ -40,12 +38,10 @@ test('Test of the stracture that get gives', async (t) => {
     //Checking the RecipeID and time
     t.is(typeof body.recipeID, 'number');
     t.is(typeof body.time, 'number');
-
-})
+});
 
 //Put Request
 test('PUT RecipeNutritionist returns corect response with required fields', async (t) => {
-
     const mockRecipeData = {
         IngredientsName: ["Chicken Breast", "Olive Oil", "Garlic", "Lemon Juice", "Paprika", "Salt", "Black Pepper", "Fresh Parsley"],
         difficulty: "Easy",
@@ -86,10 +82,8 @@ test('PUT RecipeNutritionist returns corect response with required fields', asyn
     });
     // Assertions
     t.is(statusCode, 200, 'Should return 200 ');
-
     console.log(body);
 });
-
 
 test('PUT RecipeNutritionist returns error 400 with bad parameters', async (t) => {
     // Assuming mockRecipeData contains some invalid parameters
@@ -127,75 +121,57 @@ test('PUT RecipeNutritionist returns error 400 with bad parameters', async (t) =
         imgRecipe: "https://example.com/images/chicken-breast-recipe.jpg"
     };
 
-    // const { body, statusCode } = await t.context.got.put(
-    //     `nutritionist/${nutritionistID}/recipe/${recipeID}`, {
-    //     json: mockRecipeData,
-    // });
-    // t.is(statusCode, 400, 'Should return 400 Bad Request for non-numeric userID');
-    // t.is(body.message, 'request.body.time should be integer');
-    // t.like(body.errors, [
-    //     {
-    //         path: '.body.time',
-    //         message: 'should be integer',
-    //         errorCode: 'type.openapi.validation'
-    //     }
-    // ]);
-    try {
-        const { body, statusCode } = await t.context.got.put(
-            `nutritionist/${nutritionistID}/recipe/${recipeID}`, {
-            json: mockRecipeData,
-        });
-
-
-    } catch (error) {
-        // Assert that the error status code is 400
-        t.is(error.response.statusCode, 400, 'Should return 400 with bad parameters');
-        t.like(error.response.body.errors, [
-            {
-                path: '.body.time',
-                message: 'should be integer',
-                errorCode: 'type.openapi.validation'
-            }
-        ]);
-    }
+    const { body, statusCode } = await t.context.got.put(
+        `nutritionist/${nutritionistID}/recipe/${recipeID}`, {
+        json: mockRecipeData,
+    });
+    t.is(statusCode, 400, 'Should return 400 Bad Request for non-numeric userID');
+    t.is(body.message, 'request.body.time should be integer');
+    t.like(body.errors, [
+        {
+            path: '.body.time',
+            message: 'should be integer',
+            errorCode: 'type.openapi.validation'
+        }
+    ]);
 });
 
 //Delete Recipe
 test('Test of the Delete Recipe with success', async (t) => {
-
     const { body, statusCode } = await t.context.got.delete(
         `nutritionist/${nutritionistID}/recipe/${recipeID}`
     );
 
     //status Code should be 200
     t.is(statusCode, 200, "Should return 200 when recipe is deleted");
-
 });
 
 test('Test of the Delete Recipe with 400 error code', async (t) => {
     const wrongRecipeId = '@';
+    
+    const { body, statusCode } = await t.context.got.delete(
+        `nutritionist/${nutritionistID}/recipe/${wrongRecipeId}`
+    );
 
-    try {
-        const { body, statusCode } = await t.context.got.delete(
-            `nutritionist/${nutritionistID}/recipe/${wrongRecipeId}`
-        );
-
-    } catch (error) {
-        t.is(error.response.statusCode, 400, "Should return 400 when there is a bad parameter");
-        t.like(error.response.body.errors, [
-            {
-                path: '.params.recipeID',
-                message: 'should be integer',
-                errorCode: 'type.openapi.validation'
-            }
-        ]);
-    }
-
-
+    t.is(statusCode, 400, "Should return 400 when there is a bad parameter");
+    t.like(body.errors, [
+        {
+          path: '.params.recipeID',
+          message: 'should be integer',
+          errorCode: 'type.openapi.validation'
+        }
+      ]);
 });
 
+test('Test of the Delete Recipe with 405 error code', async (t) => {
+    const nonExistingRecipeId = '';
 
-
+    const { statusCode, body } = await t.context.got.delete(
+        `nutritionist/${nutritionistID}/recipe/${nonExistingRecipeId}`
+    );
+    
+    t.is(statusCode, 405, "Should return 405 DELETE method not allowed");
+});
 
 test.after.always((t) => {
     t.context.server.close();
@@ -208,5 +184,3 @@ function generateTestnutritionistID() {
 function generateTestRecipeID() {
     return Math.floor(Math.random() * 1000000) + 1;
 }
-
-
