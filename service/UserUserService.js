@@ -5,11 +5,10 @@
  * Add details to user's profile
  * <ΛΑ-10>   Ο χρήστης πρέπει να μπορεί να προσθέτει προσωπικές πληροφορίες στο προφίλ του  
  *
- * body User_userID_body_1 
- * userID Integer The user's ID
+ * body User_body 
  * returns User
  **/
-exports.addUserDetails = function(body,userID) {
+exports.addUserDetails = function(body) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {

@@ -28,7 +28,7 @@ exports.getGymProgramReport = function(trainerID,reportID) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "ByUser" : "ByUser",
+  "ByUser" : 6,
   "ID" : 0,
   "isGym-Diet" : true
 };
@@ -45,18 +45,18 @@ exports.getGymProgramReport = function(trainerID,reportID) {
  * Get gym program reports
  * <ΛΑ-7>   Ο γυμναστής θα πρέπει να έχει την δυνατότητα να βλέπει και να διορθώνει τα προγράμματα γυμναστικής από τυχόν λάθη 
  *
- * trainerID String The trainer Id
+ * trainerID Integer The trainer Id
  * returns AllReport
  **/
 exports.getGymProgramReports = function(trainerID) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = [ {
-  "ByUser" : "ByUser",
+  "ByUser" : 6,
   "ID" : 0,
   "isGym-Diet" : true
 }, {
-  "ByUser" : "ByUser",
+  "ByUser" : 6,
   "ID" : 0,
   "isGym-Diet" : true
 } ];
@@ -73,12 +73,12 @@ exports.getGymProgramReports = function(trainerID) {
  * Update/Correct fitness program report
  * <ΛΑ-7>   Ο γυμναστής θα πρέπει να έχει την δυνατότητα να βλέπει και να διορθώνει τα προγράμματα γυμναστικής από τυχόν λάθη 
  *
+ * body List 
  * trainerID Integer The trainer
  * reportID Integer The report ID
- * gymProgramDetails List The Gym Program Details
  * no response value expected for this operation
  **/
-exports.updateReport = function(trainerID,reportID,gymProgramDetails) {
+exports.updateReport = function(body,trainerID,reportID) {
   return new Promise(function(resolve, reject) {
     resolve();
   });

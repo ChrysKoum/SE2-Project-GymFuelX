@@ -1,20 +1,24 @@
-'use strict';
+"use strict";
 
-var path = require('path');
-var http = require('http');
+var path = require("path");
+var http = require("http");
 
-var oas3Tools = require('oas3-tools');
+var oas3Tools = require("oas3-tools");
 var serverPort = process.env.PORT || 8080;
 
 // swaggerRouter configuration
 var options = {
-    routing: {
-        controllers: path.join(__dirname, './controllers')
-    },
+  routing: {
+    controllers: path.join(__dirname, "./controllers"),
+  },
 };
 
-var expressAppConfig = oas3Tools.expressAppConfig(path.join(__dirname, 'api/openapi.yaml'), options);
+var expressAppConfig = oas3Tools.expressAppConfig(
+  path.join(__dirname, "api/openapi.yaml"),
+  options
+);
 var app = expressAppConfig.getApp();
+
 
 // Initialize the Swagger middleware
 if (process.env.NODE_ENV !== "test") {

@@ -19,7 +19,6 @@ test('GET user returns correct response', async (t) => {
     t.timeout(5000);
     const userID = 123;
     const { body, statusCode } = await t.context.got(`user/${userID}`);
-
     // Test status code
     t.is(statusCode, 200, "Should return 200 OK for valid userID");
 
@@ -64,12 +63,12 @@ test('getUserDetails returns user details', async (t) => {
 });
 
 test('GET user with minimum valid user ID returns correct response', async (t) => {
-    const { body, statusCode } = await t.context.got('user/1');
+    const { statusCode } = await t.context.got('user/1');
     t.is(statusCode, 200, "Should return 200 OK for valid userID");
 });
 
 test('GET user with maximum valid user ID returns correct response', async (t) => {
-    const { body, statusCode } = await t.context.got('user/1000000');
+    const { statusCode } = await t.context.got('user/1000000');
     t.is(statusCode, 200, "Should return 200 OK for valid userID");
 });
 
@@ -92,21 +91,21 @@ test('GET user with non-numeric user ID returns 400', async (t) => {
     }
 });
 
-const userIDfor404 = ['', []]
+const userIDfor405 = ['', []]
 test('GET user with non-numeric user ID returns 404', async (t) => {
-    for (const userID of userIDfor404) {
+    for (const userID of userIDfor405) {
         const nonNumericUserID = userID;
 
         const { body, statusCode } = await t.context.got(`user/${nonNumericUserID}`);
 
         // Assertions
-        t.is(statusCode, 404, 'Should return 404 User not found.');
+        t.is(statusCode, 405, 'Should return 405 Forbidden.');
         t.assert(body.message);
-        t.is(body.message, 'not found');
+        t.is(body.message, 'GET method not allowed');
         t.deepEqual(body.errors, [
             {
                 path: '/user/',
-                message: 'not found',
+                message: 'GET method not allowed',
             }
         ]);
     }
@@ -182,7 +181,7 @@ test('PUT editUserDetails with invalid userID returns fail response - 400 ', asy
 });
 
 test('PUT editUserDetails with invalid userID returns fail response 404 ', async (t) => {
-    for (const userID of userIDfor404) {
+    for (const userID of userIDfor405) {
         const nonNumericUserID = userID;
         const mockRequestBody = {
             userID: nonNumericUserID,
@@ -202,13 +201,13 @@ test('PUT editUserDetails with invalid userID returns fail response 404 ', async
             json: mockRequestBody,
         });
         // Assertions
-        t.is(statusCode, 404, 'Should return 404 User not found.');
+        t.is(statusCode, 405, 'Should return 405 Forbidden.');
         t.assert(body.message);
-        t.is(body.message, 'not found');
+        t.is(body.message, 'PUT method not allowed');
         t.deepEqual(body.errors, [
             {
                 path: '/user/',
-                message: 'not found',
+                message: 'PUT method not allowed',
             }
         ]);
     }
