@@ -84,7 +84,7 @@ exports.getRecipeNutrionist = function(nutritionistID,recipeID) {
  * Update/Correct recipe
  * <ΛΑ-8>   Ο διατροφολόγος πρέπει να μπορεί να διαχειρίζεται τις συνταγές. 
  *
- * body Recipe_recipeID_body 
+ * body Recipe_recipeID_body_1 
  * nutritionistID Integer The nutritionist ID that update the recipe report
  * recipeID Integer The ID of the recipe that is being updated.
  * no response value expected for this operation

@@ -165,6 +165,7 @@ paths:
         "404":
           description: User not found
       x-swagger-router-controller: UserUser
+  /user:
     post:
       tags:
         - user-user
@@ -173,20 +174,11 @@ paths:
         "<ΛΑ-10>\n  Ο χρήστης πρέπει να μπορεί να προσθέτει προσωπικές\
         \ πληροφορίες στο προφίλ του \n"
       operationId: addUserDetails
-      parameters:
-        - name: userID
-          in: path
-          description: The user's ID
-          required: true
-          style: simple
-          explode: false
-          schema:
-            type: integer
       requestBody:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/user_userID_body_1"
+              $ref: '#/components/schemas/user_body'
         required: true
       responses:
         "200":
@@ -268,14 +260,20 @@ paths:
         <ΛΑ-6> Ο χρήστης θα πρέπει να μπορεί να κάνει αναφορά σε προγράμματα γυμναστικής για τυχόν λάθη ή δυσαρέσκεια.
       operationId: createGymReport
       parameters:
-        - name: userID
-          in: path
-          description: the User's ID
-          required: true
-          style: simple
-          explode: false
-          schema:
-            type: integer
+      - name: userID
+        in: path
+        description: the User's ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/userID_gymprogram_body'
+        required: true
       responses:
         "200":
           description: Operation successful
@@ -330,22 +328,28 @@ paths:
         <ΛΑ-5> Ο χρήστης θα πρέπει να μπορεί να κάνει αναφορά σε συνταγές για τυχόν λάθη
       operationId: createDietReport
       parameters:
-        - name: userID
-          in: path
-          description: the User's ID
-          required: true
-          style: simple
-          explode: false
-          schema:
-            type: integer
-        - name: recipeID
-          in: path
-          description: the recipe's ID
-          required: true
-          style: simple
-          explode: false
-          schema:
-            type: integer
+      - name: userID
+        in: path
+        description: the User's ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      - name: recipeID
+        in: path
+        description: the recipe's ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/recipe_recipeID_body'
+        required: true
       responses:
         "200":
           description: Operation successful
@@ -364,14 +368,14 @@ paths:
           Ο γυμναστής θα πρέπει να έχει την δυνατότητα να βλέπει και να διορθώνει τα προγράμματα γυμναστικής από τυχόν λάθη
       operationId: getGymProgramReports
       parameters:
-        - name: trainerID
-          in: path
-          description: The trainer Id
-          required: true
-          style: simple
-          explode: false
-          schema:
-            type: string
+      - name: trainerID
+        in: path
+        description: The trainer Id
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
       responses:
         "200":
           description: Successful operation
@@ -431,32 +435,30 @@ paths:
           Ο γυμναστής θα πρέπει να έχει την δυνατότητα να βλέπει και να διορθώνει τα προγράμματα γυμναστικής από τυχόν λάθη
       operationId: updateReport
       parameters:
-        - name: trainerID
-          in: path
-          description: The trainer
-          required: true
-          style: simple
-          explode: false
-          schema:
-            type: integer
-        - name: reportID
-          in: path
-          description: The report ID
-          required: true
-          style: simple
-          explode: false
-          schema:
-            type: integer
-        - name: GymProgramDetails
-          in: query
-          description: The Gym Program Details
-          required: true
-          style: form
-          explode: true
-          schema:
-            type: array
-            items:
-              type: string
+      - name: trainerID
+        in: path
+        description: The trainer
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      - name: reportID
+        in: path
+        description: The report ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/report_reportID_body'
+        required: true
       responses:
         "200":
           description: Successful Gym Program Report is updated
@@ -601,7 +603,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/recipe_recipeID_body"
+              $ref: '#/components/schemas/recipe_recipeID_body_1'
         required: true
       responses:
         "200":
@@ -741,7 +743,9 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/report_reportID_body"
+              type: array
+              items:
+                $ref: '#/components/schemas/report_reportID_body'
         required: true
       responses:
         "200":
@@ -890,9 +894,9 @@ components:
         ID:
           type: integer
         ByUser:
-          type: string
+          type: integer
       example:
-        ByUser: ByUser
+        ByUser: 6
         ID: 0
         isGym-Diet: true
       xml:
@@ -992,7 +996,7 @@ components:
         goal:
           type: string
           description: The user's fitness goal
-    user_userID_body_1:
+    user_body:
       type: object
       properties:
         username:
@@ -1026,6 +1030,31 @@ components:
         goal:
           type: string
           description: The user's fitness goal
+    userID_gymprogram_body:
+      type: object
+      properties:
+        isGym-Diet:
+          type: boolean
+        ID:
+          type: integer
+        ByUser:
+          type: integer
+    recipe_recipeID_body:
+      type: object
+      properties:
+        isGym-Diet:
+          type: boolean
+        ID:
+          type: integer
+        ByUser:
+          type: integer
+    report_reportID_body:
+      type: object
+      properties:
+        ID:
+          type: string
+        details:
+          type: string
     NutritionistID_recipe_body:
       type: object
       properties:
@@ -1064,7 +1093,7 @@ components:
         servings:
           type: string
           description: The servings that the recipe can produce.
-    recipe_recipeID_body:
+    recipe_recipeID_body_1:
       type: object
       properties:
         recipeType:
@@ -1102,16 +1131,6 @@ components:
         servings:
           type: string
           description: The servings that the recipe can produce.
-    report_reportID_body:
-      type: object
-      properties:
-        dayDietProgramIDs:
-          type: array
-          description: The Diet Program Details
-          items:
-            type: array
-            items:
-              type: integer
   requestBodies:
     User:
       description: User model

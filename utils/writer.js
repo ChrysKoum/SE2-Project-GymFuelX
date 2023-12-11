@@ -7,7 +7,7 @@ exports.respondWithCode = function (code, payload) {
   return new ResponsePayload(code, payload);
 };
 
-var writeJson = (exports.writeJson = function (response, arg1, arg2) {
+var writeJson = exports.writeJson = function (response, arg1, arg2) {
   var code;
   var payload;
 
@@ -38,4 +38,4 @@ var writeJson = (exports.writeJson = function (response, arg1, arg2) {
   }
   response.writeHead(code, { "Content-Type": "application/json" });
   response.end(payload);
-});
+};

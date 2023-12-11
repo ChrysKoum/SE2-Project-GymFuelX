@@ -4,7 +4,7 @@ const listen = require("test-listen");
 const got = require("got");
 const app = require("../index.js");
 
-const { createDietReport } = require("../service/ReportNutritionistService");
+const { updateRecipeReport } = require("../service/ReportNutritionistService");
 
 // Initialize the test environment
 test.before(async (t) => {
@@ -28,12 +28,12 @@ nutritionistID = generateTestNutritionID();
 // Test for successful posting a report for a Gym Program
 test("PUT recipe report for a valid userID updateRecipeReport", async (t) => {
   const putData = {
-    ByUser: "ByUser",
+    ByUser: 6,
     ID: 0,
     "isGym-Diet": true,
   };
 
-  const putRecipeReport = await createDietReport(
+  const putRecipeReport = await updateRecipeReport(
     putData,
     nutritionistID,
     reportID
@@ -48,19 +48,19 @@ test("PUT recipe report for a valid userID updateRecipeReport", async (t) => {
 
 // Test for successful posting a report for a Gym Program
 test("PUT recipe report for a valid userID using updateRecipeReport API endpoint ", async (t) => {
-  const putData = {
-    ByUser: "ByUser",
-    ID: 0,
-    "isGym-Diet": true,
-  };
+  const putData = [
+    {
+    ID: "124124",
+    details: "Recipe Details",
+  }
+];
 
-  const { body, statusCode } = await t.context.got.put(
+  const { body,statusCode } = await t.context.got.put(
     `nutritionist/${nutritionistID}/report/${reportID}`,
     {
       json: putData,
     }
   );
-  console.log(body);
   t.is(statusCode, 200);
 });
 
@@ -80,11 +80,11 @@ const userIDfor400 = [
 ];
 
 test("POST gym program with invalid data returns error", async (t) => {
-  const putData = {
-    ByUser: "ByUser",
-    ID: 0,
-    "isGym-Diet": true,
-  };
+  const putData = 
+    {
+    ID: "124124",
+    details: "Recipe Details",
+  }
 
   for (const userID of userIDfor400) {
     const invalidID = userID;
@@ -104,7 +104,7 @@ test("POST gym program with invalid data returns error", async (t) => {
     t.assert(body.message, "Response should have a message");
     t.is(
       body.message,
-      "request.params.NutritionistID should be integer, request.params.reportID should be integer",
+      "request.params.NutritionistID should be integer, request.params.reportID should be integer, request.body should be array",
       "Response message should indicate an integer is required"
     );
     t.deepEqual(
@@ -120,6 +120,11 @@ test("POST gym program with invalid data returns error", async (t) => {
        message: 'should be integer',
        path: '.params.reportID',
      },
+     {
+       errorCode: 'type.openapi.validation',
+       message: 'should be array',
+       path: '.body',
+     },
       ],
       "Response errors should match the expected structure"
     );
@@ -131,9 +136,8 @@ const nonNumericUserIDsFor404 = ["", []];
 
 test("PUT recipe report with non-numeric returns 404 error", async (t) => {
   const putData = {
-    ByUser: "ByUser",
-    ID: 0,
-    "isGym-Diet": true,
+    ID: "124124",
+    details: "Recipe Details",
   };
 
   for (const nonNumericID of nonNumericUserIDsFor404) {
@@ -166,20 +170,20 @@ test("PUT recipe report with non-numeric returns 404 error", async (t) => {
 });
 
 // Example test for expected response headers
-test("POST gym program returns expected headers", async (t) => {
-  const putData = {
-    ByUser: "ByUser",
-    ID: 0,
-    "isGym-Diet": true,
-  };
+test("PUT recipe report returns expected headers", async (t) => {
+  const putData = [{
+    ID: "124124",
+    details: "Recipe Details",
+  }];
 
-  const { headers, statusCode } = await t.context.got.put(
+  const { body, headers, statusCode } = await t.context.got.put(
     `nutritionist/${nutritionistID}/report/${reportID}`,
     {
       json: putData,
     }
   );
 
+  console.log(body);
   t.is(statusCode, 200);
   t.truthy(headers["content-type"]); // Check for expected headers
 });
