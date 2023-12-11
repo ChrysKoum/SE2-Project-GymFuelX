@@ -104,8 +104,6 @@ test("getDietProgram API endpoint returns the correct structure for a valid user
   t.is(body.dietProgramID, 1, "dietProgramID should be 1");
 });
 
-// Add more tests here for different scenarios like invalid userID, non-existent userID, etc.
-
 // Test for minimum valid userID
 test("GET diet program with minimum valid user ID returns correct response", async (t) => {
   const minimumValidUserID = 1; // Define the minimum valid userID
@@ -171,8 +169,6 @@ test("GET user with non-numeric user ID returns 400", async (t) => {
     );
   }
 });
-
-
 
 // Example test for non-existent userID (404 response)
 const nonNumericUserIDsFor404 = ["", []];

@@ -14,7 +14,6 @@ test.before(async (t) => {
 
 const nutritionistID = generateTestnutritionistID();
 const recipeID = generateTestRecipeID();
-const maxRecipeID = Math.pow(10, 6); //the max Id a Nutritionist can have
 
 //Get Request
 test('Test of the stracture that get gives', async (t) => {
@@ -138,7 +137,7 @@ test('PUT RecipeNutritionist returns error 400 with bad parameters', async (t) =
 
 //Delete Recipe
 test('Test of the Delete Recipe with success', async (t) => {
-    const { body, statusCode } = await t.context.got.delete(
+    const { statusCode } = await t.context.got.delete(
         `nutritionist/${nutritionistID}/recipe/${recipeID}`
     );
 

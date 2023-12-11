@@ -2,11 +2,11 @@ const http = require("http");
 const test = require("ava");
 const listen = require("test-listen");
 const got = require("got");
-const app = require("../index.js"); // Make sure this path is correct
+const app = require("../index.js"); 
 const { getExcercise } = require("../service/ExerciseUserService");
 
-const userID = generateTestUserID(); // Example of a user ID
-const exerciseID = generateTestExerciseID(); // Example of an exercise ID
+const userID = generateTestUserID(); 
+const exerciseID = generateTestExerciseID(); 
 
 test.before(async (t) => {
   t.context.server = http.createServer(app);
@@ -60,8 +60,6 @@ test("getExcercise API endpoint returns a response with the correct structure an
   t.is(typeof body.exerciseID, "number", "exerciseID should be a number");
   t.is(typeof body.exerciseTitle, "string", "exerciseTitle should be a string");
 });
-
-
 
 // Test for invalid userID or exerciseID (400 response)
 const invalidUserAndExerciseIDs = [
@@ -124,7 +122,6 @@ test("GET user exercise with non-existent userID or exerciseID returns 404", asy
       );
   }
 });
-
 
 // Example test for expected response headers
 test("GET user exercise returns expected headers", async (t) => {

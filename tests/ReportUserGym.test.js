@@ -173,9 +173,6 @@ test("POST gym program with non-numeric userID returns 404 error", async (t) => 
   }
 });
 
-
-
-
 // Example test for expected response headers
 test("POST gym program returns expected headers", async (t) => {
   const userID = 123;

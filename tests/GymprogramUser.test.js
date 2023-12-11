@@ -20,7 +20,7 @@ test.before(async (t) => {
   
 
   test("getGymProgram returns the correct structure for a valid userID", async (t) => {
-    const userID =23;
+    const userID = 23;
     const program = await getGymProgram(userID);
     t.truthy(program.GymProgramDetails);
     //t.truthy(program.gymProgramID); because in example it is 0
