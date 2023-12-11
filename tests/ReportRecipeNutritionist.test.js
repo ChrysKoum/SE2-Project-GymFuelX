@@ -4,7 +4,7 @@ const listen = require("test-listen");
 const got = require("got");
 const app = require("../index.js");
 
-const {updateRecipeReport} = require("../service/ReportNutritionistService");
+const { createDietReport } = require("../service/ReportNutritionistService");
 
 // Initialize the test environment
 test.before(async (t) => {
@@ -33,7 +33,7 @@ test("PUT recipe report for a valid userID updateRecipeReport", async (t) => {
     "isGym-Diet": true,
   };
 
-  const putRecipeReport = await updateRecipeReport(
+  const putRecipeReport = await createDietReport(
     putData,
     nutritionistID,
     reportID
