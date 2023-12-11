@@ -27,7 +27,7 @@ test.before(async (t) => {
     //t.truthy(report.ID); //because the reportID is 0 in the example
     t.truthy(report["isGym-Diet"]);
     //Validate the response structure and data types
-    t.is(typeof report.ByUser, "string");
+    t.is(typeof report.ByUser, "number");
     t.is(typeof report.ID, "number");
     t.is(typeof report["isGym-Diet"], "boolean");
 
@@ -43,7 +43,7 @@ test.before(async (t) => {
     //t.truthy(report.ID); //because the reportID is 0 in the example
     t.truthy(report["isGym-Diet"]);
     //Validate the response structure and data types
-    t.is(typeof report.ByUser, "string");
+    t.is(typeof report.ByUser, "number");
     t.is(typeof report.ID, "number");
     t.is(typeof report["isGym-Diet"], "boolean");
 
@@ -155,7 +155,7 @@ test( "getRecipeReports returns the correct structure for a valid nutritionistID
         //t.truthy(report.ID); //because the reportID is 0 in the example
         t.truthy(report["isGym-Diet"]);
         //Validate the response structure and data types
-        t.is(typeof report.ByUser, "string");
+        t.is(typeof report.ByUser, "number");
         t.is(typeof report.ID, "number");
         t.is(typeof report["isGym-Diet"], "boolean");
     }
@@ -171,7 +171,7 @@ test("getRecipeReports API endopoint returns the correct structure for a valid n
         //t.truthy(report.ID); //because the reportID is 0 in the example
         t.truthy(report["isGym-Diet"]);
         //Validate the response structure and data types
-        t.is(typeof report.ByUser, "string");
+        t.is(typeof report.ByUser, "number");
         t.is(typeof report.ID, "number");
         t.is(typeof report["isGym-Diet"], "boolean");
     }
