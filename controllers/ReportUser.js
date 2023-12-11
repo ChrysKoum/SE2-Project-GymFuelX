@@ -3,8 +3,8 @@
 var utils = require('../utils/writer.js');
 var ReportUser = require('../service/ReportUserService');
 
-module.exports.createDietReport = function createDietReport (req, res, next, userID, recipeID) {
-  ReportUser.createDietReport(userID, recipeID)
+module.exports.createDietReport = function createDietReport (req, res, next, body, userID, recipeID) {
+  ReportUser.createDietReport(body, userID, recipeID)
     .then(function (response) {
       utils.writeJson(res, response);
     })
@@ -13,8 +13,8 @@ module.exports.createDietReport = function createDietReport (req, res, next, use
     });
 };
 
-module.exports.createGymReport = function createGymReport (req, res, next, userID) {
-  ReportUser.createGymReport(userID)
+module.exports.createGymReport = function createGymReport (req, res, next, body, userID) {
+  ReportUser.createGymReport(body, userID)
     .then(function (response) {
       utils.writeJson(res, response);
     })

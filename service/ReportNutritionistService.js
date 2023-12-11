@@ -28,7 +28,7 @@ exports.getRecipeReport = function(nutritionistID,reportID) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "ByUser" : "ByUser",
+  "ByUser" : 6,
   "ID" : 0,
   "isGym-Diet" : true
 };
@@ -52,11 +52,11 @@ exports.getRecipeReports = function(nutritionistID) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = [ {
-  "ByUser" : "ByUser",
+  "ByUser" : 6,
   "ID" : 0,
   "isGym-Diet" : true
 }, {
-  "ByUser" : "ByUser",
+  "ByUser" : 6,
   "ID" : 0,
   "isGym-Diet" : true
 } ];
@@ -73,7 +73,7 @@ exports.getRecipeReports = function(nutritionistID) {
  * Update/Correct recipe report
  * <ΛΑ-9>   Ο διατροφολόγος πρέπει να μπορεί να βλέπει τις αναφορές που γίνονται από τους χρήστες στις συνταγές. 
  *
- * body Report_reportID_body 
+ * body List 
  * nutritionistID Integer The nutritionist ID that update the recipe report
  * reportID Integer The ID of the recipe report that is being updated.
  * no response value expected for this operation
