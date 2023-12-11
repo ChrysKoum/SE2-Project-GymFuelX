@@ -14,8 +14,8 @@ const {
 } = require("../service/ReportNutritionistService");
 
 
-reportID = generateTestReportID();
-nutritionistID = generateTestNutritionID();
+const nutritionistID = generateTestnutritionistID();
+const reportID = generateTestReportID();
 
 test.before(async (t) => {
     t.context.server = http.createServer(app);
@@ -232,9 +232,6 @@ test('getRecipeReport returns expected headers', async (t) => {
     t.is(statusCode, 200, "Should return 200 OK for valid nutritionistID");
     t.truthy(headers['content-type'], 'Response should have content-type header');
 });
-
-const nutritionistID = generateTestnutritionistID();
-const reportID = generateTestReportID();
 
 //Delete Report
 test('Test of the Delete Report with success', async (t) => {
