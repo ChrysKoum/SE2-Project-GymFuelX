@@ -70,7 +70,7 @@ test("getDietProgram returns the correct structure for a valid userID", async (t
 // Test for successful response of Endpoint
 test("getDietProgram API endpoint returns the correct structure for a valid userID", async (t) => {
   const userID = generateTestUserID(); // A valid userID
-  const { body, statusCode } = await t.context.got(
+  const { body, statusCode } = await t.context.got.get(
     `user/${userID}/dietprogram`
   );
 
@@ -109,7 +109,7 @@ test("getDietProgram API endpoint returns the correct structure for a valid user
 // Test for minimum valid userID
 test("GET diet program with minimum valid user ID returns correct response", async (t) => {
   const minimumValidUserID = 1; // Define the minimum valid userID
-  const { statusCode } = await t.context.got(
+  const { statusCode } = await t.context.got.get(
     `user/${minimumValidUserID}/dietprogram`
   );
   t.is(statusCode, 200, "Should return 200 OK for minimum valid userID");
@@ -118,7 +118,7 @@ test("GET diet program with minimum valid user ID returns correct response", asy
 // Test for maximum valid userID
 test("GET diet program with maximum valid user ID returns correct response", async (t) => {
   const maximumValidUserID = 1000000; // Define the maximum valid userID
-  const { statusCode } = await t.context.got(
+  const { statusCode } = await t.context.got.get(
     `user/${maximumValidUserID}/dietprogram`
   );
   t.is(statusCode, 200, "Should return 200 OK for maximum valid userID");
@@ -142,7 +142,7 @@ const userIDfor400 = [
 test("GET user with non-numeric user ID returns 400", async (t) => {
   for (const userID of userIDfor400) {
     const nonNumericUserID = userID;
-    const { body, statusCode } = await t.context.got(
+    const { body, statusCode } = await t.context.got.get(
       `user/${nonNumericUserID}/dietprogram`
     );
 
@@ -172,13 +172,15 @@ test("GET user with non-numeric user ID returns 400", async (t) => {
   }
 });
 
+
+
 // Example test for non-existent userID (404 response)
 const nonNumericUserIDsFor404 = ["", []];
 test("GET user with non-numeric user ID returns 404", async (t) => {
   for (const userID of nonNumericUserIDsFor404) {
     const nonNumericUserID = userID;
 
-    const { body, statusCode } = await t.context.got(
+    const { body, statusCode } = await t.context.got.get(
       `user/${nonNumericUserID}/dietprogram`
     );
 
@@ -210,7 +212,7 @@ test("GET user with non-numeric user ID returns 404", async (t) => {
 // Example test for expected response headers
 test("GET diet program returns expected headers", async (t) => {
   const userID = generateTestUserID();
-  const { headers, statusCode } = await t.context.got(
+  const { headers, statusCode } = await t.context.got.get(
     `user/${userID}/dietprogram`
   );
 
