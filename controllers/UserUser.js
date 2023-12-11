@@ -3,8 +3,8 @@
 var utils = require('../utils/writer.js');
 var UserUser = require('../service/UserUserService');
 
-module.exports.addUserDetails = function addUserDetails (req, res, next, body, userID) {
-  UserUser.addUserDetails(body, userID)
+module.exports.addUserDetails = function addUserDetails (req, res, next, body) {
+  UserUser.addUserDetails(body)
     .then(function (response) {
       utils.writeJson(res, response);
     })

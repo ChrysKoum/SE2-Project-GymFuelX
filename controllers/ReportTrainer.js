@@ -33,8 +33,8 @@ module.exports.getGymProgramReports = function getGymProgramReports (req, res, n
     });
 };
 
-module.exports.updateReport = function updateReport (req, res, next, trainerID, reportID, gymProgramDetails) {
-  ReportTrainer.updateReport(trainerID, reportID, gymProgramDetails)
+module.exports.updateReport = function updateReport (req, res, next, body, trainerID, reportID) {
+  ReportTrainer.updateReport(body, trainerID, reportID)
     .then(function (response) {
       utils.writeJson(res, response);
     })
