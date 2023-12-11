@@ -13,50 +13,50 @@ info:
 # - url: https://virtserver.swaggerhub.com/DIMOSKOMPITSELIDIS/Team27/2.0.0
 #   description: SwaggerHub API Auto Mocking
 tags:
-- name: exercise-user
-  description: user actions on exercises
-- name: user-user
-  description: user actions on his details
-- name: recipe-user
-  description: user actions on recipes
-- name: report-user
-  description: user actions on reports
-- name: dietprogram-user
-  description: user actions on his diet program
-- name: gymprogram-user
-  description: user actions on his gym program
-- name: report-nutritionist
-  description: nutritionist actions on reports
-- name: recipe-nutritionist
-  description: nutritionist actions on recipes
-- name: report-trainer
-  description: trainer actions on reports
+  - name: exercise-user
+    description: user actions on exercises
+  - name: user-user
+    description: user actions on his details
+  - name: recipe-user
+    description: user actions on recipes
+  - name: report-user
+    description: user actions on reports
+  - name: dietprogram-user
+    description: user actions on his diet program
+  - name: gymprogram-user
+    description: user actions on his gym program
+  - name: report-nutritionist
+    description: nutritionist actions on reports
+  - name: recipe-nutritionist
+    description: nutritionist actions on recipes
+  - name: report-trainer
+    description: trainer actions on reports
 paths:
   /user/{userID}/dietprogram:
     get:
       tags:
-      - dietprogram-user
+        - dietprogram-user
       summary: Get user's diet program
       description: |
         <ΛΑ-2>
           Ο χρήστης πρέπει να μπορεί να λαμβάνει προγράμματα γυμναστικής και πρόγραμμα διατροφής βασισμένα σε προσωπικές πληροφορίες.
       operationId: getDietProgram
       parameters:
-      - name: userID
-        in: path
-        description: The user's ID
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: integer
+        - name: userID
+          in: path
+          description: The user's ID
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
       responses:
         "200":
           description: Successfully received Diet Program
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/DietProgram'
+                $ref: "#/components/schemas/DietProgram"
         "400":
           description: Bad input parameter
         "404":
@@ -65,35 +65,36 @@ paths:
   /user/{userID}/gymprogram/{excerciseID}:
     get:
       tags:
-      - exercise-user
+        - exercise-user
       summary: Get a specific excercise's details
-      description: "<ΛΑ-4>\n  Ο χρήστης θα πρέπει να μπορεί να δει πληροφορίες για\
+      description:
+        "<ΛΑ-4>\n  Ο χρήστης θα πρέπει να μπορεί να δει πληροφορίες για\
         \ κάθε άσκηση γυμναστικής \n"
       operationId: getExcercise
       parameters:
-      - name: userID
-        in: path
-        description: The user's ID
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: integer
-      - name: excerciseID
-        in: path
-        description: The ID of the excercise
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: integer
+        - name: userID
+          in: path
+          description: The user's ID
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
+        - name: excerciseID
+          in: path
+          description: The ID of the excercise
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
       responses:
         "200":
           description: Successfully received excercise's details
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Exercise'
+                $ref: "#/components/schemas/Exercise"
         "400":
           description: Bad input parameter
         "404":
@@ -102,28 +103,28 @@ paths:
   /user/{userID}:
     get:
       tags:
-      - user-user
+        - user-user
       summary: Get a user's details
       description: |
         <ΛΑ-11>
           Ο χρήστης πρέπει να μπορεί να επεξεργάζεται τις προσωπικές πληροφορίες στο προφίλ του.
       operationId: getUserDetails
       parameters:
-      - name: userID
-        in: path
-        description: The user's ID
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: integer
+        - name: userID
+          in: path
+          description: The user's ID
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
       responses:
         "200":
           description: Successfully received user's details
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: "#/components/schemas/User"
         "400":
           description: Bad input parameter
         "404":
@@ -131,26 +132,26 @@ paths:
       x-swagger-router-controller: UserUser
     put:
       tags:
-      - user-user
+        - user-user
       summary: Edit details to user's profile
       description: |
         <ΛΑ-11>
           Ο χρήστης πρέπει να μπορεί να επεξεργάζεται τις προσωπικές πληροφορίες στο προφίλ του.
       operationId: editUserDetails
       parameters:
-      - name: userID
-        in: path
-        description: The user's ID
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: integer
+        - name: userID
+          in: path
+          description: The user's ID
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/user_userID_body'
+              $ref: "#/components/schemas/user_userID_body"
         required: true
       responses:
         "200":
@@ -158,7 +159,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: "#/components/schemas/User"
         "400":
           description: Bad input parameter
         "404":
@@ -167,9 +168,10 @@ paths:
   /user:
     post:
       tags:
-      - user-user
+        - user-user
       summary: Add details to user's profile
-      description: "<ΛΑ-10>\n  Ο χρήστης πρέπει να μπορεί να προσθέτει προσωπικές\
+      description:
+        "<ΛΑ-10>\n  Ο χρήστης πρέπει να μπορεί να προσθέτει προσωπικές\
         \ πληροφορίες στο προφίλ του \n"
       operationId: addUserDetails
       requestBody:
@@ -184,7 +186,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: "#/components/schemas/User"
         "400":
           description: Bad input parameter
         "404":
@@ -193,28 +195,28 @@ paths:
   /user/{userID}/recipe:
     get:
       tags:
-      - recipe-user
+        - recipe-user
       summary: Get the list of all the Recipies
       description: |
         <ΛΑ-1>
           O χρήστης πρέπει να μπορεί να αναζητά συνταγές και προγράμματα γυμναστικής
       operationId: getAllRecipies
       parameters:
-      - name: userID
-        in: path
-        description: the user's ID
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: integer
+        - name: userID
+          in: path
+          description: the user's ID
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
       responses:
         "200":
           description: Successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AllRecipe'
+                $ref: "#/components/schemas/AllRecipe"
         "400":
           description: Bad input parameter
         "404":
@@ -223,28 +225,28 @@ paths:
   /user/{userID}/gymprogram:
     get:
       tags:
-      - gymprogram-user
+        - gymprogram-user
       summary: Get a customized gym program
       description: |
         <ΛΑ-2>
           Ο χρήστης πρέπει να μπορεί να λαμβάνει προγράμματα γυμναστικής και πρόγραμμα διατροφής βασισμένα σε προσωπικές πληροφορίες.
       operationId: getGymProgram
       parameters:
-      - name: userID
-        in: path
-        description: the user's ID
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: integer
+        - name: userID
+          in: path
+          description: the user's ID
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
       responses:
         "200":
           description: Successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GymProgram'
+                $ref: "#/components/schemas/GymProgram"
         "400":
           description: Bad input parameter
         "404":
@@ -252,7 +254,7 @@ paths:
       x-swagger-router-controller: GymprogramUser
     post:
       tags:
-      - report-user
+        - report-user
       summary: Create a report to this gymprogram
       description: |
         <ΛΑ-6> Ο χρήστης θα πρέπει να μπορεί να κάνει αναφορά σε προγράμματα γυμναστικής για τυχόν λάθη ή δυσαρέσκεια.
@@ -283,36 +285,36 @@ paths:
   /user/{userID}/recipe/{recipeID}:
     get:
       tags:
-      - recipe-user
+        - recipe-user
       summary: Get a specific recipe's details
       description: |
         <ΛΑ-3>
           O χρήστης πρέπει να μπορεί να δει τις θρεπτικές λεπτομέρειες για κάθε συνταγή
       operationId: getRecipe
       parameters:
-      - name: userID
-        in: path
-        description: the user's ID
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: integer
-      - name: recipeID
-        in: path
-        description: The ID of the recipe
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: integer
+        - name: userID
+          in: path
+          description: the user's ID
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
+        - name: recipeID
+          in: path
+          description: The ID of the recipe
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
       responses:
         "200":
           description: Successfully received recipe's details
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Recipe'
+                $ref: "#/components/schemas/Recipe"
         "400":
           description: Bad input parameter
         "404":
@@ -320,7 +322,7 @@ paths:
       x-swagger-router-controller: RecipeUser
     post:
       tags:
-      - report-user
+        - report-user
       summary: Create a report to this recipe
       description: |
         <ΛΑ-5> Ο χρήστης θα πρέπει να μπορεί να κάνει αναφορά σε συνταγές για τυχόν λάθη
@@ -359,7 +361,7 @@ paths:
   /trainer/{trainerID}/report:
     get:
       tags:
-      - report-trainer
+        - report-trainer
       summary: Get gym program reports
       description: |
         <ΛΑ-7>
@@ -380,7 +382,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AllReport'
+                $ref: "#/components/schemas/AllReport"
         "400":
           description: Bad input parameter
         "404":
@@ -389,36 +391,36 @@ paths:
   /trainer/{trainerID}/report/{reportID}:
     get:
       tags:
-      - report-trainer
+        - report-trainer
       summary: Get gym program report
       description: |
         <ΛΑ-7>
           Ο γυμναστής θα πρέπει να έχει την δυνατότητα να βλέπει και να διορθώνει τα προγράμματα γυμναστικής από τυχόν λάθη
       operationId: getGymProgramReport
       parameters:
-      - name: trainerID
-        in: path
-        description: The trainer ID
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: integer
-      - name: reportID
-        in: path
-        description: The report ID
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: integer
+        - name: trainerID
+          in: path
+          description: The trainer ID
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
+        - name: reportID
+          in: path
+          description: The report ID
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
       responses:
         "200":
           description: Successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Report'
+                $ref: "#/components/schemas/Report"
         "400":
           description: Bad input parameter
         "404":
@@ -426,7 +428,7 @@ paths:
       x-swagger-router-controller: ReportTrainer
     put:
       tags:
-      - report-trainer
+        - report-trainer
       summary: Update/Correct fitness program report
       description: |
         <ΛΑ-7>
@@ -467,29 +469,29 @@ paths:
       x-swagger-router-controller: ReportTrainer
     delete:
       tags:
-      - report-trainer
+        - report-trainer
       summary: Get gym program reports
       description: |
         <ΛΑ-7>
           Ο γυμναστής θα πρέπει να έχει την δυνατότητα να βλέπει και να διορθώνει τα προγράμματα γυμναστικής από τυχόν λάθη
       operationId: deleteReport
       parameters:
-      - name: trainerID
-        in: path
-        description: The trainer ID that deletes the gym program
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: integer
-      - name: reportID
-        in: path
-        description: The ID of the report that is being deleted.
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: integer
+        - name: trainerID
+          in: path
+          description: The trainer ID that deletes the gym program
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
+        - name: reportID
+          in: path
+          description: The ID of the report that is being deleted.
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
       responses:
         "200":
           description: Successful Gym Program Report is deleted
@@ -501,26 +503,26 @@ paths:
   /nutritionist/{NutritionistID}/recipe:
     post:
       tags:
-      - recipe-nutritionist
+        - recipe-nutritionist
       summary: Add a new recipe
       description: |
         <ΛΑ-8>
           Ο διατροφολόγος πρέπει να μπορεί να διαχειρίζεται τις συνταγές.
       operationId: addRecipe
       parameters:
-      - name: NutritionistID
-        in: path
-        description: The nutritionist's ID
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: integer
+        - name: NutritionistID
+          in: path
+          description: The nutritionist's ID
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/NutritionistID_recipe_body'
+              $ref: "#/components/schemas/NutritionistID_recipe_body"
         required: true
       responses:
         "200":
@@ -528,7 +530,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Recipe'
+                $ref: "#/components/schemas/Recipe"
         "400":
           description: Bad input parameter
         "404":
@@ -537,36 +539,36 @@ paths:
   /nutritionist/{NutritionistID}/recipe/{recipeID}:
     get:
       tags:
-      - recipe-nutritionist
+        - recipe-nutritionist
       summary: Get recipe
       description: |
         <ΛΑ-8>
           Ο διατροφολόγος πρέπει να μπορεί να διαχειρίζεται τις συνταγές.
       operationId: getRecipeNutrionist
       parameters:
-      - name: NutritionistID
-        in: path
-        description: The nutritionist ID that see the recipe.
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: integer
-      - name: recipeID
-        in: path
-        description: The ID of the recipe .
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: integer
+        - name: NutritionistID
+          in: path
+          description: The nutritionist ID that see the recipe.
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
+        - name: recipeID
+          in: path
+          description: The ID of the recipe .
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
       responses:
         "200":
           description: Successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Recipe'
+                $ref: "#/components/schemas/Recipe"
         "400":
           description: Bad input parameter
         "404":
@@ -574,29 +576,29 @@ paths:
       x-swagger-router-controller: RecipeNutritionist
     put:
       tags:
-      - recipe-nutritionist
+        - recipe-nutritionist
       summary: Update/Correct recipe
       description: |
         <ΛΑ-8>
           Ο διατροφολόγος πρέπει να μπορεί να διαχειρίζεται τις συνταγές.
       operationId: updateRecipeNutritionist
       parameters:
-      - name: NutritionistID
-        in: path
-        description: The nutritionist ID that update the recipe report
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: integer
-      - name: recipeID
-        in: path
-        description: The ID of the recipe that is being updated.
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: integer
+        - name: NutritionistID
+          in: path
+          description: The nutritionist ID that update the recipe report
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
+        - name: recipeID
+          in: path
+          description: The ID of the recipe that is being updated.
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
       requestBody:
         content:
           application/json:
@@ -613,29 +615,29 @@ paths:
       x-swagger-router-controller: RecipeNutritionist
     delete:
       tags:
-      - recipe-nutritionist
+        - recipe-nutritionist
       summary: Delete recipe
       description: |
         <ΛΑ-9>
           Ο διατροφολόγος πρέπει να μπορεί να βλέπει τις αναφορές που γίνονται από τους χρήστες στις συνταγές.
       operationId: deleteRecipe
       parameters:
-      - name: NutritionistID
-        in: path
-        description: The nutritionist ID that delete the recipe
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: integer
-      - name: recipeID
-        in: path
-        description: The ID of the recipe that is being deleted.
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: integer
+        - name: NutritionistID
+          in: path
+          description: The nutritionist ID that delete the recipe
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
+        - name: recipeID
+          in: path
+          description: The ID of the recipe that is being deleted.
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
       responses:
         "200":
           description: Successful Recipe is deleted
@@ -647,28 +649,28 @@ paths:
   /nutritionist/{NutritionistID}/report:
     get:
       tags:
-      - report-nutritionist
+        - report-nutritionist
       summary: Get recipe reports
       description: |
         <ΛΑ-9>
           Ο διατροφολόγος πρέπει να μπορεί να βλέπει τις αναφορές που γίνονται από τους χρήστες στις συνταγές.
       operationId: getRecipeReports
       parameters:
-      - name: NutritionistID
-        in: path
-        description: The nutritionist ID that see the recipe reports
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: integer
+        - name: NutritionistID
+          in: path
+          description: The nutritionist ID that see the recipe reports
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
       responses:
         "200":
           description: Successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AllReport'
+                $ref: "#/components/schemas/AllReport"
         "400":
           description: Bad input parameter
         "404":
@@ -677,36 +679,36 @@ paths:
   /nutritionist/{NutritionistID}/report/{reportID}:
     get:
       tags:
-      - report-nutritionist
+        - report-nutritionist
       summary: Get recipe report
       description: |
         <ΛΑ-9>
           Ο διατροφολόγος πρέπει να μπορεί να βλέπει τις αναφορές που γίνονται από τους χρήστες στις συνταγές.
       operationId: getRecipeReport
       parameters:
-      - name: NutritionistID
-        in: path
-        description: The nutritionist ID that see the recipe report
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: integer
-      - name: reportID
-        in: path
-        description: The ID of the recipe report.
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: integer
+        - name: NutritionistID
+          in: path
+          description: The nutritionist ID that see the recipe report
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
+        - name: reportID
+          in: path
+          description: The ID of the recipe report.
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
       responses:
         "200":
           description: Successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Report'
+                $ref: "#/components/schemas/Report"
         "400":
           description: Bad input parameter
         "404":
@@ -714,29 +716,29 @@ paths:
       x-swagger-router-controller: ReportNutritionist
     put:
       tags:
-      - report-nutritionist
+        - report-nutritionist
       summary: Update/Correct recipe report
       description: |
         <ΛΑ-9>
           Ο διατροφολόγος πρέπει να μπορεί να βλέπει τις αναφορές που γίνονται από τους χρήστες στις συνταγές.
       operationId: updateRecipeReport
       parameters:
-      - name: NutritionistID
-        in: path
-        description: The nutritionist ID that update the recipe report
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: integer
-      - name: reportID
-        in: path
-        description: The ID of the recipe report that is being updated.
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: integer
+        - name: NutritionistID
+          in: path
+          description: The nutritionist ID that update the recipe report
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
+        - name: reportID
+          in: path
+          description: The ID of the recipe report that is being updated.
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
       requestBody:
         content:
           application/json:
@@ -755,29 +757,29 @@ paths:
       x-swagger-router-controller: ReportNutritionist
     delete:
       tags:
-      - report-nutritionist
+        - report-nutritionist
       summary: delete recipe report
       description: |
         <ΛΑ-9>
           Ο διατροφολόγος πρέπει να μπορεί να βλέπει τις αναφορές που γίνονται από τους χρήστες στις συνταγές.
       operationId: deleteRecipeReport
       parameters:
-      - name: NutritionistID
-        in: path
-        description: The nutritionist ID that delete the recipe report
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: integer
-      - name: reportID
-        in: path
-        description: The ID of the recipe report that is being deleted.
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: integer
+        - name: NutritionistID
+          in: path
+          description: The nutritionist ID that delete the recipe report
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
+        - name: reportID
+          in: path
+          description: The ID of the recipe report that is being deleted.
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: integer
       responses:
         "200":
           description: Successful Recipe Report is deleted
@@ -861,20 +863,20 @@ components:
           type: string
       example:
         IngredientsName:
-        - IngredientsName
-        - IngredientsName
+          - IngredientsName
+          - IngredientsName
         difficulty: difficulty
         servings: servings
         recipeType: recipeType
         Instructions:
-        - Instructions
-        - Instructions
+          - Instructions
+          - Instructions
         NutritionalTable:
-        - NutritionalTable
-        - NutritionalTable
+          - NutritionalTable
+          - NutritionalTable
         IngredientsQuantity:
-        - IngredientsQuantity
-        - IngredientsQuantity
+          - IngredientsQuantity
+          - IngredientsQuantity
         time: 6
         recipeID: 0
         imgRecipe: imgRecipe
@@ -883,7 +885,7 @@ components:
     AllRecipe:
       type: array
       items:
-        $ref: '#/components/schemas/Recipe'
+        $ref: "#/components/schemas/Recipe"
     Report:
       type: object
       properties:
@@ -905,26 +907,26 @@ components:
         GymProgramDetails:
           type: array
           items:
-            $ref: '#/components/schemas/Exercise'
+            $ref: "#/components/schemas/Exercise"
         gymProgramID:
           type: integer
       example:
         GymProgramDetails:
-        - exerciseDescription: exerciseDescription
-          explanationVideo: explanationVideo
-          exerciseID: 0
-          exerciseTitle: exerciseTitle
-        - exerciseDescription: exerciseDescription
-          explanationVideo: explanationVideo
-          exerciseID: 0
-          exerciseTitle: exerciseTitle
+          - exerciseDescription: exerciseDescription
+            explanationVideo: explanationVideo
+            exerciseID: 0
+            exerciseTitle: exerciseTitle
+          - exerciseDescription: exerciseDescription
+            explanationVideo: explanationVideo
+            exerciseID: 0
+            exerciseTitle: exerciseTitle
         gymProgramID: 0
       xml:
         name: GymProgram
     AllReport:
       type: array
       items:
-        $ref: '#/components/schemas/Report'
+        $ref: "#/components/schemas/Report"
     Exercise:
       type: object
       properties:
@@ -960,13 +962,13 @@ components:
           type: integer
       example:
         dayDietProgramIDs:
-        - - 0
-          - 0
-        - - 0
-          - 0
+          - - 0
+            - 0
+          - - 0
+            - 0
         recipeIDs:
-        - 6
-        - 6
+          - 6
+          - 6
         dietProgramID: 1
       xml:
         name: DietProgram
@@ -1135,5 +1137,5 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/User'
+            $ref: "#/components/schemas/User"
       required: true
