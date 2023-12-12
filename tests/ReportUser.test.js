@@ -9,7 +9,6 @@ const {
   createDietReport,
 } = require("../service/ReportUserService.js");
 
-
 const userID = generateTestUserID();
 const recipeID = generateTestRecipeID();
 
@@ -129,7 +128,6 @@ test("POST gym program with invalid data returns error", async (t) => {
   }
 });
 
-
 // Example test for non-existent userID (404 response)
 const nonNumericUserIDsFor404 = ["", []];
 
@@ -154,11 +152,7 @@ test("POST gym program with non-numeric userID returns 404 error", async (t) => 
     );
 
     // Assertions
-    t.is(
-      statusCode,
-      404,
-      "Should return 404 Not Found for non-numeric userID"
-    );
+    t.is(statusCode, 404, "Should return 404 Not Found for non-numeric userID");
     t.assert(body.message, "Response should have a message");
     t.is(
       body.message,
@@ -177,9 +171,6 @@ test("POST gym program with non-numeric userID returns 404 error", async (t) => 
     );
   }
 });
-
-
-
 
 // Example test for expected response headers
 test("POST gym program returns expected headers", async (t) => {
@@ -207,14 +198,12 @@ test("POST gym program returns expected headers", async (t) => {
   t.truthy(headers["content-type"]); // Check for expected headers
 });
 
-
-/* 
-**** Diet Report****
-*/
+/*
+ **** Diet Report****
+ */
 
 // Test for successful posting a report for a Gym Program
 test("POST recipe report for a valid userID createRecipeReport", async (t) => {
-
   const RecipeReport = await createDietReport(userID, recipeID);
 
   t.truthy(
@@ -250,18 +239,18 @@ test("POST recipe program for a valid userID using createRecipeReport API endpoi
 });
 
 test("POST recipe with invalid data returns error", async (t) => {
-    const postData = {
-      IngredientsName: ["IngredientsName", "IngredientsName"],
-      difficulty: "difficulty",
-      servings: "servings",
-      recipeType: "recipeType",
-      Instructions: ["Instructions", "Instructions"],
-      NutritionalTable: ["NutritionalTable", "NutritionalTable"],
-      IngredientsQuantity: ["IngredientsQuantity", "IngredientsQuantity"],
-      time: 6,
-      recipeID: 0,
-      imgRecipe: "imgRecipe",
-    };
+  const postData = {
+    IngredientsName: ["IngredientsName", "IngredientsName"],
+    difficulty: "difficulty",
+    servings: "servings",
+    recipeType: "recipeType",
+    Instructions: ["Instructions", "Instructions"],
+    NutritionalTable: ["NutritionalTable", "NutritionalTable"],
+    IngredientsQuantity: ["IngredientsQuantity", "IngredientsQuantity"],
+    time: 6,
+    recipeID: 0,
+    imgRecipe: "imgRecipe",
+  };
   for (const invalidID of userIDfor400) {
     const { body, statusCode } = await t.context.got.post(
       `user/${invalidID}/recipe/${invalidID}`,
@@ -286,15 +275,15 @@ test("POST recipe with invalid data returns error", async (t) => {
       body.errors,
       [
         {
-        errorCode: 'type.openapi.validation',
-        message: 'should be integer',
-        path: '.params.userID',
-      },
-      {
-        errorCode: 'type.openapi.validation',
-        message: 'should be integer',
-        path: '.params.recipeID',
-      },
+          errorCode: "type.openapi.validation",
+          message: "should be integer",
+          path: ".params.userID",
+        },
+        {
+          errorCode: "type.openapi.validation",
+          message: "should be integer",
+          path: ".params.recipeID",
+        },
       ],
       "Response errors should match the expected structure"
     );
@@ -324,11 +313,7 @@ test("POST recipe with non-numeric userID returns 404 error", async (t) => {
     );
 
     // Assertions
-    t.is(
-      statusCode,
-      404,
-      "Should return 404 Not Found for non-numeric userID"
-    );
+    t.is(statusCode, 404, "Should return 404 Not Found for non-numeric userID");
     t.assert(body.message, "Response should have a message");
     t.is(
       body.message,
@@ -350,18 +335,18 @@ test("POST recipe with non-numeric userID returns 404 error", async (t) => {
 
 // Example test for expected response headers
 test("POST recipe returns expected headers", async (t) => {
- const postData = {
-   IngredientsName: ["IngredientsName", "IngredientsName"],
-   difficulty: "difficulty",
-   servings: "servings",
-   recipeType: "recipeType",
-   Instructions: ["Instructions", "Instructions"],
-   NutritionalTable: ["NutritionalTable", "NutritionalTable"],
-   IngredientsQuantity: ["IngredientsQuantity", "IngredientsQuantity"],
-   time: 6,
-   recipeID: 0,
-   imgRecipe: "imgRecipe",
- };
+  const postData = {
+    IngredientsName: ["IngredientsName", "IngredientsName"],
+    difficulty: "difficulty",
+    servings: "servings",
+    recipeType: "recipeType",
+    Instructions: ["Instructions", "Instructions"],
+    NutritionalTable: ["NutritionalTable", "NutritionalTable"],
+    IngredientsQuantity: ["IngredientsQuantity", "IngredientsQuantity"],
+    time: 6,
+    recipeID: 0,
+    imgRecipe: "imgRecipe",
+  };
 
   const { headers, statusCode } = await t.context.got.post(
     `user/${userID}/recipe/${recipeID}`,
@@ -374,11 +359,9 @@ test("POST recipe returns expected headers", async (t) => {
   t.truthy(headers["content-type"]); // Check for expected headers
 });
 
-
 function generateTestRecipeID() {
   return Math.floor(Math.random() * 1000000) + 1;
 }
-
 
 function generateTestUserID() {
   return Math.floor(Math.random() * 100000) + 1;

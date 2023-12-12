@@ -3,28 +3,23 @@ const test = require('ava');
 const listen = require('test-listen');
 const got = require('got');
 const app = require('../index');
-const utils = require('../utils/writer.js');
-
-
 
 const { getAllRecipies, getRecipe } = require("../service/RecipeUserService.js");
-
 
 test.before(async (t) => {
     t.context.server = http.createServer(app);
     t.context.prefixUrl = await listen(t.context.server);
     t.context.got = got.extend({ prefixUrl: t.context.prefixUrl, responseType: "json", throwHttpErrors: false });
-  });
-  
-  test.after.always((t) => {
-    t.context.server.close();
-  });
-  
+});
 
-  test("getRecipe returns the correct structure for a valid userID and recipeID", async (t) => {
+test.after.always((t) => {
+    t.context.server.close();
+});
+
+test("getRecipe returns the correct structure for a valid userID and recipeID", async (t) => {
     const userID = 12;
     const recipeID = 15;
-    const recipe= await getRecipe(userID, recipeID);
+    const recipe = await getRecipe(userID, recipeID);
 
     t.truthy(recipe.recipeType);
     t.truthy(recipe.imgRecipe);
@@ -41,68 +36,66 @@ test.before(async (t) => {
         typeof recipe.recipeType,
         "string",
         "recipeType should be a string"
-      );
-      t.is(
+    );
+    t.is(
         typeof recipe.imgRecipe,
         "string",
         "imgRecipe should be a string"
-      );
-      t.is(
-          typeof recipe.Instructions,
-          'object',
-          "Instructions should be a object"
-      );
-      t.is(
-          typeof recipe.IngredientsName,
-          'object',
-          "IngredientsName should be a object"
-      );
-      t.is(
-          typeof recipe.NutritionalTable,
-          'object',
-          "NutritionalTable should be a object"
-      );
-      t.is(
-          typeof recipe.NutritionalTable,
-          'object',
-          "NutritionalTable should be a object"
-      );
-      t.is(
-          typeof recipe.IngredientsQuantity,
-          'object',
-          "IngredientsQuantity should be a object"
-      );
-      t.is(
-          typeof recipe.time,
-          "number",
-          "time should be a number"
-      );
-      t.is(
-          typeof recipe.difficulty,
-          "string",
-          "difficulty should be a string"
-      );
-      t.is(
-          typeof recipe.servings,
-          "string",
-          "servings should be a string"
-      );
-    
-  });
-  
- 
+    );
+    t.is(
+        typeof recipe.Instructions,
+        'object',
+        "Instructions should be a object"
+    );
+    t.is(
+        typeof recipe.IngredientsName,
+        'object',
+        "IngredientsName should be a object"
+    );
+    t.is(
+        typeof recipe.NutritionalTable,
+        'object',
+        "NutritionalTable should be a object"
+    );
+    t.is(
+        typeof recipe.NutritionalTable,
+        'object',
+        "NutritionalTable should be a object"
+    );
+    t.is(
+        typeof recipe.IngredientsQuantity,
+        'object',
+        "IngredientsQuantity should be a object"
+    );
+    t.is(
+        typeof recipe.time,
+        "number",
+        "time should be a number"
+    );
+    t.is(
+        typeof recipe.difficulty,
+        "string",
+        "difficulty should be a string"
+    );
+    t.is(
+        typeof recipe.servings,
+        "string",
+        "servings should be a string"
+    );
 
-  test("getRecipe API endpoint returns a response with the correct structure and data types", async (t) => {
+});
+
+test("getRecipe API endpoint returns a response with the correct structure and data types", async (t) => {
     t.timeout(5000);
     const userID = 12;
     const recipeID = 15;
     const { body, statusCode } = await t.context.got(
-      `user/${userID}/recipe/${recipeID}`
+        `user/${userID}/recipe/${recipeID}`
     );
-  
+
     // Assuming the API returns a 200 status code for valid requests
     t.is(statusCode, 200, "Should return 200 OK for valid userID and recipeIDs");
-  
+
     //test response body
     t.truthy(body.recipeType);
     t.truthy(body.imgRecipe);
@@ -116,14 +109,14 @@ test.before(async (t) => {
 
     // Validate the response structure and data types
     t.is(
-      typeof body.recipeType,
-      "string",
-      "recipeType should be a string"
+        typeof body.recipeType,
+        "string",
+        "recipeType should be a string"
     );
     t.is(
-      typeof body.imgRecipe,
-      "string",
-      "imgRecipe should be a string"
+        typeof body.imgRecipe,
+        "string",
+        "imgRecipe should be a string"
     );
     t.is(
         typeof body.Instructions,
@@ -165,9 +158,8 @@ test.before(async (t) => {
         "string",
         "servings should be a string"
     );
-    
-  });
 
+});
 
 test('getRecipe with minimum valid user ID and recipeID returns correct response', async (t) => {
     const { body, statusCode } = await t.context.got(`user/1/recipe/1`);
@@ -198,7 +190,6 @@ test('getRecipe with non-numeric user ID returns 400', async (t) => {
         ]);
     }
 });
-
 
 test('getRecipe with valid user ID and non Numeric recipeID returns 400', async (t) => {
     for (const recipeID of recipeIDfor400) {
@@ -267,13 +258,10 @@ test('getRecipe returns expected headers', async (t) => {
     t.truthy(headers['content-type'], 'Response should have content-type header');
 });
 
-
-///////test for getAllRecipies function
-
-
+// Test for getAllRecipies function
 test("getAllRecipies returns the correct structure for a valid userID", async (t) => {
     const userID = 12;
-    const recipies= await getAllRecipies(userID);
+    const recipies = await getAllRecipies(userID);
     for (const recipe of recipies) {
         t.truthy(recipe.recipeType);
         t.truthy(recipe.imgRecipe);
@@ -339,7 +327,6 @@ test("getAllRecipies returns the correct structure for a valid userID", async (t
     }
 
 });
-
 
 test("getAllRecipies API endpoint returns a response with the correct structure and data types", async (t) => {
     t.timeout(5000);
@@ -417,8 +404,6 @@ test("getAllRecipies API endpoint returns a response with the correct structure 
     }
 });
 
-
-
 test('getAllRecipies with non-numeric user ID returns 400', async (t) => {
     for (const userID of userIDfor400) {
         const nonNumericUserID = userID;
@@ -463,4 +448,3 @@ test('getAllRecipies returns expected headers', async (t) => {
     t.is(statusCode, 200, "Should return 200 OK for valid userID");
     t.truthy(headers['content-type'], 'Response should have content-type header');
 });
-
