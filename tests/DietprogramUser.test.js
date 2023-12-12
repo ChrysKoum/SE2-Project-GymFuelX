@@ -6,6 +6,8 @@ const app = require("../index.js");
 
 const { getDietProgram } = require("../service/DietprogramUserService");
 
+const userID = generateTestUserID();
+
 // Initialize the test environment
 test.before(async (t) => {
   t.context.server = http.createServer(app);
@@ -24,7 +26,6 @@ test.after.always((t) => {
 
 // Test for successful response of Fuction
 test("getDietProgram returns the correct structure for a valid userID", async (t) => {
-  const userID = generateTestUserID();
   const DietProgram = await getDietProgram(userID);
 
   // Check if the properties exist
@@ -69,7 +70,6 @@ test("getDietProgram returns the correct structure for a valid userID", async (t
 
 // Test for successful response of Endpoint
 test("getDietProgram API endpoint returns the correct structure for a valid userID", async (t) => {
-  const userID = generateTestUserID(); // A valid userID
   const { body, statusCode } = await t.context.got.get(
     `user/${userID}/dietprogram`
   );
@@ -207,7 +207,6 @@ test("GET user with non-numeric user ID returns 404", async (t) => {
 
 // Example test for expected response headers
 test("GET diet program returns expected headers", async (t) => {
-  const userID = generateTestUserID();
   const { headers, statusCode } = await t.context.got.get(
     `user/${userID}/dietprogram`
   );
