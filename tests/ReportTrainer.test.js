@@ -5,7 +5,11 @@ const got = require('got');
 
 const app = require('../index');
 
-const { getGymProgramReports, getGymProgramReport, deleteReportTrainer } = require('../service/ReportTrainerService');
+const { 
+    getGymProgramReports, 
+    getGymProgramReport, 
+    deleteReport 
+} = require('../service/ReportTrainerService');
 
 
 test.before(async (t) => {
@@ -20,6 +24,14 @@ test.after.always((t) => {
 
 const TrainerID = generateTestTrainerID();
 const reportID = generateTestReportID();
+
+//test of the function deleteReport with success
+test('Test of the function deleteReport with success', async (t) => {
+    
+    const Report = await deleteReport(TrainerID, reportID);
+    t.is(Report, undefined, 'deleteReport should be a undefined');
+});
+
 
 //Delete Report
 test('Test of the Delete Report with success', async (t) => {

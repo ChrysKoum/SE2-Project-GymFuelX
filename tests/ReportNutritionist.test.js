@@ -10,7 +10,7 @@ const {
   getRecipeReport,
   getRecipeReports,
   updateRecipeReport,
-  deleteReportNutritionist,
+  deleteRecipeReport,
 } = require("../service/ReportNutritionistService");
 
 
@@ -232,6 +232,14 @@ test('getRecipeReport returns expected headers', async (t) => {
     t.is(statusCode, 200, "Should return 200 OK for valid nutritionistID");
     t.truthy(headers['content-type'], 'Response should have content-type header');
 });
+
+// Test for the function of delete report
+test("deleteReportNutritionist returns the correct structure for a valid nutritionistID and reportID", async (t) => { 
+    const nutritionistID = 23;
+    const reportID = 23;
+    const report = await deleteRecipeReport(nutritionistID,reportID);
+    t.is(report, undefined, "Should return undefined");
+  });
 
 //Delete Report
 test('Test of the Delete Report with success', async (t) => {
