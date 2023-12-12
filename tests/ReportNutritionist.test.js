@@ -273,15 +273,16 @@ test('Test of the Delete Report with 405 error code', async (t) => {
 **** Put Report Recipe Nutritiontist****
 */
 
+  const putData = [
+    {
+      ID: "124124",
+      details: "Recipe Details",
+    },
+  ];
+
 
 // Test for successful posting a report for a Gym Program
 test("PUT recipe report for a valid userID updateRecipeReport", async (t) => {
-  const putData = {
-    ByUser: 6,
-    ID: 0,
-    "isGym-Diet": true,
-  };
-
   const putRecipeReport = await updateRecipeReport(
     putData,
     nutritionistID,
@@ -297,12 +298,6 @@ test("PUT recipe report for a valid userID updateRecipeReport", async (t) => {
 
 // Test for successful posting a report for a Gym Program
 test("PUT recipe report for a valid userID using updateRecipeReport API endpoint ", async (t) => {
-  const putData = [
-    {
-    ID: "124124",
-    details: "Recipe Details",
-  }
-];
 
   const { statusCode } = await t.context.got.put(
     `nutritionist/${nutritionistID}/report/${reportID}`,
@@ -313,7 +308,7 @@ test("PUT recipe report for a valid userID using updateRecipeReport API endpoint
   t.is(statusCode, 200);
 });
 
-// Example test for invalid userID (400 response)
+// Example test for invalid IDs (400 response)
 const userIDfor400 = [
   1.2,
   "abc",
@@ -328,12 +323,7 @@ const userIDfor400 = [
   "*",
 ];
 
-test("POST gym program with invalid data returns error", async (t) => {
-  const putData = 
-    {
-    ID: "124124",
-    details: "Recipe Details",
-  }
+test("PUT report recipe nutritionist with invalid ids returns error", async (t) => {
 
   for (const userID of userIDfor400) {
     const invalidID = userID;
@@ -353,7 +343,7 @@ test("POST gym program with invalid data returns error", async (t) => {
     t.assert(body.message, "Response should have a message");
     t.is(
       body.message,
-      "request.params.NutritionistID should be integer, request.params.reportID should be integer, request.body should be array",
+      "request.params.NutritionistID should be integer, request.params.reportID should be integer",
       "Response message should indicate an integer is required"
     );
     t.deepEqual(
@@ -364,30 +354,63 @@ test("POST gym program with invalid data returns error", async (t) => {
         message: 'should be integer',
         path: '.params.NutritionistID',
       },
-     {
-       errorCode: 'type.openapi.validation',
-       message: 'should be integer',
-       path: '.params.reportID',
-     },
-     {
-       errorCode: 'type.openapi.validation',
-       message: 'should be array',
-       path: '.body',
-     },
+      {
+        errorCode: 'type.openapi.validation',
+        message: 'should be integer',
+        path: '.params.reportID',
+      },
       ],
       "Response errors should match the expected structure"
     );
   }
 });
 
-// Example test for non-existent userID (404 response)
+// Test for error posting a report for a Recipe report with false data - 400 
+test("PUT recipe reoprt with invalid data returns error", async (t) => {
+  const putData = [{
+    ID: [],
+    details: {},
+  }];
+    const { body, statusCode } = await t.context.got.put(
+      `nutritionist/${reportID}/report/${reportID}`,
+      {
+        json: putData,
+      }
+    );
+    console.log('body');
+    console.log(body)
+
+    // Assertions
+    t.is(statusCode,400,"Should return 400 Bad Request for non-numeric userID");
+    t.assert(body.message, "Response should have a message");
+    t.is(
+      body.message,
+      "request.body[0].ID should be string, request.body[0].details should be string",
+      "Response message should indicate an string is required for ID and details"
+    );
+    t.deepEqual(
+      body.errors,
+      [
+        {
+          path: ".body[0].ID",
+          message: "should be string",
+          errorCode: "type.openapi.validation",
+        },
+        {
+          path: ".body[0].details",
+          message: "should be string",
+          errorCode: "type.openapi.validation",
+        },
+      ],
+      "Response errors should match the expected structure"
+    );
+});
+
+// Example test for non-existent IDs (404 response)
 const nonNumericUserIDsFor404 = ["", []];
 
 test("PUT recipe report with non-numeric returns 404 error", async (t) => {
-  const putData = {
-    ID: "124124",
-    details: "Recipe Details",
-  };
+  
 
   for (const nonNumericID of nonNumericUserIDsFor404) {
     const { body, statusCode } = await t.context.got.put(
@@ -418,12 +441,38 @@ test("PUT recipe report with non-numeric returns 404 error", async (t) => {
   }
 });
 
+// Example test for no allowed user access (405 response)
+test("PUT recipe report with non-numeric returns 405 error", async (t) => {
+    const nonNumericReportID = '';
+    const { body, statusCode } = await t.context.got.put(
+      `nutritionist/${nutritionistID}/report/${nonNumericReportID}`,
+      {
+        json: putData,
+      }
+    );
+
+    // Assertions
+    t.is(statusCode, 405, "Should return 405 Not Allowed for this userID");
+    t.assert(body.message, "Response should have a message");
+    t.is(
+      body.message,
+      "PUT method not allowed",
+      "Response message should indicate the user ID is Allowed to access"
+    );
+    t.deepEqual(
+      body.errors,
+      [
+        {
+          path: `/nutritionist/${nutritionistID}/report/${nonNumericReportID}`,
+          message: "PUT method not allowed",
+        },
+      ],
+      "Response errors should match the expected structure for a 405 error"
+    );
+});
+
 // Example test for expected response headers
 test("PUT recipe report returns expected headers", async (t) => {
-  const putData = [{
-    ID: "124124",
-    details: "Recipe Details",
-  }];
 
   const { body, headers, statusCode } = await t.context.got.put(
     `nutritionist/${nutritionistID}/report/${reportID}`,
@@ -434,7 +483,7 @@ test("PUT recipe report returns expected headers", async (t) => {
 
   console.log(body);
   t.is(statusCode, 200);
-  t.truthy(headers["content-type"]); // Check for expected headers
+  t.truthy(headers["content-type"]);
 });
 
 function generateTestnutritionistID() {
