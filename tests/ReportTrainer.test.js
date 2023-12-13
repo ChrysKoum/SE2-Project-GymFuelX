@@ -50,12 +50,11 @@ test('Test of the Delete Report with 400 error code', async (t) => {
 test('Test of the Delete Report with 405 error code', async (t) => {
     const nonExistingReportId = '';
     const TrainerID = generateTestTrainerID(); // Define TrainerID variable
-
     const { statusCode, body } = await t.context.got.delete(
-        `Trainer/${TrainerID}/report/${nonExistingReportId}`
+        `trainer/${TrainerID}/report/${nonExistingReportId}`
     );
-
     t.is(statusCode, 405, "Should return 405 DELETE method not allowed");
+    t.deepEqual(body.message, 'DELETE method not allowed');
 });
 
 function generateTestTrainerID() {
@@ -117,23 +116,22 @@ test('GET reports with maximum valid trainer ID returns correct response', async
 });
 
 const trainerIDfor400 = [1.2, 'abc', true, '@special', null, undefined];
-// test('GET reports with non-numeric trainer ID returns 400', async (t) => {
-//     for (const trainerID of trainerIDfor400) {
-//         const { body, statusCode } = await t.context.got(`trainer/${trainerID}/report`);
-//         console.log("ABSDBSDFBS",trainerID)
-//         // Assertions
-//         t.is(statusCode, 400, 'Should return 400 Bad Request for non-numeric userID');
-//         t.assert(body.message);
-//         t.is(body.message, 'request.params.userID should be integer');
-//         t.deepEqual(body.errors, [
-//             {
-//                 path: '.params.userID',
-//                 message: 'should be integer',
-//                 errorCode: 'type.openapi.validation'
-//             }
-//         ]);
-//     }
-// });
+test('GET reports with non-numeric trainer ID returns 400', async (t) => {
+    for (const trainerID of trainerIDfor400) {
+        const { body, statusCode } = await t.context.got(`trainer/${trainerID}/report`);
+        // Assertions
+        t.is(statusCode, 400, 'Should return 400 Bad Request for non-numeric userID');
+        t.assert(body.message);
+        t.is(body.message, 'request.params.trainerID should be integer');
+        t.deepEqual(body.errors, [
+            {
+                path: '.params.trainerID',
+                message: 'should be integer',
+                errorCode: 'type.openapi.validation'
+            }
+        ]);
+    }
+});
 
 const trainerIDfor404 = ['', []]
 test('GET reports with non-numeric trainer ID returns 404', async (t) => {
