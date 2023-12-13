@@ -36,7 +36,7 @@ test('Test of the function deleteReport with success', async (t) => {
 //Delete Report
 test('Test of the Delete Report with success', async (t) => {
     const { body, statusCode } = await t.context.got.delete(
-        `Trainer/${TrainerID}/report/${reportID}`
+        `trainer/${TrainerID}/report/${reportID}`
     );
 
     //status Code should be 200
@@ -48,7 +48,7 @@ test('Test of the Delete Report with 400 error code', async (t) => {
     const TrainerID = generateTestTrainerID(); // Define TrainerID variable
 
     const { body, statusCode } = await t.context.got.delete(
-        `Trainer/${TrainerID}/report/${wrongReportId}`
+        `trainer/${TrainerID}/report/${wrongReportId}`
     );
 
     t.is(statusCode, 400, "Should return 400 when there is a bad parameter");
@@ -66,7 +66,7 @@ test('Test of the Delete Report with 405 error code', async (t) => {
     const TrainerID = generateTestTrainerID(); // Define TrainerID variable
 
     const { statusCode, body } = await t.context.got.delete(
-        `Trainer/${TrainerID}/report/${nonExistingReportId}`
+        `trainer/${TrainerID}/report/${nonExistingReportId}`
     );
     
     t.is(statusCode, 405, "Should return 405 DELETE method not allowed");
