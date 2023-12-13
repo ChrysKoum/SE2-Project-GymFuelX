@@ -82,7 +82,6 @@ test('PUT RecipeNutritionist returns corect response with required fields', asyn
     });
     // Assertions
     t.is(statusCode, 200, 'Should return 200 ');
-    console.log(body);
 });
 
 test('PUT RecipeNutritionist returns error 400 with bad parameters', async (t) => {

@@ -94,10 +94,7 @@ test('GET user with non-numeric user ID returns 400', async (t) => {
 const userIDfor405 = ['', []]
 test('GET user with non-numeric user ID returns 404', async (t) => {
     for (const userID of userIDfor405) {
-        const nonNumericUserID = userID;
-
-        const { body, statusCode } = await t.context.got(`user/${nonNumericUserID}`);
-
+        const { body, statusCode } = await t.context.got(`user/${userID}`);
         // Assertions
         t.is(statusCode, 405, 'Should return 405 Forbidden.');
         t.assert(body.message);
@@ -245,38 +242,3 @@ test('editUserDetails successfully edits user details', async (t) => {
         "height": 6.027456183070403
     });
 });
-
-
-        // //////
-
-        // test('addUserDetails returns correct response', async (t) => {
-        //     const mockRequestBody = {
-        //         "birthday": "2000-01-23T04:56:07.000+00:00",
-        //         "meal": "meal",
-        //         "allergies": "allergies",
-        //         "goal": "goal",
-        //         "gender": "gender",
-        //         "level": "level",
-        //         "weight": 1.4658129805029452,
-        //         "restrictions": "restrictions",
-        //         "userID": 0,
-        //         "username": "username",
-        //         "height": 6.027456183070403
-        //     };
-
-        //     const result = await addUserDetails(mockRequestBody, 123);
-        //     // Assertions
-        //     t.deepEqual(result, {
-        //         "birthday": "2000-01-23T04:56:07.000+00:00",
-        //         "meal": "meal",
-        //         "allergies": "allergies",
-        //         "goal": "goal",
-        //         "gender": "gender",
-        //         "level": "level",
-        //         "weight": 1.4658129805029452,
-        //         "restrictions": "restrictions",
-        //         "userID": 0,
-        //         "username": "username",
-        //         "height": 6.027456183070403
-        //     });
-        // });
