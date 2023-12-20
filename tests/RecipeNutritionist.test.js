@@ -214,7 +214,6 @@ test('PUT RecipeNutritionist returns corect response with required fields', asyn
     });
     // Assertions
     t.is(statusCode, 200, 'Should return 200 ');
-    console.log(body);
 });
 
 test('Post RecipeNutritionist Success and getting 200', async (t) => {
@@ -453,6 +452,7 @@ test('Test of the Delete Recipe with 405 error code', async (t) => {
     );
     
     t.is(statusCode, 405, "Should return 405 DELETE method not allowed");
+    t.deepEqual(body.message, 'DELETE method not allowed'); 
 });
 
 test.after.always((t) => {

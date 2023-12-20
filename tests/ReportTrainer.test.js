@@ -2,20 +2,14 @@ const http = require('http');
 const test = require('ava');
 const listen = require('test-listen');
 const got = require('got');
-
 const app = require('../index');
 
-const { 
-    getGymProgramReports, 
-    getGymProgramReport, 
-    deleteReport 
-} = require('../service/ReportTrainerService');
-
+const { getGymProgramReports, getGymProgramReport, deleteReport, updateReport } = require('../service/ReportTrainerService');
 
 test.before(async (t) => {
     t.context.server = http.createServer(app);
     t.context.prefixUrl = await listen(t.context.server);
-    t.context.got = got.extend({ prefixUrl: t.context.prefixUrl, responseType: 'json', throwHttpErrors: false});
+    t.context.got = got.extend({ prefixUrl: t.context.prefixUrl, responseType: 'json', throwHttpErrors: false });
 });
 
 test.after.always((t) => {
@@ -27,7 +21,7 @@ const reportID = generateTestReportID();
 
 //test of the function deleteReport with success
 test('Test of the function deleteReport with success', async (t) => {
-    
+
     const Report = await deleteReport(TrainerID, reportID);
     t.is(Report, undefined, 'deleteReport should be a undefined');
 });
@@ -52,7 +46,7 @@ test('Test of the Delete Report with 400 error code', async (t) => {
     );
 
     t.is(statusCode, 400, "Should return 400 when there is a bad parameter");
-    t.like(body.errors,[
+    t.like(body.errors, [
         {
             path: '.params.reportID',
             message: 'should be integer',
@@ -64,12 +58,11 @@ test('Test of the Delete Report with 400 error code', async (t) => {
 test('Test of the Delete Report with 405 error code', async (t) => {
     const nonExistingReportId = '';
     const TrainerID = generateTestTrainerID(); // Define TrainerID variable
-
     const { statusCode, body } = await t.context.got.delete(
         `trainer/${TrainerID}/report/${nonExistingReportId}`
     );
-    
     t.is(statusCode, 405, "Should return 405 DELETE method not allowed");
+    t.deepEqual(body.message, 'DELETE method not allowed');
 });
 
 function generateTestTrainerID() {
@@ -79,7 +72,7 @@ function generateTestTrainerID() {
 function generateTestReportID() {
     return Math.floor(Math.random() * 100000) + 1;
 }
-    
+
 
 test.after.always((t) => {
     t.context.server.close();
@@ -131,23 +124,22 @@ test('GET reports with maximum valid trainer ID returns correct response', async
 });
 
 const trainerIDfor400 = [1.2, 'abc', true, '@special', null, undefined];
-// test('GET reports with non-numeric trainer ID returns 400', async (t) => {
-//     for (const trainerID of trainerIDfor400) {
-//         const { body, statusCode } = await t.context.got(`trainer/${trainerID}/report`);
-//         console.log("ABSDBSDFBS",trainerID)
-//         // Assertions
-//         t.is(statusCode, 400, 'Should return 400 Bad Request for non-numeric userID');
-//         t.assert(body.message);
-//         t.is(body.message, 'request.params.userID should be integer');
-//         t.deepEqual(body.errors, [
-//             {
-//                 path: '.params.userID',
-//                 message: 'should be integer',
-//                 errorCode: 'type.openapi.validation'
-//             }
-//         ]);
-//     }
-// });
+test('GET reports with non-numeric trainer ID returns 400', async (t) => {
+    for (const trainerID of trainerIDfor400) {
+        const { body, statusCode } = await t.context.got(`trainer/${trainerID}/report`);
+        // Assertions
+        t.is(statusCode, 400, 'Should return 400 Bad Request for non-numeric userID');
+        t.assert(body.message);
+        t.is(body.message, 'request.params.trainerID should be integer');
+        t.deepEqual(body.errors, [
+            {
+                path: '.params.trainerID',
+                message: 'should be integer',
+                errorCode: 'type.openapi.validation'
+            }
+        ]);
+    }
+});
 
 const trainerIDfor404 = ['', []]
 test('GET reports with non-numeric trainer ID returns 404', async (t) => {
@@ -312,4 +304,177 @@ test('getGymProgramReports - should return a list of gym program report when giv
     }
     const reports = await getGymProgramReport(trainerID, reportID);
     t.deepEqual(reports, expectedReport);
+});
+
+
+/** 
+ * PUT 
+ * /trainer/{trainerID}/report/{reportID}
+ * Update gym program report
+ */
+
+// Endpoint testing
+test('PUT updateReport returns success response', async (t) => {
+    const trainerID = 123;
+    const reportID = 123;
+    const mockRequestBody = [
+        {
+            "ID": "string",
+            "details": "string"
+        }
+    ];
+    const { statusCode } = await t.context.got.put(`trainer/${trainerID}/report/${reportID}`, {
+        json: mockRequestBody,
+    });
+    // Assertions
+    t.is(statusCode, 200, 'Should return 200 OK Successful Gym Program Report is updated');
+});
+
+test('PUT updateReport with invalid trainerID, correct reportID returns fail response - 404 ', async (t) => {
+    for (const trainerID of trainerIDfor404) {
+        const reportID = 1
+        const mockRequestBody = [
+            {
+                "ID": "string",
+                "details": "string"
+            }
+        ];
+        const { body, statusCode } = await t.context.got.put(`trainer/${trainerID}/report/${reportID}`, {
+            json: mockRequestBody,
+        });
+        // Assertions
+        t.is(statusCode, 404, 'Should return 404 Gym Program Report not found for non-numeric userID');
+        t.assert(body.message);
+        t.is(body.message, 'not found');
+        t.deepEqual(body.errors, [
+            {
+                path: '/trainer//report/1',
+                message: 'not found',
+            }
+        ]);
+    }
+});
+
+test('PUT updateReport with invalid trainerID and reportID returns fail response - 404 ', async (t) => {
+    for (const trainerID of trainerIDfor404) {
+        for (const reportID of reportIDfor404) {
+            const mockRequestBody = [
+                {
+                    "ID": "string",
+                    "details": "string"
+                }
+            ];
+            const { body, statusCode } = await t.context.got.put(`trainer/${trainerID}/report/${reportID}`, {
+                json: mockRequestBody,
+            });
+            // Assertions
+            t.is(statusCode, 404, 'Should return 404 Gym Program Report not found for non-numeric userID');
+            t.assert(body.message);
+            t.is(body.message, 'not found');
+            t.deepEqual(body.errors, [
+                {
+                    path: '/trainer//report/',
+                    message: 'not found',
+                }
+            ]);
+        }
+    }
+});
+
+test('PUT updateReport with invalid trainerID, correct reportID returns fail response - 400 ', async (t) => {
+    for (const trainerID of trainerIDfor400) {
+        const reportID = 123;
+        const mockRequestBody = [
+            {
+                "ID": "string",
+                "details": "string"
+            }
+        ];
+        const { body, statusCode } = await t.context.got.put(`trainer/${trainerID}/report/${reportID}`, {
+            json: mockRequestBody,
+        });
+        // Assertions
+        t.is(statusCode, 400, 'Should return 400 Bad Request for non-numeric userID');
+        t.assert(body.message);
+        t.is(body.message, 'request.params.trainerID should be integer');
+        t.deepEqual(body.errors, [
+            {
+                path: '.params.trainerID',
+                message: 'should be integer',
+                errorCode: 'type.openapi.validation'
+            }
+        ]);
+    }
+});
+
+test('PUT updateReport with invalid trainerID and reportID returns fail response - 400 ', async (t) => {
+    for (const trainerID of trainerIDfor400) {
+        for (const reportID of reportIDfor400) {
+            const mockRequestBody = [
+                {
+                    "ID": "string",
+                    "details": "string"
+                }
+            ];
+            const { body, statusCode } = await t.context.got.put(`trainer/${trainerID}/report/${reportID}`, {
+                json: mockRequestBody,
+            });
+            // Assertions
+            t.is(statusCode, 400, 'Should return 400 Bad Request for non-numeric userID');
+            t.assert(body.message);
+            t.is(body.message, 'request.params.trainerID should be integer, request.params.reportID should be integer');
+            t.deepEqual(body.errors, [
+                {
+                    path: '.params.trainerID',
+                    message: 'should be integer',
+                    errorCode: 'type.openapi.validation'
+                },
+                {
+                    path: '.params.reportID',
+                    message: 'should be integer',
+                    errorCode: 'type.openapi.validation'
+                }
+            ]);
+        }
+    }
+});
+
+test('updateReport successfully updated recipe', async (t) => {
+    const trainerID = 123;
+    const reportID = 123;
+    const result = await updateReport(trainerID, reportID);
+    // Assertions
+    t.truthy(
+        typeof result,
+        undefined,
+        "updateReport should be a undefined"
+    );
+});
+
+test('updateReport should fail due to incorrect input data - 400', async (t) => {
+    for (const trainerID of trainerIDfor400) {
+        for (const reportID of reportIDfor400) {
+            const result = await updateReport(trainerID, reportID);
+            // Assertions
+            t.truthy(
+                typeof result,
+                undefined,
+                "updateReport should be a undefined"
+            );
+        }
+    }
+});
+
+test('updateReport should fail due to incorrect input data - 404', async (t) => {
+    for (const trainerID of trainerIDfor404) {
+        for (const reportID of reportIDfor404) {
+            const result = await updateReport(trainerID, reportID);
+            // Assertions
+            t.truthy(
+                typeof result,
+                undefined,
+                "updateReport should be a undefined"
+            );
+        }
+    }
 });
