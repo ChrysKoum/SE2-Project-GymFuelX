@@ -4,7 +4,7 @@ const listen = require('test-listen');
 const got = require('got');
 const app = require('../index');
 
-const { getGymProgramReports, getGymProgramReport, deleteReportTrainer, updateReport } = require('../service/ReportTrainerService');
+const { getGymProgramReports, getGymProgramReport, updateReport } = require('../service/ReportTrainerService');
 
 test.before(async (t) => {
     t.context.server = http.createServer(app);
