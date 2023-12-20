@@ -1,9 +1,14 @@
-'use strict';
+"use strict";
 
-var utils = require('../utils/writer.js');
-var DietprogramUser = require('../service/DietprogramUserService');
+var utils = require("../utils/writer.js");
+var DietprogramUser = require("../service/DietprogramUserService");
 
-module.exports.getDietProgram = function getDietProgram (req, res, next, userID) {
+module.exports.getDietProgram = function getDietProgram(
+  req,
+  res,
+  next,
+  userID
+) {
   DietprogramUser.getDietProgram(userID)
     .then(function (response) {
       utils.writeJson(res, response);
