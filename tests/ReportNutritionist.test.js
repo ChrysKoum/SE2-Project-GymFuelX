@@ -6,9 +6,16 @@ const got = require('got');
 const app = require('../index');
 const utils = require('../utils/writer.js');
 
-const { getRecipeReport, getRecipeReports ,deleteReportNutritionist } = require("../service/ReportNutritionistService");
+const {
+  getRecipeReport,
+  getRecipeReports,
+  updateRecipeReport,
+  deleteRecipeReport,
+} = require("../service/ReportNutritionistService");
 
 
+const nutritionistID = generateTestnutritionistID();
+const reportID = generateTestReportID();
 
 test.before(async (t) => {
     t.context.server = http.createServer(app);
@@ -64,37 +71,42 @@ test('getRecipeReport with maximum valid nutritionistID and reportID returns cor
 const nutritionistIDfor400 = [3.4, 'abcs', true, '@special', null, undefined, '!', '@', '^', '&', '*',];
 const reportIDfor400 = [3.4, 'abcs', true, '@special', null, undefined, '!', '@', '^', '&', '*',];
 
-nutritionistIDfor400.forEach(async (nutritionistID) => {
-    test(`getRecipeReport with invalid nutritionistID ${nutritionistID} returns 400`, async (t) => {
-        const { body,statusCode } = await t.context.got(`nutritionist/${nutritionistID}/report/5`);
+test(`getRecipeReport with invalid nutritionistID  returns 400`, async (t) => {
+    for (const nutritionistID of nutritionistIDfor400) {
+        invalidnutritionistID = nutritionistID;
+        const { body, statusCode } = await t.context.got(`nutritionist/${invalidnutritionistID}/report/5`);
         t.is(statusCode, 400, "Should return 400 Bad Request for invalid nutritionistID");
         t.is(body.message, 'request.params.NutritionistID should be integer')
         t.assert(body.message);
-        t.deepEqual(body.errors,[
+        t.deepEqual(body.errors, [
             {
                 path: '.params.NutritionistID',
                 message: 'should be integer',
                 errorCode: 'type.openapi.validation'
             }
         ]);
-    });
+    }
+
 });
 
-reportIDfor400.forEach(async (reportID) => {
-    test(`getRecipeReport with invalid reportID ${reportID} returns 400`, async (t) => {
-        const { body,statusCode } = await t.context.got(`nutritionist/5/report/${reportID}`);
+test(`getRecipeReport with invalid reportID returns 400`, async (t) => { 
+    for (const reportID of reportIDfor400) {
+        invalidreportID = reportID;
+        const { body, statusCode } = await t.context.got(`nutritionist/5/report/${invalidreportID}`);
         t.is(statusCode, 400, "Should return 400 Bad Request for invalid reportID");
         t.is(body.message, 'request.params.reportID should be integer')
         t.assert(body.message);
-        t.deepEqual(body.errors,[
+        t.deepEqual(body.errors, [
             {
                 path: '.params.reportID',
                 message: 'should be integer',
                 errorCode: 'type.openapi.validation'
             }
         ]);
-    });
+    }
+
 });
+
 
 const nutritionistIDfor404 = ['', []]
 const reportIDfor404 = ['', []]
@@ -221,8 +233,13 @@ test('getRecipeReport returns expected headers', async (t) => {
     t.truthy(headers['content-type'], 'Response should have content-type header');
 });
 
-const nutritionistID = generateTestnutritionistID();
-const reportID = generateTestReportID();
+// Test for the function of delete report
+test("deleteReportNutritionist returns the correct structure for a valid nutritionistID and reportID", async (t) => { 
+    const nutritionistID = 23;
+    const reportID = 23;
+    const report = await deleteRecipeReport(nutritionistID,reportID);
+    t.is(report, undefined, "Should return undefined");
+  });
 
 //Delete Report
 test('Test of the Delete Report with success', async (t) => {
@@ -258,6 +275,224 @@ test('Test of the Delete Report with 405 error code', async (t) => {
     
     t.is(statusCode, 405, "Should return 405 DELETE method not allowed");
     t.deepEqual(body.message, 'DELETE method not allowed');
+});
+
+
+/* 
+**** Put Report Recipe Nutritiontist****
+*/
+
+  const putData = [
+    {
+      ID: "124124",
+      details: "Recipe Details",
+    },
+  ];
+
+
+// Test for successful posting a report for a Gym Program
+test("PUT recipe report for a valid userID updateRecipeReport", async (t) => {
+  const putRecipeReport = await updateRecipeReport(
+    putData,
+    nutritionistID,
+    reportID
+  );
+
+  t.truthy(
+    typeof putRecipeReport,
+    undefined,
+    "updateRecipeReport should be a undefined"
+  );
+});
+
+// Test for successful posting a report for a Gym Program
+test("PUT recipe report for a valid userID using updateRecipeReport API endpoint ", async (t) => {
+
+  const { statusCode } = await t.context.got.put(
+    `nutritionist/${nutritionistID}/report/${reportID}`,
+    {
+      json: putData,
+    }
+  );
+  t.is(statusCode, 200);
+});
+
+// Example test for invalid IDs (400 response)
+const userIDfor400 = [
+  1.2,
+  "abc",
+  true,
+  "@special",
+  null,
+  undefined,
+  "!",
+  "@",
+  "^",
+  "&",
+  "*",
+];
+
+test("PUT report recipe nutritionist with invalid ids returns error", async (t) => {
+
+  for (const userID of userIDfor400) {
+    const invalidID = userID;
+    const { body, statusCode } = await t.context.got.put(
+      `nutritionist/${invalidID}/report/${invalidID}`,
+      {
+        json: putData,
+      }
+    );
+
+    // Assertions
+    t.is(
+      statusCode,
+      400,
+      "Should return 400 Bad Request for non-numeric userID"
+    );
+    t.assert(body.message, "Response should have a message");
+    t.is(
+      body.message,
+      "request.params.NutritionistID should be integer, request.params.reportID should be integer",
+      "Response message should indicate an integer is required"
+    );
+    t.deepEqual(
+      body.errors,
+      [
+        {
+        errorCode: 'type.openapi.validation',
+        message: 'should be integer',
+        path: '.params.NutritionistID',
+      },
+      {
+        errorCode: 'type.openapi.validation',
+        message: 'should be integer',
+        path: '.params.reportID',
+      },
+      ],
+      "Response errors should match the expected structure"
+    );
+  }
+});
+
+// Test for error posting a report for a Recipe report with false data - 400 
+test("PUT recipe reoprt with invalid data returns error", async (t) => {
+  const putData = [{
+    ID: [],
+    details: {},
+  }];
+    const { body, statusCode } = await t.context.got.put(
+      `nutritionist/${reportID}/report/${reportID}`,
+      {
+        json: putData,
+      }
+    );
+    console.log('body');
+    console.log(body)
+
+    // Assertions
+    t.is(statusCode,400,"Should return 400 Bad Request for non-numeric userID");
+    t.assert(body.message, "Response should have a message");
+    t.is(
+      body.message,
+      "request.body[0].ID should be string, request.body[0].details should be string",
+      "Response message should indicate an string is required for ID and details"
+    );
+    t.deepEqual(
+      body.errors,
+      [
+        {
+          path: ".body[0].ID",
+          message: "should be string",
+          errorCode: "type.openapi.validation",
+        },
+        {
+          path: ".body[0].details",
+          message: "should be string",
+          errorCode: "type.openapi.validation",
+        },
+      ],
+      "Response errors should match the expected structure"
+    );
+});
+
+// Example test for non-existent IDs (404 response)
+const nonNumericUserIDsFor404 = ["", []];
+
+test("PUT recipe report with non-numeric returns 404 error", async (t) => {
+  
+
+  for (const nonNumericID of nonNumericUserIDsFor404) {
+    const { body, statusCode } = await t.context.got.put(
+      `nutritionist/${nonNumericID}/report/${nonNumericID}`,
+      {
+        json: putData,
+      }
+    );
+
+    // Assertions
+    t.is(statusCode, 404, "Should return 404 Not Found for non-numeric userID");
+    t.assert(body.message, "Response should have a message");
+    t.is(
+      body.message,
+      "not found",
+      "Response message should indicate the user ID is not found"
+    );
+    t.deepEqual(
+      body.errors,
+      [
+        {
+          path: `/nutritionist/${nonNumericID}/report/${nonNumericID}`,
+          message: "not found",
+        },
+      ],
+      "Response errors should match the expected structure for a 404 error"
+    );
+  }
+});
+
+// Example test for no allowed user access (405 response)
+test("PUT recipe report with non-numeric returns 405 error", async (t) => {
+    const nonNumericReportID = '';
+    const { body, statusCode } = await t.context.got.put(
+      `nutritionist/${nutritionistID}/report/${nonNumericReportID}`,
+      {
+        json: putData,
+      }
+    );
+
+    // Assertions
+    t.is(statusCode, 405, "Should return 405 Not Allowed for this userID");
+    t.assert(body.message, "Response should have a message");
+    t.is(
+      body.message,
+      "PUT method not allowed",
+      "Response message should indicate the user ID is Allowed to access"
+    );
+    t.deepEqual(
+      body.errors,
+      [
+        {
+          path: `/nutritionist/${nutritionistID}/report/${nonNumericReportID}`,
+          message: "PUT method not allowed",
+        },
+      ],
+      "Response errors should match the expected structure for a 405 error"
+    );
+});
+
+// Example test for expected response headers
+test("PUT recipe report returns expected headers", async (t) => {
+
+  const { body, headers, statusCode } = await t.context.got.put(
+    `nutritionist/${nutritionistID}/report/${reportID}`,
+    {
+      json: putData,
+    }
+  );
+
+  console.log(body);
+  t.is(statusCode, 200);
+  t.truthy(headers["content-type"]);
 });
 
 function generateTestnutritionistID() {

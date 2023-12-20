@@ -3,7 +3,7 @@ const test = require('ava');
 const listen = require('test-listen');
 const got = require('got');
 
-const { getRecipeNutrionist, postRecipeNutritionist, deleteRecipeNutritionist } = require("../service/RecipeNutritionistService");
+const { getRecipeNutrionist, updateRecipeNutritionist, deleteRecipe, addRecipe } = require("../service/RecipeNutritionistService");
 const app = require('../index.js');
 
 test.before(async (t) => {
@@ -14,7 +14,139 @@ test.before(async (t) => {
 
 const nutritionistID = generateTestnutritionistID();
 const recipeID = generateTestRecipeID();
-const maxRecipeID = Math.pow(10, 6); //the max Id a Nutritionist can have
+
+//unit testing
+
+//test for the function getRecipeNutrionist
+test('Test of the function getRecipeNutrionist', async (t) => {
+    const recipe = await getRecipeNutrionist(nutritionistID, recipeID);
+    t.truthy(recipe.IngredientsName, 'Checking that the IngredientsName is not empty');
+    t.truthy(recipe.difficulty, 'Checking that the difficulty is not empty');
+    t.truthy(recipe.servings, 'Checking that the servings is not empty');
+    t.truthy(recipe.recipeType, 'Checking that the recipeType is not empty');
+    t.truthy(recipe.Instructions, 'Checking that the Instructions is not empty');
+    t.truthy(recipe.NutritionalTable, 'Checking that the NutritionalTable is not empty');
+    t.truthy(recipe.IngredientsQuantity, 'Checking that the IngredientsQuantity is not empty');
+    t.truthy(recipe.time, 'Checking that the time is not empty');
+    t.truthy(recipe.imgRecipe, 'Checking that the imgRecipe is not empty');
+
+    //vallidate the data types and structure
+    t.true(Array.isArray(recipe.IngredientsName), 'Checking that the IngredientsName is an array');
+    t.is(typeof recipe.difficulty, 'string', 'Checking that the difficulty is a string');
+    t.is(typeof recipe.servings, 'string', 'Checking that the servings is a string');
+    t.is(typeof recipe.recipeType, 'string', 'Checking that the recipeType is a string');
+    t.true(Array.isArray(recipe.Instructions), 'Checking that the Instructions is an array');
+    t.true(Array.isArray(recipe.NutritionalTable), 'Checking that the NutritionalTable is an array');
+    t.true(Array.isArray(recipe.IngredientsQuantity), 'Checking that the IngredientsQuantity is an array');
+    t.is(typeof recipe.time, 'number', 'Checking that the time is a number');
+    t.is(typeof recipe.recipeID, 'number', 'Checking that the recipeID is a number');
+    t.is(typeof recipe.imgRecipe, 'string', 'Checking that the imgRecipe is a string');
+
+});
+
+//testing for the function addRecipe
+test('Test of the function addRecipe', async (t) => {
+    
+        const mockRecipeData = {
+            IngredientsName: ["Chicken Breast", "Olive Oil", "Garlic", "Lemon Juice", "Paprika", "Salt", "Black Pepper", "Fresh Parsley"],
+            difficulty: "Easy",
+            servings: "4",
+            recipeType: "Main Course",
+            Instructions: [
+                "Preheat oven to 375°F (190°C).",
+                "In a bowl, mix olive oil, minced garlic, lemon juice, paprika, salt, and black pepper.",
+                "Place chicken breasts in a baking dish and pour the mixture over them.",
+                "Bake in the preheated oven for 25-30 minutes or until chicken is cooked through.",
+                "Garnish with chopped fresh parsley before serving."
+            ],
+            NutritionalTable: [
+                "Calories: 165",
+                "Protein: 26g",
+                "Fat: 4.5g",
+                "Carbohydrates: 3g",
+                "Sodium: 322mg"
+            ],
+            IngredientsQuantity: [
+                "4 medium-sized chicken breasts",
+                "2 tablespoons olive oil",
+                "3 cloves garlic, minced",
+                "2 tablespoons lemon juice",
+                "1 teaspoon paprika",
+                "1/2 teaspoon salt",
+                "1/4 teaspoon black pepper",
+                "2 tablespoons chopped fresh parsley"
+            ],
+            time: 35,
+            recipeID: 101,
+            imgRecipe: "https://example.com/images/chicken-breast-recipe.jpg"
+        };
+    
+        const result = await addRecipe(mockRecipeData, nutritionistID);
+    
+        console.log('Hello world\n');
+        console.log(typeof result);
+        t.is(
+            typeof result,
+            'object',
+        " addRecipe should return a object"
+        );
+});
+
+//testing for the function updateRecipeNutritionist
+test('Test of the function updateRecipeNutritionist', async (t) => {
+
+    const mockRecipeData = {
+        IngredientsName: ["Chicken Breast", "Olive Oil", "Garlic", "Lemon Juice", "Paprika", "Salt", "Black Pepper", "Fresh Parsley"],
+        difficulty: "Easy",
+        servings: "4",
+        recipeType: "Main Course",
+        Instructions: [
+            "Preheat oven to 375°F (190°C).",
+            "In a bowl, mix olive oil, minced garlic, lemon juice, paprika, salt, and black pepper.",
+            "Place chicken breasts in a baking dish and pour the mixture over them.",
+            "Bake in the preheated oven for 25-30 minutes or until chicken is cooked through.",
+            "Garnish with chopped fresh parsley before serving."
+        ],
+        NutritionalTable: [
+            "Calories: 165",
+            "Protein: 26g",
+            "Fat: 4.5g",
+            "Carbohydrates: 3g",
+            "Sodium: 322mg"
+        ],
+        IngredientsQuantity: [
+            "4 medium-sized chicken breasts",
+            "2 tablespoons olive oil",
+            "3 cloves garlic, minced",
+            "2 tablespoons lemon juice",
+            "1 teaspoon paprika",
+            "1/2 teaspoon salt",
+            "1/4 teaspoon black pepper",
+            "2 tablespoons chopped fresh parsley"
+        ],
+        time: 35,
+        recipeID: 101,
+        imgRecipe: "https://example.com/images/chicken-breast-recipe.jpg"
+    };
+
+    const result = await updateRecipeNutritionist(mockRecipeData ,nutritionistID ,recipeID);
+    
+    t.truthy(
+    typeof result,
+        undefined,
+        "updateRecipeReport should be a undefined"
+      );
+});
+
+//testing for the function deleteRecipe
+test('Test of the function deleteRecipe', async (t) => {
+    const result = await deleteRecipe(nutritionistID, recipeID);
+    t.truthy(
+        typeof result,
+        undefined,
+        "deleteRecipeReport should be a undefined"
+      );
+});
 
 //Get Request
 test('Test of the stracture that get gives', async (t) => {
@@ -84,6 +216,156 @@ test('PUT RecipeNutritionist returns corect response with required fields', asyn
     t.is(statusCode, 200, 'Should return 200 ');
 });
 
+test('Post RecipeNutritionist Success and getting 200', async (t) => {
+    const mockRecipeData = {
+        IngredientsName: ["Chicken Breast", "Olive Oil", "Garlic", "Lemon Juice", "Paprika", "Salt", "Black Pepper", "Fresh Parsley"],
+        difficulty: "Easy",
+        servings: "4",
+        recipeType: "Main Course",
+        Instructions: [
+            "Preheat oven to 375°F (190°C).",
+            "In a bowl, mix olive oil, minced garlic, lemon juice, paprika, salt, and black pepper.",
+            "Place chicken breasts in a baking dish and pour the mixture over them.",
+            "Bake in the preheated oven for 25-30 minutes or until chicken is cooked through.",
+            "Garnish with chopped fresh parsley before serving."
+        ],
+        NutritionalTable: [
+            "Calories: 165",
+            "Protein: 26g",
+            "Fat: 4.5g",
+            "Carbohydrates: 3g",
+            "Sodium: 322mg"
+        ],
+        IngredientsQuantity: [
+            "4 medium-sized chicken breasts",
+            "2 tablespoons olive oil",
+            "3 cloves garlic, minced",
+            "2 tablespoons lemon juice",
+            "1 teaspoon paprika",
+            "1/2 teaspoon salt",
+            "1/4 teaspoon black pepper",
+            "2 tablespoons chopped fresh parsley"
+        ],
+        time: 35,
+        recipeID: 101,
+        imgRecipe: "https://example.com/images/chicken-breast-recipe.jpg"
+    };
+
+    const nutritionistID = generateTestnutritionistID();
+
+    const { body, statusCode } = await t.context.got.post(
+        `nutritionist/${nutritionistID}/recipe/`, {
+        json: mockRecipeData,
+    });
+    // Assertions
+    t.is(statusCode, 200, 'Should return 200 ');
+    t.like(body, {
+        IngredientsName: [ 'IngredientsName', 'IngredientsName' ],
+        difficulty: 'difficulty',
+        servings: 'servings',
+        recipeType: 'recipeType',
+        Instructions: [ 'Instructions', 'Instructions' ],
+        NutritionalTable: [ 'NutritionalTable', 'NutritionalTable' ],
+        IngredientsQuantity: [ 'IngredientsQuantity', 'IngredientsQuantity' ],
+        time: 6,
+        recipeID: 0,
+        imgRecipe: 'imgRecipe'
+      }, 'Should return the correct response body');
+    console.log(body);
+});
+
+test('Post RecipeNutritionist returns error 400 with bad parameters', async (t) => {
+    // Assuming mockRecipeData contains some invalid parameters
+    const mockRecipeData = {
+        IngredientsName: ["Chicken Breast", "Olive Oil", "Garlic", "Lemon Juice", "Paprika", "Salt", "Black Pepper", "Fresh Parsley"],
+        difficulty: "Easy",
+        servings: "4",
+        recipeType: "Main Course",
+        Instructions: [
+            "Preheat oven to 375°F (190°C).",
+            "In a bowl, mix olive oil, minced garlic, lemon juice, paprika, salt, and black pepper.",
+            "Place chicken breasts in a baking dish and pour the mixture over them.",
+            "Bake in the preheated oven for 25-30 minutes or until chicken is cooked through.",
+            "Garnish with chopped fresh parsley before serving."
+        ],
+        NutritionalTable: [
+            "Calories: 165",
+            "Protein: 26g",
+            "Fat: 4.5g",
+            "Carbohydrates: 3g",
+            "Sodium: 322mg"
+        ],
+        IngredientsQuantity: [
+            "4 medium-sized chicken breasts",
+            "2 tablespoons olive oil",
+            "3 cloves garlic, minced",
+            "2 tablespoons lemon juice",
+            "1 teaspoon paprika",
+            "1/2 teaspoon salt",
+            "1/4 teaspoon black pepper",
+            "2 tablespoons chopped fresh parsley"
+        ],
+        time: '35',
+        recipeID: 156, 
+        imgRecipe: "https://example.com/images/chicken-breast-recipe.jpg"
+    };
+
+    const nutritionistID = '@';
+
+    const { body, statusCode } = await t.context.got.post(
+        `nutritionist/${nutritionistID}/recipe/`, {
+        json: mockRecipeData,
+    });
+
+    t.is(statusCode, 400, 'Should return 400 Bad Request for non-numeric userID');
+});
+
+test('Post RecipeNutritionist returns error 404 with non existed id', async (t) => {
+    // Assuming mockRecipeData contains some invalid parameters
+    const mockRecipeData = {
+        IngredientsName: ["Chicken Breast", "Olive Oil", "Garlic", "Lemon Juice", "Paprika", "Salt", "Black Pepper", "Fresh Parsley"],
+        difficulty: "Easy",
+        servings: "4",
+        recipeType: "Main Course",
+        Instructions: [
+            "Preheat oven to 375°F (190°C).",
+            "In a bowl, mix olive oil, minced garlic, lemon juice, paprika, salt, and black pepper.",
+            "Place chicken breasts in a baking dish and pour the mixture over them.",
+            "Bake in the preheated oven for 25-30 minutes or until chicken is cooked through.",
+            "Garnish with chopped fresh parsley before serving."
+        ],
+        NutritionalTable: [
+            "Calories: 165",
+            "Protein: 26g",
+            "Fat: 4.5g",
+            "Carbohydrates: 3g",
+            "Sodium: 322mg"
+        ],
+        IngredientsQuantity: [
+            "4 medium-sized chicken breasts",
+            "2 tablespoons olive oil",
+            "3 cloves garlic, minced",
+            "2 tablespoons lemon juice",
+            "1 teaspoon paprika",
+            "1/2 teaspoon salt",
+            "1/4 teaspoon black pepper",
+            "2 tablespoons chopped fresh parsley"
+        ],
+        time: '35',
+        recipeID: 156, 
+        imgRecipe: "https://example.com/images/chicken-breast-recipe.jpg"
+    };
+
+    const nutritionistID = '';
+
+    const { body, statusCode } = await t.context.got.post(
+        `nutritionist/${nutritionistID}/recipe/`, {
+        json: mockRecipeData,
+    });
+
+    t.is(statusCode, 404, 'Should return 404 Not Found for non existed id');
+});
+
 test('PUT RecipeNutritionist returns error 400 with bad parameters', async (t) => {
     // Assuming mockRecipeData contains some invalid parameters
     const mockRecipeData = {
@@ -137,7 +419,7 @@ test('PUT RecipeNutritionist returns error 400 with bad parameters', async (t) =
 
 //Delete Recipe
 test('Test of the Delete Recipe with success', async (t) => {
-    const { body, statusCode } = await t.context.got.delete(
+    const { statusCode } = await t.context.got.delete(
         `nutritionist/${nutritionistID}/recipe/${recipeID}`
     );
 
