@@ -15,6 +15,13 @@ test.after.always((t) => {
     t.context.server.close();
 })
 
+/** 
+ * GET
+ * `user/{userID}`
+ * Get user details
+ */
+
+// Endpoint tests
 test('GET user returns correct response', async (t) => {
     t.timeout(5000);
     const userID = 123;
@@ -48,27 +55,13 @@ test('GET user returns correct response', async (t) => {
     t.is(typeof body.height, "number", "height should be a number");
 });
 
-test('getUserDetails returns user details', async (t) => {
-    const userID = 123;
-    const userDetails = await getUserDetails(userID);
-
-    t.truthy(userDetails.allergies, "Response should have allergies property");
-    t.is(userDetails.birthday, '2000-01-23T04:56:07.000+00:00');
-    t.is(userDetails.meal, 'meal');
-    t.is(userDetails.allergies, 'allergies');
-
-    t.is(typeof userDetails.userID, 'number');
-    t.is(typeof userDetails.username, 'string');
-    t.is(typeof userDetails.height, 'number');
-});
-
 test('GET user with minimum valid user ID returns correct response', async (t) => {
-    const { statusCode } = await t.context.got('user/1');
+    const { statusCode } = await t.context.got.get('user/1');
     t.is(statusCode, 200, "Should return 200 OK for valid userID");
 });
 
 test('GET user with maximum valid user ID returns correct response', async (t) => {
-    const { statusCode } = await t.context.got('user/1000000');
+    const { statusCode } = await t.context.got.get('user/1000000');
     t.is(statusCode, 200, "Should return 200 OK for valid userID");
 });
 
@@ -76,7 +69,7 @@ const userIDfor400 = [1.2, 'abc', true, '@special', null, undefined, '!', '@', '
 test('GET user with non-numeric user ID returns 400', async (t) => {
     for (const userID of userIDfor400) {
         const nonNumericUserID = userID;
-        const { body, statusCode } = await t.context.got(`user/${nonNumericUserID}`);
+        const { body, statusCode } = await t.context.got.get(`user/${nonNumericUserID}`);
         // Assertions
         t.is(statusCode, 400, 'Should return 400 Bad Request for non-numeric userID');
         t.assert(body.message);
@@ -92,12 +85,9 @@ test('GET user with non-numeric user ID returns 400', async (t) => {
 });
 
 const userIDfor405 = ['', []]
-test('GET user with non-numeric user ID returns 404', async (t) => {
+test('GET user with non-numeric user ID returns 405', async (t) => {
     for (const userID of userIDfor405) {
-        const nonNumericUserID = userID;
-
-        const { body, statusCode } = await t.context.got(`user/${nonNumericUserID}`);
-
+        const { body, statusCode } = await t.context.got.get(`user/${userID}`);
         // Assertions
         t.is(statusCode, 405, 'Should return 405 Forbidden.');
         t.assert(body.message);
@@ -113,11 +103,34 @@ test('GET user with non-numeric user ID returns 404', async (t) => {
 
 test('GET user returns expected headers', async (t) => {
     const userID = 123;
-    const { headers, statusCode } = await t.context.got(`user/${userID}`);
+    const { headers, statusCode } = await t.context.got.get(`user/${userID}`);
 
     t.is(statusCode, 200, "Should return 200 OK for valid userID");
     t.truthy(headers['content-type'], 'Response should have content-type header');
 });
+
+// Unit tests
+test('getUserDetails returns user details', async (t) => {
+    const userID = 123;
+    const userDetails = await getUserDetails(userID);
+
+    t.truthy(userDetails.allergies, "Response should have allergies property");
+    t.is(userDetails.birthday, '2000-01-23T04:56:07.000+00:00');
+    t.is(userDetails.meal, 'meal');
+    t.is(userDetails.allergies, 'allergies');
+
+    t.is(typeof userDetails.userID, 'number');
+    t.is(typeof userDetails.username, 'string');
+    t.is(typeof userDetails.height, 'number');
+});
+
+/** 
+ * PUT
+ * `user/{userID}`
+ * Update user details
+ */
+
+// Endpoint tests
 const mockRequestBody = {
     userID: 12,
     username: "testName",
@@ -131,6 +144,7 @@ const mockRequestBody = {
     level: "testLevel",
     goal: "testGoal"
 };
+
 test('PUT editUserDetails returns success response with required fields', async (t) => {
     const userID = 0;
     mockRequestBody.userID = userID;
@@ -189,6 +203,7 @@ test('PUT editUserDetails with invalid userID returns fail response 404 ', async
     }
 });
 
+// Unit tests
 test('editUserDetails successfully edits user details', async (t) => {
     const userID = 123;
     mockRequestBody.userID = 0;
@@ -215,6 +230,7 @@ test('editUserDetails successfully edits user details', async (t) => {
         "username": "username",
         "height": 6.027456183070403
     });
+
 });
 
 test('POST  addUserDetails returns success response with required fields', async (t) => {
@@ -303,3 +319,4 @@ test('POST addUserDetails with invalid userID returns fail response - 400 ', asy
     t.is(statusCode, 400, 'Should return 400 Bad input type for user');
     
 });
+

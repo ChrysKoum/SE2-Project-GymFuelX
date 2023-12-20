@@ -274,6 +274,7 @@ test('Test of the Delete Report with 405 error code', async (t) => {
     );
     
     t.is(statusCode, 405, "Should return 405 DELETE method not allowed");
+    t.deepEqual(body.message, 'DELETE method not allowed');
 });
 
 
