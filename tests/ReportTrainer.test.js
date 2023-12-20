@@ -4,7 +4,7 @@ const listen = require('test-listen');
 const got = require('got');
 const app = require('../index');
 
-const { getGymProgramReports, getGymProgramReport, updateReport } = require('../service/ReportTrainerService');
+const { getGymProgramReports, getGymProgramReport, deleteReport, updateReport } = require('../service/ReportTrainerService');
 
 test.before(async (t) => {
     t.context.server = http.createServer(app);
@@ -21,7 +21,7 @@ const reportID = generateTestReportID();
 
 //test of the function deleteReport with success
 test('Test of the function deleteReport with success', async (t) => {
-    
+
     const Report = await deleteReport(TrainerID, reportID);
     t.is(Report, undefined, 'deleteReport should be a undefined');
 });
