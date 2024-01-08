@@ -1,5 +1,19 @@
 'use strict';
 
+function generateExampleRecipe() {
+  return {
+    "IngredientsName": ["IngredientsName", "IngredientsName"],
+    "difficulty": "difficulty",
+    "servings": "servings",
+    "recipeType": "recipeType",
+    "Instructions": ["Instructions", "Instructions"],
+    "NutritionalTable": ["NutritionalTable", "NutritionalTable"],
+    "IngredientsQuantity": ["IngredientsQuantity", "IngredientsQuantity"],
+    "time": 6,
+    "recipeID": 0,
+    "imgRecipe": "imgRecipe"
+  };
+}
 
 /**
  * Add a new recipe
@@ -9,21 +23,10 @@
  * nutritionistID Integer The nutritionist's ID
  * returns Recipe
  **/
-exports.addRecipe = function(body,nutritionistID) {
-  return new Promise(function(resolve, reject) {
+exports.addRecipe = function (body, nutritionistID) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
-    examples['application/json'] = {
-  "IngredientsName" : [ "IngredientsName", "IngredientsName" ],
-  "difficulty" : "difficulty",
-  "servings" : "servings",
-  "recipeType" : "recipeType",
-  "Instructions" : [ "Instructions", "Instructions" ],
-  "NutritionalTable" : [ "NutritionalTable", "NutritionalTable" ],
-  "IngredientsQuantity" : [ "IngredientsQuantity", "IngredientsQuantity" ],
-  "time" : 6,
-  "recipeID" : 0,
-  "imgRecipe" : "imgRecipe"
-};
+    examples['application/json'] = generateExampleRecipe();
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -31,7 +34,6 @@ exports.addRecipe = function(body,nutritionistID) {
     }
   });
 }
-
 
 /**
  * Delete recipe
@@ -41,12 +43,11 @@ exports.addRecipe = function(body,nutritionistID) {
  * recipeID Integer The ID of the recipe that is being deleted.
  * no response value expected for this operation
  **/
-exports.deleteRecipe = function(nutritionistID,recipeID) {
-  return new Promise(function(resolve, reject) {
+exports.deleteRecipe = function (nutritionistID, recipeID) {
+  return new Promise(function (resolve, reject) {
     resolve();
   });
 }
-
 
 /**
  * Get recipe
@@ -56,21 +57,10 @@ exports.deleteRecipe = function(nutritionistID,recipeID) {
  * recipeID Integer The ID of the recipe .
  * returns Recipe
  **/
-exports.getRecipeNutrionist = function(nutritionistID,recipeID) {
-  return new Promise(function(resolve, reject) {
+exports.getRecipeNutrionist = function (nutritionistID, recipeID) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
-    examples['application/json'] = {
-  "IngredientsName" : [ "IngredientsName", "IngredientsName" ],
-  "difficulty" : "difficulty",
-  "servings" : "servings",
-  "recipeType" : "recipeType",
-  "Instructions" : [ "Instructions", "Instructions" ],
-  "NutritionalTable" : [ "NutritionalTable", "NutritionalTable" ],
-  "IngredientsQuantity" : [ "IngredientsQuantity", "IngredientsQuantity" ],
-  "time" : 6,
-  "recipeID" : 0,
-  "imgRecipe" : "imgRecipe"
-};
+    examples['application/json'] = generateExampleRecipe();
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -78,7 +68,6 @@ exports.getRecipeNutrionist = function(nutritionistID,recipeID) {
     }
   });
 }
-
 
 /**
  * Update/Correct recipe
@@ -89,9 +78,8 @@ exports.getRecipeNutrionist = function(nutritionistID,recipeID) {
  * recipeID Integer The ID of the recipe that is being updated.
  * no response value expected for this operation
  **/
-exports.updateRecipeNutritionist = function(body,nutritionistID,recipeID) {
-  return new Promise(function(resolve, reject) {
+exports.updateRecipeNutritionist = function () {
+  return new Promise(function (resolve, reject) {
     resolve();
   });
 }
-
