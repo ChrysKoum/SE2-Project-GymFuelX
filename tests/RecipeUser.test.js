@@ -16,11 +16,7 @@ test.after.always((t) => {
     t.context.server.close();
 });
 
-test("getRecipe returns the correct structure for a valid userID and recipeID", async (t) => {
-    const userID = 12;
-    const recipeID = 15;
-    const recipe = await getRecipe(userID, recipeID);
-
+function validateRecipe(t, recipe) {
     t.truthy(recipe.recipeType);
     t.truthy(recipe.imgRecipe);
     t.truthy(recipe.Instructions);
@@ -31,7 +27,6 @@ test("getRecipe returns the correct structure for a valid userID and recipeID", 
     t.truthy(recipe.difficulty);
     t.truthy(recipe.servings);
 
-    // Validate the response structure and data types
     t.is(
         typeof recipe.recipeType,
         "string",
@@ -45,27 +40,22 @@ test("getRecipe returns the correct structure for a valid userID and recipeID", 
     t.is(
         typeof recipe.Instructions,
         'object',
-        "Instructions should be a object"
+        "Instructions should be an object"
     );
     t.is(
         typeof recipe.IngredientsName,
         'object',
-        "IngredientsName should be a object"
+        "IngredientsName should be an object"
     );
     t.is(
         typeof recipe.NutritionalTable,
         'object',
-        "NutritionalTable should be a object"
-    );
-    t.is(
-        typeof recipe.NutritionalTable,
-        'object',
-        "NutritionalTable should be a object"
+        "NutritionalTable should be an object"
     );
     t.is(
         typeof recipe.IngredientsQuantity,
         'object',
-        "IngredientsQuantity should be a object"
+        "IngredientsQuantity should be an object"
     );
     t.is(
         typeof recipe.time,
@@ -82,6 +72,14 @@ test("getRecipe returns the correct structure for a valid userID and recipeID", 
         "string",
         "servings should be a string"
     );
+}
+
+test("getRecipe returns the correct structure for a valid userID and recipeID", async (t) => {
+    const userID = 12;
+    const recipeID = 15;
+    const recipe = await getRecipe(userID, recipeID);
+
+    validateRecipe(t, recipe);
 
 });
 
@@ -95,70 +93,11 @@ test("getRecipe API endpoint returns a response with the correct structure and d
 
     // Assuming the API returns a 200 status code for valid requests
     t.is(statusCode, 200, "Should return 200 OK for valid userID and recipeIDs");
-
+        
     //test response body
-    t.truthy(body.recipeType);
-    t.truthy(body.imgRecipe);
-    t.truthy(body.Instructions);
-    t.truthy(body.IngredientsName);
-    t.truthy(body.NutritionalTable);
-    t.truthy(body.IngredientsQuantity);
-    t.truthy(body.time);
-    t.truthy(body.difficulty);
-    t.truthy(body.servings);
-
-    // Validate the response structure and data types
-    t.is(
-        typeof body.recipeType,
-        "string",
-        "recipeType should be a string"
-    );
-    t.is(
-        typeof body.imgRecipe,
-        "string",
-        "imgRecipe should be a string"
-    );
-    t.is(
-        typeof body.Instructions,
-        'object',
-        "Instructions should be a object"
-    );
-    t.is(
-        typeof body.IngredientsName,
-        'object',
-        "IngredientsName should be a object"
-    );
-    t.is(
-        typeof body.NutritionalTable,
-        'object',
-        "NutritionalTable should be a object"
-    );
-    t.is(
-        typeof body.NutritionalTable,
-        'object',
-        "NutritionalTable should be a object"
-    );
-    t.is(
-        typeof body.IngredientsQuantity,
-        'object',
-        "IngredientsQuantity should be a object"
-    );
-    t.is(
-        typeof body.time,
-        "number",
-        "time should be a number"
-    );
-    t.is(
-        typeof body.difficulty,
-        "string",
-        "difficulty should be a string"
-    );
-    t.is(
-        typeof body.servings,
-        "string",
-        "servings should be a string"
-    );
-
+    const recipe=body;
+    validateRecipe(t, recipe);
+    
 });
 
 test('getRecipe with minimum valid user ID and recipeID returns correct response', async (t) => {
@@ -263,69 +202,8 @@ test("getAllRecipies returns the correct structure for a valid userID", async (t
     const userID = 12;
     const recipies = await getAllRecipies(userID);
     for (const recipe of recipies) {
-        t.truthy(recipe.recipeType);
-        t.truthy(recipe.imgRecipe);
-        t.truthy(recipe.Instructions);
-        t.truthy(recipe.IngredientsName);
-        t.truthy(recipe.NutritionalTable);
-        t.truthy(recipe.IngredientsQuantity);
-        t.truthy(recipe.time);
-        t.truthy(recipe.difficulty);
-        t.truthy(recipe.servings);
-
-        // Validate the response structure and data types
-        t.is(
-            typeof recipe.recipeType,
-            "string",
-            "recipeType should be a string"
-        );
-        t.is(
-            typeof recipe.imgRecipe,
-            "string",
-            "imgRecipe should be a string"
-        );
-        t.is(
-            typeof recipe.Instructions,
-            'object',
-            "Instructions should be a object"
-        );
-        t.is(
-            typeof recipe.IngredientsName,
-            'object',
-            "IngredientsName should be a object"
-        );
-        t.is(
-            typeof recipe.NutritionalTable,
-            'object',
-            "NutritionalTable should be a object"
-        );
-        t.is(
-            typeof recipe.NutritionalTable,
-            'object',
-            "NutritionalTable should be a object"
-        );
-        t.is(
-            typeof recipe.IngredientsQuantity,
-            'object',
-            "IngredientsQuantity should be a object"
-        );
-        t.is(
-            typeof recipe.time,
-            "number",
-            "time should be a number"
-        );
-        t.is(
-            typeof recipe.difficulty,
-            "string",
-            "difficulty should be a string"
-        );
-        t.is(
-            typeof recipe.servings,
-            "string",
-            "servings should be a string"
-        );
+        validateRecipe(t, recipe);
     }
-
 });
 
 test("getAllRecipies API endpoint returns a response with the correct structure and data types", async (t) => {
@@ -340,67 +218,7 @@ test("getAllRecipies API endpoint returns a response with the correct structure 
 
     //test response body
     for (const recipe of body) {
-        t.truthy(recipe.recipeType);
-        t.truthy(recipe.imgRecipe);
-        t.truthy(recipe.Instructions);
-        t.truthy(recipe.IngredientsName);
-        t.truthy(recipe.NutritionalTable);
-        t.truthy(recipe.IngredientsQuantity);
-        t.truthy(recipe.time);
-        t.truthy(recipe.difficulty);
-        t.truthy(recipe.servings);
-
-        // Validate the response structure and data types
-        t.is(
-            typeof recipe.recipeType,
-            "string",
-            "recipeType should be a string"
-        );
-        t.is(
-            typeof recipe.imgRecipe,
-            "string",
-            "imgRecipe should be a string"
-        );
-        t.is(
-            typeof recipe.Instructions,
-            'object',
-            "Instructions should be a object"
-        );
-        t.is(
-            typeof recipe.IngredientsName,
-            'object',
-            "IngredientsName should be a object"
-        );
-        t.is(
-            typeof recipe.NutritionalTable,
-            'object',
-            "NutritionalTable should be a object"
-        );
-        t.is(
-            typeof recipe.NutritionalTable,
-            'object',
-            "NutritionalTable should be a object"
-        );
-        t.is(
-            typeof recipe.IngredientsQuantity,
-            'object',
-            "IngredientsQuantity should be a object"
-        );
-        t.is(
-            typeof recipe.time,
-            "number",
-            "time should be a number"
-        );
-        t.is(
-            typeof recipe.difficulty,
-            "string",
-            "difficulty should be a string"
-        );
-        t.is(
-            typeof recipe.servings,
-            "string",
-            "servings should be a string"
-        );
+        validateRecipe(t, recipe);
     }
 });
 
