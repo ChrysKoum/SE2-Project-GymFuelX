@@ -1,6 +1,10 @@
 'use strict';
 
 var utils = require('../utils/writer.js');
+/**
+ * Controller for handling trainer reports.
+ * @module ReportTrainer
+ */
 var ReportTrainer = require('../service/ReportTrainerService');
 
 module.exports.deleteReport = function deleteReport (req, res, next, trainerID, reportID) {
