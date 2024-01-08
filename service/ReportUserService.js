@@ -1,4 +1,5 @@
 "use strict";
+const serviceUtils = require("./serviceUtils");
 
 /**
  * Create a report to this recipe
@@ -9,10 +10,8 @@
  * recipeID Integer the recipe's ID
  * no response value expected for this operation
  **/
-exports.createDietReport = function(body,userID,recipeID) {
-  return new Promise(function(resolve, reject) {
-    resolve();
-  });
+exports.deleteReport = function () {
+  return serviceUtils.resolveNoValue();
 };
 
 /**
@@ -23,8 +22,6 @@ exports.createDietReport = function(body,userID,recipeID) {
  * userID Integer the User's ID
  * no response value expected for this operation
  **/
-exports.createGymReport = function(body,userID) {
-  return new Promise(function(resolve, reject) {
-    resolve();
-  });
+exports.createGymReport = function () {
+  return serviceUtils.resolveNoValue();
 };

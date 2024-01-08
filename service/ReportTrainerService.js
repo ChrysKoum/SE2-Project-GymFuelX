@@ -1,5 +1,5 @@
 'use strict';
-
+const serviceUtils = require("./serviceUtils");
 
 /**
  * Get gym program reports
@@ -9,10 +9,8 @@
  * reportID Integer The ID of the report that is being deleted.
  * no response value expected for this operation
  **/
-exports.deleteReport = function(trainerID,reportID) {
-  return new Promise(function(resolve, reject) {
-    resolve();
-  });
+exports.deleteReport = function() {
+  return serviceUtils.resolveNoValue();
 }
 
 
@@ -24,8 +22,8 @@ exports.deleteReport = function(trainerID,reportID) {
  * reportID Integer The report ID
  * returns Report
  **/
-exports.getGymProgramReport = function(trainerID,reportID) {
-  return new Promise(function(resolve, reject) {
+exports.getGymProgramReport = function() {
+  return new Promise(function(resolve) {
     var examples = {};
     examples['application/json'] = {
   "ByUser" : 6,
@@ -48,25 +46,10 @@ exports.getGymProgramReport = function(trainerID,reportID) {
  * trainerID Integer The trainer Id
  * returns AllReport
  **/
-exports.getGymProgramReports = function(trainerID) {
-  return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = [ {
-  "ByUser" : 6,
-  "ID" : 0,
-  "isGym-Diet" : true
-}, {
-  "ByUser" : 6,
-  "ID" : 0,
-  "isGym-Diet" : true
-} ];
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
-    }
-  });
-}
+
+exports.getGymProgramReports = function () {
+  return serviceUtils.getReportExampleResponse();
+};
 
 
 /**
@@ -78,9 +61,7 @@ exports.getGymProgramReports = function(trainerID) {
  * reportID Integer The report ID
  * no response value expected for this operation
  **/
-exports.updateReport = function(body,trainerID,reportID) {
-  return new Promise(function(resolve, reject) {
-    resolve();
-  });
-}
+exports.updateReport = function () {
+  return serviceUtils.resolveNoValue();
+};
 

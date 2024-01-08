@@ -1,4 +1,5 @@
 'use strict';
+const serviceUtils = require("./serviceUtils");
 
 
 /**
@@ -8,39 +9,9 @@
  * userID Integer the user's ID
  * returns AllRecipe
  **/
-exports.getAllRecipies = function(userID) {
-  return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = [ {
-  "IngredientsName" : [ "IngredientsName", "IngredientsName" ],
-  "difficulty" : "difficulty",
-  "servings" : "servings",
-  "recipeType" : "recipeType",
-  "Instructions" : [ "Instructions", "Instructions" ],
-  "NutritionalTable" : [ "NutritionalTable", "NutritionalTable" ],
-  "IngredientsQuantity" : [ "IngredientsQuantity", "IngredientsQuantity" ],
-  "time" : 6,
-  "recipeID" : 0,
-  "imgRecipe" : "imgRecipe"
-}, {
-  "IngredientsName" : [ "IngredientsName", "IngredientsName" ],
-  "difficulty" : "difficulty",
-  "servings" : "servings",
-  "recipeType" : "recipeType",
-  "Instructions" : [ "Instructions", "Instructions" ],
-  "NutritionalTable" : [ "NutritionalTable", "NutritionalTable" ],
-  "IngredientsQuantity" : [ "IngredientsQuantity", "IngredientsQuantity" ],
-  "time" : 6,
-  "recipeID" : 0,
-  "imgRecipe" : "imgRecipe"
-} ];
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
-    }
-  });
-}
+exports.getAllRecipies = function () {
+  return serviceUtils.getRecipeExampleResponse();
+};
 
 
 /**
@@ -51,26 +22,7 @@ exports.getAllRecipies = function(userID) {
  * recipeID Integer The ID of the recipe
  * returns Recipe
  **/
-exports.getRecipe = function(userID,recipeID) {
-  return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-  "IngredientsName" : [ "IngredientsName", "IngredientsName" ],
-  "difficulty" : "difficulty",
-  "servings" : "servings",
-  "recipeType" : "recipeType",
-  "Instructions" : [ "Instructions", "Instructions" ],
-  "NutritionalTable" : [ "NutritionalTable", "NutritionalTable" ],
-  "IngredientsQuantity" : [ "IngredientsQuantity", "IngredientsQuantity" ],
-  "time" : 6,
-  "recipeID" : 0,
-  "imgRecipe" : "imgRecipe"
+exports.getRecipe = function () {
+  return serviceUtils.getRecipeExampleResponse(true);
 };
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
-    }
-  });
-}
 

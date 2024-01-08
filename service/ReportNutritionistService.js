@@ -1,5 +1,5 @@
 'use strict';
-
+const serviceUtils = require("./serviceUtils");
 
 /**
  * delete recipe report
@@ -9,10 +9,8 @@
  * reportID Integer The ID of the recipe report that is being deleted.
  * no response value expected for this operation
  **/
-exports.deleteRecipeReport = function(nutritionistID,reportID) {
-  return new Promise(function(resolve, reject) {
-    resolve();
-  });
+exports.deleteRecipeReport = function() {
+  return serviceUtils.resolveNoValue();
 }
 
 
@@ -48,25 +46,9 @@ exports.getRecipeReport = function(nutritionistID,reportID) {
  * nutritionistID Integer The nutritionist ID that see the recipe reports
  * returns AllReport
  **/
-exports.getRecipeReports = function(nutritionistID) {
-  return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = [ {
-  "ByUser" : 6,
-  "ID" : 0,
-  "isGym-Diet" : true
-}, {
-  "ByUser" : 6,
-  "ID" : 0,
-  "isGym-Diet" : true
-} ];
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
-    }
-  });
-}
+exports.getRecipeReports = function (nutritionistID) {
+  return serviceUtils.getReportExampleResponse();
+};
 
 
 /**
@@ -78,9 +60,7 @@ exports.getRecipeReports = function(nutritionistID) {
  * reportID Integer The ID of the recipe report that is being updated.
  * no response value expected for this operation
  **/
-exports.updateRecipeReport = function(body,nutritionistID,reportID) {
-  return new Promise(function(resolve, reject) {
-    resolve();
-  });
+exports.updateRecipeReport = function() {
+  return serviceUtils.resolveNoValue();
 }
 
