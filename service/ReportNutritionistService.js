@@ -22,8 +22,8 @@ exports.deleteRecipeReport = function() {
  * reportID Integer The ID of the recipe report.
  * returns Report
  **/
-exports.getRecipeReport = function(nutritionistID,reportID) {
-  return new Promise(function(resolve, reject) {
+exports.getRecipeReport = function() {
+  return new Promise(function(resolve) {
     var examples = {};
     examples['application/json'] = {
   "ByUser" : 6,
@@ -46,7 +46,7 @@ exports.getRecipeReport = function(nutritionistID,reportID) {
  * nutritionistID Integer The nutritionist ID that see the recipe reports
  * returns AllReport
  **/
-exports.getRecipeReports = function (nutritionistID) {
+exports.getRecipeReports = function () {
   return serviceUtils.getReportExampleResponse();
 };
 

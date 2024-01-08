@@ -50,7 +50,7 @@ exports.getRecipeNutrionist = function () {
  * recipeID Integer The ID of the recipe that is being updated.
  * no response value expected for this operation
  **/
-exports.updateRecipeNutritionist = function (body, nutritionistID, recipeID) {
+exports.updateRecipeNutritionist = function () {
   return recipeUtils.resolveNoValue();
 };
 

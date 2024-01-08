@@ -7,8 +7,8 @@
  * userID Integer The user's ID
  * returns DietProgram
  **/
-exports.getDietProgram = function (userID) {
-  return new Promise(function (resolve, reject) {
+exports.getDietProgram = function () {
+  return new Promise(function (resolve) {
     var examples = {};
     examples["application/json"] = {
       dayDietProgramIDs: [

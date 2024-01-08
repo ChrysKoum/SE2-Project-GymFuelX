@@ -8,8 +8,8 @@
  * userID Integer the user's ID
  * returns GymProgram
  **/
-exports.getGymProgram = function(userID) {
-  return new Promise(function(resolve, reject) {
+exports.getGymProgram = function() {
+  return new Promise(function(resolve) {
     var examples = {};
     examples['application/json'] = {
   "GymProgramDetails" : [ {

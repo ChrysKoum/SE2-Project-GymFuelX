@@ -9,8 +9,8 @@
  * excerciseID Integer The ID of the excercise
  * returns Exercise
  **/
-exports.getExcercise = function(userID,excerciseID) {
-  return new Promise(function(resolve, reject) {
+exports.getExcercise = function() {
+  return new Promise(function(resolve) {
     var examples = {};
     examples['application/json'] = {
   "exerciseDescription" : "exerciseDescription",
