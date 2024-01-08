@@ -9,7 +9,7 @@ const serviceUtils = require("./serviceUtils");
  * userID Integer the user's ID
  * returns AllRecipe
  **/
-exports.getAllRecipies = function () {
+exports.getAllRecipies = function (userID) {
   return serviceUtils.getRecipeExampleResponse();
 };
 
@@ -22,7 +22,7 @@ exports.getAllRecipies = function () {
  * recipeID Integer The ID of the recipe
  * returns Recipe
  **/
-exports.getRecipe = function () {
+exports.getRecipe = function (userID, recipeID) {
   return serviceUtils.getRecipeExampleResponse(true);
 };
 

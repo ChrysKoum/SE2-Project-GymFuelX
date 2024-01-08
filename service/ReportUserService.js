@@ -10,7 +10,7 @@ const serviceUtils = require("./serviceUtils");
  * recipeID Integer the recipe's ID
  * no response value expected for this operation
  **/
-exports.deleteReport = function () {
+exports.deleteReport = function (body, userID, recipeID) {
   return serviceUtils.resolveNoValue();
 };
 
@@ -22,6 +22,6 @@ exports.deleteReport = function () {
  * userID Integer the User's ID
  * no response value expected for this operation
  **/
-exports.createGymReport = function () {
+exports.createGymReport = function (body, userID) {
   return serviceUtils.resolveNoValue();
 };

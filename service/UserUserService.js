@@ -7,7 +7,7 @@ const serviceUtils = require("./serviceUtils");
  * body User_body
  * returns User
  **/
-exports.addUserDetails = function () {
+exports.addUserDetails = function (body) {
   return serviceUtils.getUserExampleResponse();
 };
 
@@ -19,7 +19,7 @@ exports.addUserDetails = function () {
  * userID Integer The user's ID
  * returns User
  **/
-exports.editUserDetails = function () {
+exports.editUserDetails = function (body, userID) {
   return serviceUtils.getUserExampleResponse();
 };
 
@@ -30,6 +30,6 @@ exports.editUserDetails = function () {
  * userID Integer The user's ID
  * returns User
  **/
-exports.getUserDetails = function () {
+exports.getUserDetails = function (userID) {
   return serviceUtils.getUserExampleResponse();
 };

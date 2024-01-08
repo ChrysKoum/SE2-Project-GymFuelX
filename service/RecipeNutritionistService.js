@@ -9,7 +9,7 @@
  * nutritionistID Integer The nutritionist's ID
  * returns Recipe
  **/
-exports.addRecipe = function () {
+exports.addRecipe = function (body, nutritionistID) {
   return recipeUtils.getRecipeExampleResponse(true);
 };
 
@@ -23,7 +23,7 @@ exports.addRecipe = function () {
  * recipeID Integer The ID of the recipe that is being deleted.
  * no response value expected for this operation
  **/
-exports.deleteRecipe = function () {
+exports.deleteRecipe = function (nutritionistID, recipeID) {
   return recipeUtils.resolveNoValue();
 };
 
@@ -36,8 +36,8 @@ exports.deleteRecipe = function () {
  * recipeID Integer The ID of the recipe .
  * returns Recipe
  **/
-exports.getRecipeNutrionist = function () {
-  return recipeUtils.getRecipeExampleResponse(true);
+exports.getRecipeNutrionist = function (nutritionistID, recipeID) {
+  return recipeUtils.getRecipeExampleResponse(nutritionistID, recipeID, true);
 };
 
 
@@ -50,7 +50,7 @@ exports.getRecipeNutrionist = function () {
  * recipeID Integer The ID of the recipe that is being updated.
  * no response value expected for this operation
  **/
-exports.updateRecipeNutritionist = function () {
+exports.updateRecipeNutritionist = function (body, nutritionistID, recipeID) {
   return recipeUtils.resolveNoValue();
 };
 
