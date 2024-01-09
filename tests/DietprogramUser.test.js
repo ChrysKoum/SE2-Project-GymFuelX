@@ -3,6 +3,7 @@ const test = require("ava");
 const listen = require("test-listen");
 const got = require("got");
 const app = require("../index.js");
+const { testForNonNumericUserID } = require("../utils/testUtils.js");
 
 const { getDietProgram } = require("../service/DietprogramUserService");
 
@@ -123,51 +124,11 @@ test("GET diet program with maximum valid user ID returns correct response", asy
 });
 
 // Example test for invalid userID (400 response)
-const userIDfor400 = [
-  1.2,
-  "abc",
-  true,
-  "@special",
-  null,
-  undefined,
-  "!",
-  "@",
-  "^",
-  "&",
-  "*",
-];
 
 test("GET user with non-numeric user ID returns 400", async (t) => {
-  for (const userID of userIDfor400) {
-    const nonNumericUserID = userID;
-    const { body, statusCode } = await t.context.got.get(
-      `user/${nonNumericUserID}/dietprogram`
-    );
-
-    // Assertions
-    t.is(
-      statusCode,
-      400,
-      "Should return 400 Bad Request for non-numeric userID"
-    );
-    t.assert(body.message, "Response should have a message");
-    t.is(
-      body.message,
-      "request.params.userID should be integer",
-      "Response message should indicate an integer is required"
-    );
-    t.deepEqual(
-      body.errors,
-      [
-        {
-          path: ".params.userID",
-          message: "should be integer",
-          errorCode: "type.openapi.validation",
-        },
-      ],
-      "Response errors should match the expected structure"
-    );
-  }
+  await testForNonNumericUserID(t, async (userID) => {
+    return t.context.got.get(`user/${userID}/dietprogram`);
+  }, 400, "Bad Request");
 });
 
 // Example test for non-existent userID (404 response)

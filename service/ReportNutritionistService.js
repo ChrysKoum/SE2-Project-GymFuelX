@@ -1,5 +1,6 @@
 'use strict';
 
+const serviceUtils = require("./serviceUtils");
 
 /**
  * delete recipe report
@@ -51,15 +52,7 @@ exports.getRecipeReport = function(nutritionistID,reportID) {
 exports.getRecipeReports = function(nutritionistID) {
   return new Promise(function(resolve, reject) {
     var examples = {};
-    examples['application/json'] = [ {
-  "ByUser" : 6,
-  "ID" : 0,
-  "isGym-Diet" : true
-}, {
-  "ByUser" : 6,
-  "ID" : 0,
-  "isGym-Diet" : true
-} ];
+    examples["application/json"] = serviceUtils.generateReportData();
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {

@@ -1,6 +1,8 @@
 'use strict';
 
 
+const serviceUtils = require("./serviceUtils");
+
 /**
  * Get gym program reports
  * <ΛΑ-7>   Ο γυμναστής θα πρέπει να έχει την δυνατότητα να βλέπει και να διορθώνει τα προγράμματα γυμναστικής από τυχόν λάθη 
@@ -51,15 +53,7 @@ exports.getGymProgramReport = function(trainerID,reportID) {
 exports.getGymProgramReports = function(trainerID) {
   return new Promise(function(resolve, reject) {
     var examples = {};
-    examples['application/json'] = [ {
-  "ByUser" : 6,
-  "ID" : 0,
-  "isGym-Diet" : true
-}, {
-  "ByUser" : 6,
-  "ID" : 0,
-  "isGym-Diet" : true
-} ];
+    examples["application/json"] = serviceUtils.generateReportData();
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {

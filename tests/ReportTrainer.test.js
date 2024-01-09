@@ -65,10 +65,12 @@ test('Test of the Delete Report with 405 error code', async (t) => {
     t.deepEqual(body.message, 'DELETE method not allowed');
 });
 
+// For random generation of TrainerID 
 function generateTestTrainerID() {
     return Math.floor(Math.random() * 100000) + 1;
 }
 
+// For random generation of ReportID
 function generateTestReportID() {
     return Math.floor(Math.random() * 100000) + 1;
 }
