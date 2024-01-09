@@ -29,6 +29,7 @@ exports.generateUserData = function() {
         };
 }
 
+// generateRecipeData() : This function is used to generate dummy data for recipe.
 exports.generateRecipeData = function () {
   return {
     "IngredientsName": ["IngredientsName", "IngredientsName"],
