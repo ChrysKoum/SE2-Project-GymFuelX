@@ -240,7 +240,6 @@ test('POST  addUserDetails returns success response with required fields', async
         json: mockRequestBody,
     });
     // Assertions
-    console.log(body);
     t.is(statusCode, 200, 'Should return 200 ');
     
     t.truthy(body.birthday);

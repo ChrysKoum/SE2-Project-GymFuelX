@@ -1,6 +1,10 @@
 'use strict';
 
 var utils = require('../utils/writer.js');
+/**
+ * Controller for handling user-related operations.
+ * @module UserUser
+ */
 var UserUser = require('../service/UserUserService');
 
 module.exports.addUserDetails = function addUserDetails (req, res, next, body) {

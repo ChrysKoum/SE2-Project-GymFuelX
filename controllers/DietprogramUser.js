@@ -1,6 +1,10 @@
 "use strict";
 
 var utils = require("../utils/writer.js");
+/**
+ * Controller for handling diet program user operations.
+ * @module DietprogramUser
+ */
 var DietprogramUser = require("../service/DietprogramUserService");
 
 module.exports.getDietProgram = function getDietProgram(

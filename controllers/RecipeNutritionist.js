@@ -1,6 +1,10 @@
 'use strict';
 
 var utils = require('../utils/writer.js');
+/**
+ * Controller for handling recipe nutritionist operations.
+ * @module RecipeNutritionist
+ */
 var RecipeNutritionist = require('../service/RecipeNutritionistService');
 
 module.exports.addRecipe = function addRecipe (req, res, next, body, nutritionistID) {

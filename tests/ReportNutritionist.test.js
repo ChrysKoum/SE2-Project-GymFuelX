@@ -386,8 +386,6 @@ test("PUT recipe reoprt with invalid data returns error", async (t) => {
         json: putData,
       }
     );
-    console.log('body');
-    console.log(body)
 
     // Assertions
     t.is(statusCode,400,"Should return 400 Bad Request for non-numeric userID");
@@ -490,7 +488,6 @@ test("PUT recipe report returns expected headers", async (t) => {
     }
   );
 
-  console.log(body);
   t.is(statusCode, 200);
   t.truthy(headers["content-type"]);
 });
