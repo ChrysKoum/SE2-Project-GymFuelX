@@ -18,7 +18,36 @@ const recipeID = generateTestRecipeID();
     "isGym-Diet": true, // Here we mean that if is true is for the Gym Program and if is false for Recipe
   };
 
-
+function validateInvalidReport(t, body, statusCode) {
+  t.is(statusCode,400,"Should return 400 Bad Request for non-numeric userID");
+  t.assert(body.message, "Response should have a message");
+  t.is(
+    body.message,
+    "request.body['isGym-Diet'] should be boolean, request.body.ID should be integer, request.body.ByUser should be integer",
+    "Response message should indicate an boolean is required for isGym-Diet, integer for ID and ByUser"
+  );
+  t.deepEqual(
+    body.errors,
+    [
+      {
+        errorCode: 'type.openapi.validation',
+        message: 'should be boolean',
+        path: '.body[\'isGym-Diet\']',
+      },
+      {
+        errorCode: 'type.openapi.validation',
+        message: 'should be integer',
+        path: '.body.ID',
+      },
+      {
+        errorCode: 'type.openapi.validation',
+        message: 'should be integer',
+        path: '.body.ByUser',
+      },
+    ],
+    "Response errors should match the expected structure"
+  );
+}
 // Initialize the test environment
 test.before(async (t) => {
   t.context.server = http.createServer(app);
@@ -93,34 +122,7 @@ test("POST gym program with invalid data returns error", async (t) => {
     );
 
     // Assertions
-    t.is(statusCode,400,"Should return 400 Bad Request for non-numeric userID");
-    t.assert(body.message, "Response should have a message");
-    t.is(
-      body.message,
-      "request.body['isGym-Diet'] should be boolean, request.body.ID should be integer, request.body.ByUser should be integer",
-      "Response message should indicate an boolean is required for isGym-Diet, integer for ID and ByUser"
-    );
-    t.deepEqual(
-      body.errors,
-      [
-        {
-          errorCode: 'type.openapi.validation',
-          message: 'should be boolean',
-          path: '.body[\'isGym-Diet\']',
-        },
-        {
-          errorCode: 'type.openapi.validation',
-          message: 'should be integer',
-          path: '.body.ID',
-        },
-        {
-          errorCode: 'type.openapi.validation',
-          message: 'should be integer',
-          path: '.body.ByUser',
-        },
-      ],
-      "Response errors should match the expected structure"
-    );
+    validateInvalidReport(t, body, statusCode);
 });
 
 // Example test for non-existent userID (404 response)
@@ -260,34 +262,7 @@ test("POST recipe with invalid data returns error", async (t) => {
     );
 
     // Assertions
-    t.is(statusCode,400,"Should return 400 Bad Request for non-numeric userID");
-    t.assert(body.message, "Response should have a message");
-    t.is(
-      body.message,
-      "request.body['isGym-Diet'] should be boolean, request.body.ID should be integer, request.body.ByUser should be integer",
-      "Response message should indicate an boolean is required for isGym-Diet, integer for ID and ByUser"
-    );
-    t.deepEqual(
-      body.errors,
-      [
-        {
-          errorCode: 'type.openapi.validation',
-          message: 'should be boolean',
-          path: '.body[\'isGym-Diet\']',
-        },
-        {
-          errorCode: 'type.openapi.validation',
-          message: 'should be integer',
-          path: '.body.ID',
-        },
-        {
-          errorCode: 'type.openapi.validation',
-          message: 'should be integer',
-          path: '.body.ByUser',
-        },
-      ],
-      "Response errors should match the expected structure"
-    );
+    validateInvalidReport(t, body, statusCode);
 });
 
 // Test for error posting a report for a Recipe report with not existing ids - 404
