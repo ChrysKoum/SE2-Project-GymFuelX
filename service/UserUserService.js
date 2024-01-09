@@ -1,6 +1,7 @@
 'use strict';
 
 
+const serviceUtils = require("./serviceUtils");
 /**
  * Add details to user's profile
  * <ΛΑ-10>   Ο χρήστης πρέπει να μπορεί να προσθέτει προσωπικές πληροφορίες στο προφίλ του  
@@ -11,19 +12,7 @@
 exports.addUserDetails = function(body) {
   return new Promise(function(resolve, reject) {
     var examples = {};
-    examples['application/json'] = {
-  "birthday" : "2000-01-23T04:56:07.000+00:00",
-  "meal" : "meal",
-  "allergies" : "allergies",
-  "goal" : "goal",
-  "gender" : "gender",
-  "level" : "level",
-  "weight" : 1.4658129805029452,
-  "restrictions" : "restrictions",
-  "userID" : 0,
-  "username" : "username",
-  "height" : 6.027456183070403
-};
+    examples["application/json"] = serviceUtils.generateUserData();
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -44,19 +33,7 @@ exports.addUserDetails = function(body) {
 exports.editUserDetails = function(body,userID) {
   return new Promise(function(resolve, reject) {
     var examples = {};
-    examples['application/json'] = {
-  "birthday" : "2000-01-23T04:56:07.000+00:00",
-  "meal" : "meal",
-  "allergies" : "allergies",
-  "goal" : "goal",
-  "gender" : "gender",
-  "level" : "level",
-  "weight" : 1.4658129805029452,
-  "restrictions" : "restrictions",
-  "userID" : 0,
-  "username" : "username",
-  "height" : 6.027456183070403
-};
+    examples['application/json'] = serviceUtils.generateUserData();
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -76,19 +53,7 @@ exports.editUserDetails = function(body,userID) {
 exports.getUserDetails = function(userID) {
   return new Promise(function(resolve, reject) {
     var examples = {};
-    examples['application/json'] = {
-  "birthday" : "2000-01-23T04:56:07.000+00:00",
-  "meal" : "meal",
-  "allergies" : "allergies",
-  "goal" : "goal",
-  "gender" : "gender",
-  "level" : "level",
-  "weight" : 1.4658129805029452,
-  "restrictions" : "restrictions",
-  "userID" : 0,
-  "username" : "username",
-  "height" : 6.027456183070403
-};
+    examples["application/json"] = serviceUtils.generateUserData();
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {

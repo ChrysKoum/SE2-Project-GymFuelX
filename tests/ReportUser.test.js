@@ -3,6 +3,7 @@ const test = require("ava");
 const listen = require("test-listen");
 const got = require("got");
 const app = require("../index.js");
+const { testForNonNumericUserID } = require("../utils/testUtils.js");
 
 const {
   createGymReport,
@@ -57,7 +58,7 @@ test("POST gym program report for a valid userID using createGymReport API endpo
   t.is(statusCode, 200);
 });
 
-// Example test for invalid userID (400 response)
+// example test for non-numeric userID (400 response)
 const userIDfor400 = [
   1.2,
   "abc",
@@ -72,41 +73,11 @@ const userIDfor400 = [
   "*",
 ];
 
-test("POST gym program report with invalid data returns error", async (t) => {
-
-  for (const userID of userIDfor400) {
-    const nonNumericUserID = userID;
-    const { body, statusCode } = await t.context.got.post(
-      `user/${nonNumericUserID}/gymprogram`,
-      {
-        json: postReport,
-      }
-    );
-
-    // Assertions
-    t.is(
-      statusCode,
-      400,
-      "Should return 400 Bad Request for non-numeric userID"
-    );
-    t.assert(body.message, "Response should have a message");
-    t.is(
-      body.message,
-      "request.params.userID should be integer",
-      "Response message should indicate an integer is required"
-    );
-    t.deepEqual(
-      body.errors,
-      [
-        {
-          path: ".params.userID",
-          message: "should be integer",
-          errorCode: "type.openapi.validation",
-        },
-      ],
-      "Response errors should match the expected structure"
-    );
-  }
+// Replace the duplicated test with a call to the utility function
+test("GET user with non-numeric user ID returns 400", async (t) => {
+  await testForNonNumericUserID(t, async (userID) => {
+    return t.context.got.get(`user/${userID}/gymprogram`);
+  }, 400, "Bad Request");
 });
 
 // Test for error posting a report for a Gym program report with false data - 400 
