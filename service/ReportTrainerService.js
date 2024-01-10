@@ -28,7 +28,7 @@ exports.deleteReport = function (trainerID, reportID) {
  * returns Report
  **/
 exports.getGymProgramReport = function (trainerID, reportID) {
-  return new Promise(function (resolve) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     if (trainerID && reportID) {
       examples['application/json'] = {
@@ -40,7 +40,7 @@ exports.getGymProgramReport = function (trainerID, reportID) {
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
-      resolve();
+      reject();
     }
   });
 }
