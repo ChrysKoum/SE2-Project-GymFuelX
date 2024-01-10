@@ -1,16 +1,22 @@
+// Importing necessary modules and files
 const http = require("http");
 const test = require("ava");
 const listen = require("test-listen");
 const got = require("got");
-const app = require("../index.js"); 
+const app = require("../index.js");
 const { getExcercise } = require("../service/ExerciseUserService");
 
-const userID = generateTestUserID(); 
-const exerciseID = generateTestExerciseID(); 
+// Generating test user and exercise IDs
+const userID = generateTestUserID();
+const exerciseID = generateTestExerciseID();
 
+// Setup before running the tests
 test.before(async (t) => {
+  // Creating an HTTP server for the app
   t.context.server = http.createServer(app);
+  // Listening to the server and getting the URL
   t.context.prefixUrl = await listen(t.context.server);
+  // Extending got for HTTP requests with predefined options
   t.context.got = got.extend({
     prefixUrl: t.context.prefixUrl,
     responseType: "json",
@@ -18,13 +24,17 @@ test.before(async (t) => {
   });
 });
 
+// Teardown after all tests are done
 test.after.always((t) => {
+  // Closing the server
   t.context.server.close();
 });
 
+// Test case for the getExcercise function
 test("getExcercise returns the correct structure for a valid user and exercise ID", async (t) => {
   const result = await getExcercise(userID, exerciseID);
 
+  // Assertions to check the response structure and data types
   t.truthy(
     result.exerciseDescription,
     "Response should have exerciseDescription"
@@ -38,15 +48,15 @@ test("getExcercise returns the correct structure for a valid user and exercise I
   );
 });
 
+// Test case for the getExcercise API endpoint
 test("getExcercise API endpoint returns a response with the correct structure and data types", async (t) => {
+  // Making a GET request to the API endpoint
   const { body, statusCode } = await t.context.got.get(
     `user/${userID}/gymprogram/${exerciseID}`
   );
 
-  // Assuming the API returns a 200 status code for valid requests
+  // Assertions to check response status code and structure
   t.is(statusCode, 200, "Should return 200 OK for valid user and exercise IDs");
-
-  // Validate the response structure
   t.is(
     typeof body.exerciseDescription,
     "string",
@@ -61,10 +71,11 @@ test("getExcercise API endpoint returns a response with the correct structure an
   t.is(typeof body.exerciseTitle, "string", "exerciseTitle should be a string");
 });
 
-// Test for invalid userID or exerciseID (400 response)
+// Test for handling invalid user and exercise IDs
 const invalidUserAndExerciseIDs = [
+  // Various invalid ID formats for testing
   "invalidUserID",
-  1.5,
+  "1.5",
   true,
   "@specialCharacters",
   null,
@@ -73,71 +84,80 @@ const invalidUserAndExerciseIDs = [
   "@",
   "^",
   "&",
-  "*"
+  "*",
 ];
 
 test("GET user exercise with invalid userID or exerciseID returns 400", async (t) => {
   for (const invalidID of invalidUserAndExerciseIDs) {
+    // Making a GET request with invalid IDs
+    const { body, statusCode } = await t.context.got.get(
+      `user/${invalidID}/gymprogram/${invalidID}`
+    );
 
-      const { body, statusCode } = await t.context.got.get(`user/${invalidID}/gymprogram/${invalidID}`);
-
-      // Assertions
-      t.is(
-        statusCode,
-        400,
-        "Should return 400 Bad Request for invalid userID or exerciseID"
-      );
-      t.truthy(body.message, "Response should have a message");
-      t.is(
-        body.message,
-        "request.params.userID should be integer, request.params.excerciseID should be integer",
-        "Response message should indicate an integer is required for userID and exerciseID"
-      );
+    // Assertions to check for correct response status and message
+    t.is(
+      statusCode,
+      400,
+      "Should return 400 Bad Request for invalid userID or exerciseID"
+    );
+    t.truthy(body.message, "Response should have a message");
+    t.is(
+      body.message,
+      "request.params.userID should be integer, request.params.excerciseID should be integer",
+      "Response message should indicate an integer is required for userID and exerciseID"
+    );
   }
 });
 
-
-// Test for non-existent userID or exerciseID (404 response)
+// Test for handling non-existent user and exercise IDs
 const nonNumericUserIDsFor404 = [
-  { userID: [], exerciseID: [] }, // Non-existent numeric values
-  { userID: "", exerciseID: "" }, // Empty strings
+  // Test cases for non-existent IDs
+  { userID: [], exerciseID: [] },
+  { userID: "", exerciseID: "" },
 ];
 
 test("GET user exercise with non-existent userID or exerciseID returns 404", async (t) => {
   for (const { userID, exerciseID } of nonNumericUserIDsFor404) {
-  
-      const { body, statusCode } = await t.context.got.get(`user/${userID}/gymprogram/${exerciseID}`);
-     
-      // Assertions
-      t.is(
-        statusCode,
-        404,
-        "Should return 404 Not Found for non-existent userID or exerciseID"
-      );
-      t.truthy(body.message, "Response should have a message");
-      t.is(
-        body.message,
-        "not found",
-        "Response message should indicate user or exercise not found"
-      );
+    // Making a GET request with non-existent IDs
+    const { body, statusCode } = await t.context.got.get(
+      `user/${userID}/gymprogram/${exerciseID}`
+    );
+
+    // Assertions to check for correct response status and message
+    t.is(
+      statusCode,
+      404,
+      "Should return 404 Not Found for non-existent userID or exerciseID"
+    );
+    t.truthy(body.message, "Response should have a message");
+    t.is(
+      body.message,
+      "not found",
+      "Response message should indicate user or exercise not found"
+    );
   }
 });
 
-// Example test for expected response headers
+// Test for checking response headers
 test("GET user exercise returns expected headers", async (t) => {
+  // Generating test IDs and making a GET request
   const userID = generateTestUserID();
   const exerciseID = generateTestExerciseID();
-  const { headers, statusCode } = await t.context.got.get(`user/${userID}/gymprogram/${exerciseID}`);
+  const { headers, statusCode } = await t.context.got.get(
+    `user/${userID}/gymprogram/${exerciseID}`
+  );
 
+  // Assertions to check the response status code and headers
   t.is(statusCode, 200);
   t.truthy(headers["content-type"]);
 });
 
-
+// Helper function to generate a random test user ID
 function generateTestUserID() {
   return Math.floor(Math.random() * 100000) + 1;
 }
 
+// Helper function to generate a random test exercise ID
 function generateTestExerciseID() {
   return Math.floor(Math.random() * 100) + 1;
 }
