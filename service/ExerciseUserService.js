@@ -12,16 +12,18 @@
 exports.getExcercise = function(userID,excerciseID) {
   return new Promise(function(resolve, reject) {
     var examples = {};
-    examples['application/json'] = {
-  "exerciseDescription" : "exerciseDescription",
-  "explanationVideo" : "explanationVideo",
-  "exerciseID" : 0,
-  "exerciseTitle" : "exerciseTitle"
-};
+    if (userID && excerciseID){
+      examples["application/json"] = {
+        exerciseDescription: "exerciseDescription",
+        explanationVideo: "explanationVideo",
+        exerciseID: 0,
+        exerciseTitle: "exerciseTitle",
+      };
+    }
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
-      resolve();
+      reject();
     }
   });
 }
