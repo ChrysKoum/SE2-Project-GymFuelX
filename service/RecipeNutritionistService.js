@@ -12,12 +12,14 @@ const serviceUtils = require("./serviceUtils");
  **/
 exports.addRecipe = function (body, nutritionistID) {
   return new Promise(function (resolve, reject) {
-    var examples = {};
-    examples["application/json"] = serviceUtils.generateRecipeData();
+    if (body && nutritionistID) {
+      var examples = {};
+      examples["application/json"] = serviceUtils.generateRecipeData();
+    }
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
-      resolve();
+      reject();
     }
   });
 };
@@ -31,9 +33,11 @@ exports.addRecipe = function (body, nutritionistID) {
  * no response value expected for this operation
  **/
 exports.deleteRecipe = function (nutritionistID, recipeID) {
-  return new Promise(function (resolve, reject) {
-    resolve();
-  });
+  if (nutritionistID && recipeID) {
+    return new Promise(function (resolve) {
+      resolve();
+    });
+  }
 };
 
 /**
@@ -46,12 +50,14 @@ exports.deleteRecipe = function (nutritionistID, recipeID) {
  **/
 exports.getRecipeNutrionist = function (nutritionistID, recipeID) {
   return new Promise(function (resolve, reject) {
-    var examples = {};
-    examples["application/json"] = serviceUtils.generateRecipeData();
+    if (nutritionistID && recipeID) {
+      var examples = {};
+      examples["application/json"] = serviceUtils.generateRecipeData();
+    }
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
-      resolve();
+      reject();
     }
   });
 };
@@ -66,7 +72,7 @@ exports.getRecipeNutrionist = function (nutritionistID, recipeID) {
  * no response value expected for this operation
  **/
 exports.updateRecipeNutritionist = function () {
-  return new Promise(function (resolve, reject) {
+  return new Promise(function (resolve) {
     resolve();
   });
 };
