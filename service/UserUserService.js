@@ -9,14 +9,17 @@ const serviceUtils = require("./serviceUtils");
  * body User_body 
  * returns User
  **/
-exports.addUserDetails = function(body) {
-  return new Promise(function(resolve, reject) {
+exports.addUserDetails = function (body) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
-    examples["application/json"] = serviceUtils.generateUserData();
+    if (body) {
+      examples["application/json"] = serviceUtils.generateUserData();
+    }
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
+    }
+    else {
+      reject();
     }
   });
 }
@@ -30,8 +33,8 @@ exports.addUserDetails = function(body) {
  * userID Integer The user's ID
  * returns User
  **/
-exports.editUserDetails = function(body,userID) {
-  return new Promise(function(resolve, reject) {
+exports.editUserDetails = function (body, userID) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
     examples['application/json'] = serviceUtils.generateUserData();
     if (Object.keys(examples).length > 0) {
@@ -50,10 +53,12 @@ exports.editUserDetails = function(body,userID) {
  * userID Integer The user's ID
  * returns User
  **/
-exports.getUserDetails = function(userID) {
-  return new Promise(function(resolve, reject) {
+exports.getUserDetails = function (userID) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
-    examples["application/json"] = serviceUtils.generateUserData();
+    if (userID) {
+      examples["application/json"] = serviceUtils.generateUserData();
+    }
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {

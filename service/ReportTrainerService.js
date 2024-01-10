@@ -11,9 +11,10 @@ const serviceUtils = require("./serviceUtils");
  * reportID Integer The ID of the report that is being deleted.
  * no response value expected for this operation
  **/
-exports.deleteReport = function(trainerID,reportID) {
-  return new Promise(function(resolve, reject) {
-    resolve();
+exports.deleteReport = function (trainerID, reportID) {
+  return new Promise(function (resolve) {
+    if (trainerID && reportID)
+      resolve();
   });
 }
 
@@ -26,14 +27,16 @@ exports.deleteReport = function(trainerID,reportID) {
  * reportID Integer The report ID
  * returns Report
  **/
-exports.getGymProgramReport = function(trainerID,reportID) {
-  return new Promise(function(resolve, reject) {
+exports.getGymProgramReport = function (trainerID, reportID) {
+  return new Promise(function (resolve) {
     var examples = {};
-    examples['application/json'] = {
-  "ByUser" : 6,
-  "ID" : 0,
-  "isGym-Diet" : true
-};
+    if (trainerID && reportID) {
+      examples['application/json'] = {
+        "ByUser": 6,
+        "ID": 0,
+        "isGym-Diet": true
+      };
+    }
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -50,14 +53,16 @@ exports.getGymProgramReport = function(trainerID,reportID) {
  * trainerID Integer The trainer Id
  * returns AllReport
  **/
-exports.getGymProgramReports = function(trainerID) {
-  return new Promise(function(resolve, reject) {
+exports.getGymProgramReports = function (trainerID) {
+  return new Promise(function (resolve, reject) {
     var examples = {};
-    examples["application/json"] = serviceUtils.generateReportData();
+    if (trainerID) {
+      examples["application/json"] = serviceUtils.generateReportData();
+    }
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
-      resolve();
+      reject();
     }
   });
 }
@@ -72,9 +77,10 @@ exports.getGymProgramReports = function(trainerID) {
  * reportID Integer The report ID
  * no response value expected for this operation
  **/
-exports.updateReport = function(body,trainerID,reportID) {
-  return new Promise(function(resolve, reject) {
-    resolve();
-  });
+exports.updateReport = function (body, trainerID, reportID) {
+  if (trainerID && reportID)
+    return new Promise(function (resolve) {
+      resolve();
+    });
 }
 

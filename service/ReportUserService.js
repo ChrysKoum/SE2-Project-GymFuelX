@@ -9,10 +9,11 @@
  * recipeID Integer the recipe's ID
  * no response value expected for this operation
  **/
-exports.createDietReport = function(body,userID,recipeID) {
-  return new Promise(function(resolve, reject) {
-    resolve();
-  });
+exports.createDietReport = function (body, userID, recipeID) {
+  if (body && userID && recipeID)
+    return new Promise(function (resolve) {
+      resolve();
+    });
 };
 
 /**
@@ -23,8 +24,9 @@ exports.createDietReport = function(body,userID,recipeID) {
  * userID Integer the User's ID
  * no response value expected for this operation
  **/
-exports.createGymReport = function(body,userID) {
-  return new Promise(function(resolve, reject) {
-    resolve();
-  });
+exports.createGymReport = function (body, userID) {
+  if (body && userID)
+    return new Promise(function (resolve) {
+      resolve();
+    });
 };
