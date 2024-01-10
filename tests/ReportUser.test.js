@@ -1,3 +1,4 @@
+// Import necessary modules
 const http = require("http");
 const test = require("ava");
 const listen = require("test-listen");
@@ -5,11 +6,13 @@ const got = require("got");
 const app = require("../index.js");
 const { testForNonNumericUserID } = require("../utils/testUtils.js");
 
+// Import necessary functions from service/ReportUserService.js
 const {
   createGymReport,
   createDietReport,
 } = require("../service/ReportUserService.js");
 
+// Define the test data
 const userID = generateTestUserID();
 const recipeID = generateTestRecipeID();
   const postReport = {
@@ -18,6 +21,7 @@ const recipeID = generateTestRecipeID();
     "isGym-Diet": true, // Here we mean that if is true is for the Gym Program and if is false for Recipe
   };
 
+// Define a utility function to validate the response for an invalid report
 function validateInvalidReport(t, body, statusCode) {
   t.is(statusCode,400,"Should return 400 Bad Request for non-numeric userID");
   t.assert(body.message, "Response should have a message");
@@ -129,7 +133,6 @@ test("POST gym program with invalid data returns error", async (t) => {
 const nonNumericUserIDsFor404 = ["", []];
 
 test("POST gym program report with non-numeric userID returns 404 error", async (t) => {
-
   for (const nonNumericUserID of nonNumericUserIDsFor404) {
     const { body, statusCode } = await t.context.got.post(
       `user/${nonNumericUserID}/gymprogram`,
@@ -173,8 +176,8 @@ test("POST gym program report returns expected headers", async (t) => {
   t.truthy(headers["content-type"]); // Check for expected headers
 });
 
-/*
- **** Diet Report****
+/**
+ * Test for Recipe report
  */
 
 const postRecipeReport = {
