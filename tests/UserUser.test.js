@@ -146,10 +146,7 @@ const mockRequestBody = {
 };
 
 test('PUT editUserDetails returns success response with required fields', async (t) => {
-    const userID = 0;
-    mockRequestBody.userID = userID;
-
-    const { body, statusCode } = await t.context.got.put(`user/${userID}`, {
+    const { body, statusCode } = await t.context.got.put(`user/${mockRequestBody.userID}`, {
         json: mockRequestBody,
     });
     // Assertions
@@ -213,7 +210,7 @@ test('editUserDetails successfully edits user details', async (t) => {
     mockRequestBody.level = "level";
     mockRequestBody.meal = "meal";
     mockRequestBody.restrictions = "restrictions";
-    
+
 
     const result = await editUserDetails(mockRequestBody, userID);
     // Assertions
@@ -241,7 +238,7 @@ test('POST  addUserDetails returns success response with required fields', async
     });
     // Assertions
     t.is(statusCode, 200, 'Should return 200 ');
-    
+
     t.truthy(body.birthday);
     t.truthy(body.username);
     t.truthy(body.height);
@@ -256,19 +253,19 @@ test('POST  addUserDetails returns success response with required fields', async
 
 test("Post addUserDetails function returns user details", async (t) => {
     const newUserID = 123;
-    const mockRequestBody = {   
-        userID : newUserID,
-        username : "string",
-        birthday : "2023-12-12T01:10:12.302Z",
-        gender : "string",
-        height : 0,
-        weight : 0,
-        meal : "string",
-        allergies : "string",
-        restrictions : "string",
-        level : "string",
-        goal : "string"
-      };
+    const mockRequestBody = {
+        userID: newUserID,
+        username: "string",
+        birthday: "2023-12-12T01:10:12.302Z",
+        gender: "string",
+        height: 0,
+        weight: 0,
+        meal: "string",
+        allergies: "string",
+        restrictions: "string",
+        level: "string",
+        goal: "string"
+    };
 
     const User = await addUserDetails(mockRequestBody);
     t.truthy(User.birthday);
@@ -316,6 +313,6 @@ test('POST addUserDetails with invalid userID returns fail response - 400 ', asy
     });
     // Assertions
     t.is(statusCode, 400, 'Should return 400 Bad input type for user');
-    
+
 });
 

@@ -36,6 +36,7 @@ exports.addUserDetails = function (body) {
 exports.editUserDetails = function (body, userID) {
   return new Promise(function (resolve, reject) {
     var examples = {};
+    if(body && userID)
     examples['application/json'] = serviceUtils.generateUserData();
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
