@@ -10,18 +10,20 @@
 exports.getDietProgram = function (userID) {
   return new Promise(function (resolve, reject) {
     var examples = {};
-    examples["application/json"] = {
-      dayDietProgramIDs: [
-        [0, 0],
-        [0, 0],
-      ],
-      recipeIDs: [6, 6],
-      dietProgramID: 1,
-    };
+    if (userID){
+      examples["application/json"] = {
+        dayDietProgramIDs: [
+          [0, 0],
+          [0, 0],
+        ],
+        recipeIDs: [6, 6],
+        dietProgramID: 1,
+      };
+    }
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
-      resolve();
+      reject();
     }
   });
 };
