@@ -10,34 +10,36 @@
  **/
 exports.getAllRecipies = function(userID) {
   return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = [ {
-  "IngredientsName" : [ "IngredientsName", "IngredientsName" ],
-  "difficulty" : "difficulty",
-  "servings" : "servings",
-  "recipeType" : "recipeType",
-  "Instructions" : [ "Instructions", "Instructions" ],
-  "NutritionalTable" : [ "NutritionalTable", "NutritionalTable" ],
-  "IngredientsQuantity" : [ "IngredientsQuantity", "IngredientsQuantity" ],
-  "time" : 6,
-  "recipeID" : 0,
-  "imgRecipe" : "imgRecipe"
-}, {
-  "IngredientsName" : [ "IngredientsName", "IngredientsName" ],
-  "difficulty" : "difficulty",
-  "servings" : "servings",
-  "recipeType" : "recipeType",
-  "Instructions" : [ "Instructions", "Instructions" ],
-  "NutritionalTable" : [ "NutritionalTable", "NutritionalTable" ],
-  "IngredientsQuantity" : [ "IngredientsQuantity", "IngredientsQuantity" ],
-  "time" : 6,
-  "recipeID" : 0,
-  "imgRecipe" : "imgRecipe"
-} ];
+    if (userID) {
+      var examples = {};
+      examples['application/json'] = [ {
+    "IngredientsName" : [ "IngredientsName", "IngredientsName" ],
+    "difficulty" : "difficulty",
+    "servings" : "servings",
+    "recipeType" : "recipeType",
+    "Instructions" : [ "Instructions", "Instructions" ],
+    "NutritionalTable" : [ "NutritionalTable", "NutritionalTable" ],
+    "IngredientsQuantity" : [ "IngredientsQuantity", "IngredientsQuantity" ],
+    "time" : 6,
+    "recipeID" : 0,
+    "imgRecipe" : "imgRecipe"
+    }, {
+    "IngredientsName" : [ "IngredientsName", "IngredientsName" ],
+    "difficulty" : "difficulty",
+    "servings" : "servings",
+    "recipeType" : "recipeType",
+    "Instructions" : [ "Instructions", "Instructions" ],
+    "NutritionalTable" : [ "NutritionalTable", "NutritionalTable" ],
+    "IngredientsQuantity" : [ "IngredientsQuantity", "IngredientsQuantity" ],
+    "time" : 6,
+    "recipeID" : 0,
+    "imgRecipe" : "imgRecipe"
+    } ];
+    }
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
-      resolve();
+      reject();
     }
   });
 }
@@ -53,23 +55,25 @@ exports.getAllRecipies = function(userID) {
  **/
 exports.getRecipe = function(userID,recipeID) {
   return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-  "IngredientsName" : [ "IngredientsName", "IngredientsName" ],
-  "difficulty" : "difficulty",
-  "servings" : "servings",
-  "recipeType" : "recipeType",
-  "Instructions" : [ "Instructions", "Instructions" ],
-  "NutritionalTable" : [ "NutritionalTable", "NutritionalTable" ],
-  "IngredientsQuantity" : [ "IngredientsQuantity", "IngredientsQuantity" ],
-  "time" : 6,
-  "recipeID" : 0,
-  "imgRecipe" : "imgRecipe"
-};
+    if (userID && recipeID) {
+      var examples = {};
+      examples['application/json'] = {
+    "IngredientsName" : [ "IngredientsName", "IngredientsName" ],
+    "difficulty" : "difficulty",
+    "servings" : "servings",
+    "recipeType" : "recipeType",
+    "Instructions" : [ "Instructions", "Instructions" ],
+    "NutritionalTable" : [ "NutritionalTable", "NutritionalTable" ],
+    "IngredientsQuantity" : [ "IngredientsQuantity", "IngredientsQuantity" ],
+    "time" : 6,
+    "recipeID" : 0,
+    "imgRecipe" : "imgRecipe"
+  };
+    }
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
-      resolve();
+      reject();
     }
   });
 }

@@ -11,9 +11,11 @@ const serviceUtils = require("./serviceUtils");
  * no response value expected for this operation
  **/
 exports.deleteRecipeReport = function(nutritionistID,reportID) {
-  return new Promise(function(resolve, reject) {
-    resolve();
-  });
+  if (nutritionistID && reportID) {
+    return new Promise(function(resolve) {
+      resolve();
+    });
+  }
 }
 
 
@@ -27,16 +29,19 @@ exports.deleteRecipeReport = function(nutritionistID,reportID) {
  **/
 exports.getRecipeReport = function(nutritionistID,reportID) {
   return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-  "ByUser" : 6,
-  "ID" : 0,
-  "isGym-Diet" : true
-};
+    if (nutritionistID && reportID) {
+      var examples = {};
+      examples['application/json'] = {
+        "ByUser" : 6,
+        "ID" : 0,
+        "isGym-Diet" : true
+      };
+    }
+
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
-      resolve();
+      reject();
     }
   });
 }
@@ -51,12 +56,14 @@ exports.getRecipeReport = function(nutritionistID,reportID) {
  **/
 exports.getRecipeReports = function(nutritionistID) {
   return new Promise(function(resolve, reject) {
-    var examples = {};
+    if (nutritionistID) {
+      var examples = {};
     examples["application/json"] = serviceUtils.generateReportData();
+    } 
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
-      resolve();
+      reject();
     }
   });
 }
@@ -72,8 +79,10 @@ exports.getRecipeReports = function(nutritionistID) {
  * no response value expected for this operation
  **/
 exports.updateRecipeReport = function(body,nutritionistID,reportID) {
-  return new Promise(function(resolve, reject) {
-    resolve();
-  });
+  if (body && nutritionistID && reportID) {
+    return new Promise(function(resolve) {
+      resolve();
+    });
+  }
 }
 
