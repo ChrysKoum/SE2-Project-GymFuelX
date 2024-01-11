@@ -7,7 +7,7 @@ var utils = require('../utils/writer.js');
  */
 var ReportTrainer = require('../service/ReportTrainerService');
 
-module.exports.deleteReport = function deleteReport (req, res, next, trainerID, reportID) {
+module.exports.deleteReport = function deleteReport (req, res,  trainerID, reportID) {
   ReportTrainer.deleteReport(trainerID, reportID)
     .then(function (response) {
       utils.writeJson(res, response);
@@ -17,7 +17,7 @@ module.exports.deleteReport = function deleteReport (req, res, next, trainerID, 
     });
 };
 
-module.exports.getGymProgramReport = function getGymProgramReport (req, res, next, trainerID, reportID) {
+module.exports.getGymProgramReport = function getGymProgramReport (req, res,  trainerID, reportID) {
   ReportTrainer.getGymProgramReport(trainerID, reportID)
     .then(function (response) {
       utils.writeJson(res, response);
@@ -27,7 +27,7 @@ module.exports.getGymProgramReport = function getGymProgramReport (req, res, nex
     });
 };
 
-module.exports.getGymProgramReports = function getGymProgramReports (req, res, next, trainerID) {
+module.exports.getGymProgramReports = function getGymProgramReports (req, res,  trainerID) {
   ReportTrainer.getGymProgramReports(trainerID)
     .then(function (response) {
       utils.writeJson(res, response);
@@ -37,7 +37,7 @@ module.exports.getGymProgramReports = function getGymProgramReports (req, res, n
     });
 };
 
-module.exports.updateReport = function updateReport (req, res, next, body, trainerID, reportID) {
+module.exports.updateReport = function updateReport (req, res,  body, trainerID, reportID) {
   ReportTrainer.updateReport(body, trainerID, reportID)
     .then(function (response) {
       utils.writeJson(res, response);

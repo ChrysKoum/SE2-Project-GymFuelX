@@ -14,7 +14,7 @@ var RecipeUser = require("../service/RecipeUserService");
 module.exports.getAllRecipies = function getAllRecipies(
   req,
   res,
-  next,
+  
   userID
 ) {
   // Calling the service to get all recipes for the user
@@ -40,7 +40,7 @@ module.exports.getAllRecipies = function getAllRecipies(
 module.exports.getRecipe = function getRecipe(
   req,
   res,
-  next,
+  
   userID,
   recipeID
 ) {

@@ -10,7 +10,7 @@ var DietprogramUser = require("../service/DietprogramUserService");
 module.exports.getDietProgram = function getDietProgram(
   req,
   res,
-  next,
+  
   userID
 ) {
   DietprogramUser.getDietProgram(userID)
