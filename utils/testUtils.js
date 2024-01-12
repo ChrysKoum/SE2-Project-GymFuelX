@@ -229,9 +229,6 @@ const generateMockRecipeData = function (invalidParameter = false) {
       "Garlic",
       "Lemon Juice",
       "Paprika",
-      "Salt",
-      "Black Pepper",
-      "Fresh Parsley",
     ],
     difficulty: "Easy",
     servings: "5", // Intentionally incorrect type for testing
@@ -240,8 +237,6 @@ const generateMockRecipeData = function (invalidParameter = false) {
       "Preheat oven to 375°F (190°C).",
       "In a bowl, mix olive oil, minced garlic, lemon juice, paprika, salt, and black pepper.",
       "Place chicken breasts in a baking dish and pour the mixture over them.",
-      "Bake in the preheated oven for 25-30 minutes or until chicken is cooked through.",
-      "Garnish with chopped fresh parsley before serving.",
     ],
     NutritionalTable: [
       "Calories: 165",
@@ -254,11 +249,6 @@ const generateMockRecipeData = function (invalidParameter = false) {
       "4 medium-sized chicken breasts",
       "2 tablespoons olive oil",
       "3 cloves garlic, minced",
-      "2 tablespoons lemon juice",
-      "1 teaspoon paprika",
-      "1/2 teaspoon salt",
-      "1/4 teaspoon black pepper",
-      "2 tablespoons chopped fresh parsley",
     ],
     time: 5, // Assuming this should be a number
     recipeID: 101,
