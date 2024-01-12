@@ -3,11 +3,12 @@ const test = require("ava");
 const listen = require("test-listen");
 const got = require("got");
 const app = require("../index.js");
-const { testForNonNumericUserID } = require("../utils/testUtils.js");
+//
+const { testForNonNumericUserID, generateTestID } = require("../utils/testUtils.js");
 
 const { getDietProgram } = require("../service/DietprogramUserService");
 
-const userID = generateTestUserID();
+const userID = generateTestID();
 
 // Initialize the test environment
 test.before(async (t) => {
@@ -126,44 +127,20 @@ test("GET diet program with maximum valid user ID returns correct response", asy
 // Example test for invalid userID (400 response)
 
 test("GET user with non-numeric user ID returns 400", async (t) => {
-  await testForNonNumericUserID(t, async (userID) => {
-    return t.context.got.get(`user/${userID}/dietprogram`);
-  }, 400, "Bad Request");
+  await testForNonNumericUserID(["userID"],t,
+    async (userID) => {
+      return t.context.got.get(`user/${userID}/dietprogram`);
+    },400,"Bad Request"
+  );
 });
 
 // Example test for non-existent userID (404 response)
-const nonNumericUserIDsFor404 = ["", []];
 test("GET user with non-numeric user ID returns 404", async (t) => {
-  for (const userID of nonNumericUserIDsFor404) {
-    const nonNumericUserID = userID;
-
-    const { body, statusCode } = await t.context.got.get(
-      `user/${nonNumericUserID}/dietprogram`
-    );
-
-    // Assertions
-    t.is(
-      statusCode,
-      404,
-      "Should return 404 User not found for non-numeric userID"
-    );
-    t.assert(body.message, "Response should have a message");
-    t.is(
-      body.message,
-      "not found",
-      "Response message should indicate not found"
-    );
-    t.deepEqual(
-      body.errors,
-      [
-        {
-          path: `/user/${nonNumericUserID}/dietprogram`,
-          message: "not found",
-        },
-      ],
-      "Response errors should match the expected structure"
-    );
-  }
+  await testForNonNumericUserID(["userID"],t,
+    async (userID) => {
+      return t.context.got.get(`user/${userID}/dietprogram`);
+    },404,"Not Found", ["user","dietprogram"]
+  );
 });
 
 // Example test for expected response headers
@@ -175,7 +152,3 @@ test("GET diet program returns expected headers", async (t) => {
   t.is(statusCode, 200);
   t.truthy(headers["content-type"]);
 });
-
-function generateTestUserID() {
-  return Math.floor(Math.random() * 100000) + 1;
-}

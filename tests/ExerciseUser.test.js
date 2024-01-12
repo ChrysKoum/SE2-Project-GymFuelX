@@ -5,10 +5,11 @@ const listen = require("test-listen");
 const got = require("got");
 const app = require("../index.js");
 const { getExcercise } = require("../service/ExerciseUserService");
+const {testForNonNumericUserID, generateTestID,} = require("../utils/testUtils.js");
 
 // Generating test user and exercise IDs
-const userID = generateTestUserID();
-const exerciseID = generateTestExerciseID();
+const userID = generateTestID();
+const exerciseID = generateTestID();
 
 // Setup before running the tests
 test.before(async (t) => {
@@ -71,78 +72,38 @@ test("getExcercise API endpoint returns a response with the correct structure an
   t.is(typeof body.exerciseTitle, "string", "exerciseTitle should be a string");
 });
 
-// Test for handling invalid user and exercise IDs
-const invalidUserAndExerciseIDs = [
-  // Various invalid ID formats for testing
-  "invalidUserID",
-  "1.5",
-  true,
-  "@specialCharacters",
-  null,
-  undefined,
-  "!",
-  "@",
-  "^",
-  "&",
-  "*",
-];
 
-test("GET user exercise with invalid userID or exerciseID returns 400", async (t) => {
-  for (const invalidID of invalidUserAndExerciseIDs) {
-    // Making a GET request with invalid IDs
-    const { body, statusCode } = await t.context.got.get(
-      `user/${invalidID}/gymprogram/${invalidID}`
-    );
-
-    // Assertions to check for correct response status and message
-    t.is(
-      statusCode,
-      400,
-      "Should return 400 Bad Request for invalid userID or exerciseID"
-    );
-    t.truthy(body.message, "Response should have a message");
-    t.is(
-      body.message,
-      "request.params.userID should be integer, request.params.excerciseID should be integer",
-      "Response message should indicate an integer is required for userID and exerciseID"
-    );
-  }
+// Test for handling non-existent user
+test("GET user exercise with non-numeric user ID returns 400", async (t) => {
+  await testForNonNumericUserID(["userID"],t,
+    async (nonValidID) => {
+      return t.context.got.get(`user/${nonValidID}/gymprogram/${exerciseID}`);
+    },400,"Bad Request"
+  );
 });
 
+// Test for handling invalid user and exercise IDs
+test("GET user exercise with invalid userID or exerciseID returns 400", async (t) => {
+  await testForNonNumericUserID(["userID", "excerciseID"],t,
+    async (nonValidID) => {
+      return t.context.got.get(`user/${nonValidID}/gymprogram/${nonValidID}`);
+    },400,"Bad Request"
+  );
+});
+
+
 // Test for handling non-existent user and exercise IDs
-const nonNumericUserIDsFor404 = [
-  // Test cases for non-existent IDs
-  { userID: [], exerciseID: [] },
-  { userID: "", exerciseID: "" },
-];
-
 test("GET user exercise with non-existent userID or exerciseID returns 404", async (t) => {
-  for (const { userID, exerciseID } of nonNumericUserIDsFor404) {
-    // Making a GET request with non-existent IDs
-    const { body, statusCode } = await t.context.got.get(
-      `user/${userID}/gymprogram/${exerciseID}`
-    );
-
-    // Assertions to check for correct response status and message
-    t.is(
-      statusCode,
-      404,
-      "Should return 404 Not Found for non-existent userID or exerciseID"
-    );
-    t.truthy(body.message, "Response should have a message");
-    t.is(
-      body.message,
-      "not found",
-      "Response message should indicate user or exercise not found"
-    );
-  }
+  await testForNonNumericUserID(["userID", "excerciseID"],t,
+    async (nonValidID) => {
+      return t.context.got.get(`user/${nonValidID}/gymprogram/${nonValidID}`);
+    },404,"Not Found", ["user","gymprogram"]
+  );
 });
 
 // Test for checking response headers
 test("GET user exercise returns expected headers", async (t) => {
   // Generating test IDs and making a GET request
-  const userID = generateTestUserID();
-  const exerciseID = generateTestExerciseID();
   const { headers, statusCode } = await t.context.got.get(
     `user/${userID}/gymprogram/${exerciseID}`
   );
@@ -151,13 +112,3 @@ test("GET user exercise returns expected headers", async (t) => {
   t.is(statusCode, 200);
   t.truthy(headers["content-type"]);
 });
-
-// Helper function to generate a random test user ID
-function generateTestUserID() {
-  return Math.floor(Math.random() * 100000) + 1;
-}
-
-// Helper function to generate a random test exercise ID
-function generateTestExerciseID() {
-  return Math.floor(Math.random() * 100) + 1;
-}

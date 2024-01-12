@@ -2,11 +2,22 @@ const http = require('http');
 const test = require('ava');
 const listen = require('test-listen');
 const got = require('got');
+const app = require("../index.js");
 
 //import the functions from RecipeNutritionistService
 const { getRecipeNutrionist, updateRecipeNutritionist, deleteRecipe, addRecipe } = require("../service/RecipeNutritionistService");
-const app = require('../index.js');
-const { generateMockRecipeData } = require("../utils/testUtils.js");
+
+// Importing test utility functions and generateTestID function
+const { generateMockRecipeData, testForNonNumericUserID, generateTestID } = require("../utils/testUtils.js");
+
+// Helper functions
+// Generate a random userID
+const nutritionistID = generateTestID();
+const recipeID = generateTestID();
+
+//generate example data
+const mockRecipeData = generateMockRecipeData();
+const falseMockRecipeData = generateMockRecipeData(true);
 
 // Setting up the server before running tests
 test.before(async (t) => {
@@ -18,10 +29,6 @@ test.before(async (t) => {
     t.context.got = got.extend({ prefixUrl: t.context.prefixUrl, responseType: 'json', throwHttpErrors: false });
 });
 
-//generate random nutritionistID and recipeID
-const nutritionistID = generateTestnutritionistID();
-const recipeID = generateTestRecipeID();
-const mockRecipeData = generateMockRecipeData();
 
 //unit testing
 
@@ -62,9 +69,6 @@ test('Test of the function getRecipeNutrionist', async (t) => {
 test('Test of the function addRecipe', async (t) => {
         //get the recipe from the function addRecipe
         const result = await addRecipe(mockRecipeData, nutritionistID);
-    
-        console.log('Hello world\n');
-        console.log(typeof result);
         // Check if  the result is an object
         t.is(
             typeof result,
@@ -134,8 +138,6 @@ test('PUT RecipeNutritionist returns corect response with required fields', asyn
 
 //Post Request
 test('Post RecipeNutritionist Success and getting 200', async (t) => {
-    
-    const nutritionistID = generateTestnutritionistID();
     // Fetching data from the API and body structure testing the  status code
     const { body, statusCode } = await t.context.got.post(
         `nutritionist/${nutritionistID}/recipe/`, {
@@ -160,89 +162,50 @@ test('Post RecipeNutritionist Success and getting 200', async (t) => {
 });
 
 //Post Request
+// Test case for non-integer userID, expecting a 400 response
 test('Post RecipeNutritionist returns error 400 with bad parameters', async (t) => {
-  // NutritionistID contains some invalid parameters
-  const nutritionistID = "@";
-  // Fetching data from the API and testing the  status code
-  const { body, statusCode } = await t.context.got.post(
-    `nutritionist/${nutritionistID}/recipe/`,
-    {
-      json: mockRecipeData,
-    }
+  await testForNonNumericUserID(["NutritionistID"],t,
+    async (nonValidID) => {
+      return t.context.got.post(`nutritionist/${nonValidID}/recipe`, {
+        json: mockRecipeData,
+      });
+    },400,"Bad Request"
   );
-    // Assertions
-  t.is(statusCode, 400, "Should return 400 Bad Request for non-numeric userID");
 });
 
 //Post Request
+// Test case for empty userID, expecting a 404 response
 test('Post RecipeNutritionist returns error 404 with non existed id', async (t) => {
-  // NutritionistID contains is empty
-  const nutritionistID = "";
-   // Fetching data from the API and testing body sructure and the  status code
-  const { body, statusCode } = await t.context.got.post(
-    `nutritionist/${nutritionistID}/recipe/`,
-    {
-      json: mockRecipeData,
-    }
+  await testForNonNumericUserID(["NutritionistID"],t,
+    async (nonValidID) => {
+      return t.context.got.post(`nutritionist/${nonValidID}/recipe`, {
+        json: mockRecipeData,
+      });
+    },404,"Not Found", ["nutritionist","recipe"]
   );
-
-  t.is(statusCode, 404, "Should return 404 Not Found for non existed id");
 });
-
 
 //Put Request
 test('PUT RecipeNutritionist returns error 400 with bad parameters', async (t) => {
-    // Assuming mockRecipeData contains some invalid parameters
-    const mockRecipeData = {
-        IngredientsName: ["Chicken Breast", "Olive Oil", "Garlic", "Lemon Juice", "Paprika", "Salt", "Black Pepper", "Fresh Parsley"],
-        difficulty: "Easy",
-        servings: "invalid_number`", // Intentionally incorrect type for testing
-        recipeType: "Main Course",
-        Instructions: [
-            "Preheat oven to 375°F (190°C).",
-            "In a bowl, mix olive oil, minced garlic, lemon juice, paprika, salt, and black pepper.",
-            "Place chicken breasts in a baking dish and pour the mixture over them.",
-            "Bake in the preheated oven for 25-30 minutes or until chicken is cooked through.",
-            "Garnish with chopped fresh parsley before serving."
-        ],
-        NutritionalTable: [
-            "Calories: 165",
-            "Protein: 26g",
-            "Fat: 4.5g",
-            "Carbohydrates: 3g",
-            "Sodium: 322mg"
-        ],
-        IngredientsQuantity: [
-            "4 medium-sized chicken breasts",
-            "2 tablespoons olive oil",
-            "3 cloves garlic, minced",
-            "2 tablespoons lemon juice",
-            "1 teaspoon paprika",
-            "1/2 teaspoon salt",
-            "1/4 teaspoon black pepper",
-            "2 tablespoons chopped fresh parsley"
-        ],
-        time: "5", // Assuming this should be a number
-        recipeID: 101,
-        imgRecipe: "https://example.com/images/chicken-breast-recipe.jpg"
-    };
-    // Fetching data from the API and testing body sructure and the  status code
-    const { body, statusCode } = await t.context.got.put(
-        `nutritionist/${nutritionistID}/recipe/${recipeID}`, {
-        json: mockRecipeData,
-    });
-    // Assertions
-    //status Code should be 400
-    t.is(statusCode, 400, 'Should return 400 Bad Request for non-numeric userID');
-    //checking the body structure
-    t.is(body.message, 'request.body.time should be integer');
-    t.like(body.errors, [
-        {
-            path: '.body.time',
-            message: 'should be integer',
-            errorCode: 'type.openapi.validation'
-        }
-    ]);
+  // Fetching data from the API and testing body sructure and the  status code
+  const { body, statusCode } = await t.context.got.put(
+    `nutritionist/${nutritionistID}/recipe/${recipeID}`,
+    {
+      json: falseMockRecipeData,
+    }
+  );
+  // Assertions
+  //status Code should be 400
+  t.is(statusCode, 400, "Should return 400 Bad Request for non-numeric userID");
+  //checking the body structure
+  t.is(body.message, "request.body.servings should be string");
+  t.like(body.errors, [
+    {
+      path: ".body.servings",
+      message: "should be string",
+      errorCode: "type.openapi.validation",
+    },
+  ]);
 });
 
 //Delete Recipe
@@ -255,24 +218,15 @@ test('Test of the Delete Recipe with success', async (t) => {
     //status Code should be 200
     t.is(statusCode, 200, "Should return 200 when recipe is deleted");
 });
-
+//Delete Recipe with non-integer userID
 test('Test of the Delete Recipe with 400 error code', async (t) => {
-    const wrongRecipeId = '@';
-    // Fetching data from the API and testing body sructure and the  status code
-    const { body, statusCode } = await t.context.got.delete(
-        `nutritionist/${nutritionistID}/recipe/${wrongRecipeId}`
-    );
-    //status Code should be 400
-    t.is(statusCode, 400, "Should return 400 when there is a bad parameter");
-    //checking the body structure
-    t.like(body.errors, [
-        {
-          path: '.params.recipeID',
-          message: 'should be integer',
-          errorCode: 'type.openapi.validation'
-        }
-      ]);
+  await testForNonNumericUserID(["NutritionistID"],t,
+    async (nonValidID) => {
+      return t.context.got.get(`nutritionist/${nonValidID}/recipe/${recipeID}`);
+    },400,"Bad Request"
+  );
 });
+
 //Delete Recipe
 test('Test of the Delete Recipe with 405 error code', async (t) => {
     const nonExistingRecipeId = '';
@@ -291,14 +245,3 @@ test.after.always((t) => {
     t.context.server.close();
 });
 
-
-// Helper functions
-// Generate a random userID
-function generateTestnutritionistID() {
-    return Math.floor(Math.random() * 100000) + 1;
-}
-
-// Generate a random recipeID
-function generateTestRecipeID() {
-    return Math.floor(Math.random() * 1000000) + 1;
-}
