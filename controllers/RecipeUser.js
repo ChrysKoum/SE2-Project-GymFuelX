@@ -11,12 +11,9 @@ var RecipeUser = require("../service/RecipeUserService");
  * @param {Function} next - The next middleware function in the stack.
  * @param {Number} userID - The unique identifier of the user.
  */
-module.exports.getAllRecipies = function getAllRecipies(
-  req,
-  res,
-  next,
-  userID
-) {
+module.exports.getAllRecipies = function getAllRecipies(req, res, ...args) {
+  // Assuming args[0] is 'userID'
+  const [userID] = args;
   // Calling the service to get all recipes for the user
   RecipeUser.getAllRecipies(userID)
     .then(function (response) {
@@ -40,7 +37,7 @@ module.exports.getAllRecipies = function getAllRecipies(
 module.exports.getRecipe = function getRecipe(
   req,
   res,
-  next,
+  
   userID,
   recipeID
 ) {
