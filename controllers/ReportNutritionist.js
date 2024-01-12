@@ -7,7 +7,6 @@ var ReportNutritionist = require('../service/ReportNutritionistService');
 module.exports.deleteRecipeReport = function deleteRecipeReport(
   req,
   res,
-  next,
   ...args
 ) {
   // Assuming args[0] is 'nutritionistID', args[1] is 'reportID'
@@ -25,7 +24,6 @@ module.exports.deleteRecipeReport = function deleteRecipeReport(
 module.exports.getRecipeReport = function getRecipeReport(
   req,
   res,
-  next,
   ...args
 ) {
   // Assuming args[0] is 'nutritionistID', args[1] is 'reportID'
@@ -43,7 +41,6 @@ module.exports.getRecipeReport = function getRecipeReport(
 module.exports.getRecipeReports = function getRecipeReports(
   req,
   res,
-  next,
   ...args
 ) {
   // Assuming args[0] is 'nutritionistID'
@@ -61,7 +58,6 @@ module.exports.getRecipeReports = function getRecipeReports(
 module.exports.updateRecipeReport = function updateRecipeReport(
   req,
   res,
-  next,
   ...args
 ) {
   // Assuming args[0] is 'body', args[1] is 'nutritionistID', args[2] is 'reportID'

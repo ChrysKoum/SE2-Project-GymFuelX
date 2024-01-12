@@ -49,7 +49,6 @@ module.exports.getRecipeNutrionist = function getRecipeNutrionist (req, res, nex
 module.exports.updateRecipeNutritionist = function updateRecipeNutritionist(
   req,
   res,
-  next,
   ...args
 ) {
   // Assuming args[0] is 'body', args[1] is 'nutritionistID', and args[2] is 'recipeID'

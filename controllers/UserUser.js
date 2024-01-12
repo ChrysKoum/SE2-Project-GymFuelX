@@ -10,7 +10,6 @@ var UserUser = require('../service/UserUserService');
 module.exports.addUserDetails = function addUserDetails(
   req,
   res,
-  next,
   ...args
 ) {
   // Assuming args[0] is 'body'
@@ -27,7 +26,6 @@ module.exports.addUserDetails = function addUserDetails(
 module.exports.editUserDetails = function editUserDetails(
   req,
   res,
-  next,
   ...args
 ) {
   // Assuming args[0] is 'body', args[1] is 'userID'
@@ -44,7 +42,6 @@ module.exports.editUserDetails = function editUserDetails(
 module.exports.getUserDetails = function getUserDetails(
   req,
   res,
-  next,
   ...args
 ) {
   // Assuming args[0] is 'userID'

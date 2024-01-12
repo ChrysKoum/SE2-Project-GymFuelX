@@ -22,7 +22,6 @@ module.exports.deleteReport = function deleteReport(req, res, next, ...args) {
 module.exports.getGymProgramReport = function getGymProgramReport(
   req,
   res,
-  next,
   ...args
 ) {
   // Assuming args[0] is 'trainerID', args[1] is 'reportID'
@@ -39,7 +38,6 @@ module.exports.getGymProgramReport = function getGymProgramReport(
 module.exports.getGymProgramReports = function getGymProgramReports(
   req,
   res,
-  next,
   ...args
 ) {
   // Assuming args[0] is 'trainerID'

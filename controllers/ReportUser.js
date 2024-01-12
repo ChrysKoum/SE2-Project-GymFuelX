@@ -7,7 +7,6 @@ var ReportUser = require('../service/ReportUserService'); // Importing the Repor
 module.exports.createDietReport = function createDietReport(
   req,
   res,
-  next,
   ...args
 ) {
   // Assuming args[0] is 'body', args[1] is 'userID', args[2] is 'recipeID'
@@ -25,7 +24,6 @@ module.exports.createDietReport = function createDietReport(
 module.exports.createGymReport = function createGymReport(
   req,
   res,
-  next,
   ...args
 ) {
   // Assuming args[0] is 'body', args[1] is 'userID'
