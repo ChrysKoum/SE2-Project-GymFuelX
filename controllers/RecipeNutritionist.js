@@ -7,7 +7,7 @@ var utils = require('../utils/writer.js');
  */
 var RecipeNutritionist = require('../service/RecipeNutritionistService');
 
-module.exports.addRecipe = function addRecipe (req, res,  body, nutritionistID) {
+module.exports.addRecipe = function addRecipe (req, res, next, body, nutritionistID) {
   RecipeNutritionist.addRecipe(body, nutritionistID)
     .then(function (response) {
       utils.writeJson(res, response);
@@ -17,7 +17,7 @@ module.exports.addRecipe = function addRecipe (req, res,  body, nutritionistID) 
     });
 };
 
-module.exports.deleteRecipe = function deleteRecipe (req, res,  nutritionistID, recipeID) {
+module.exports.deleteRecipe = function deleteRecipe (req, res, next, nutritionistID, recipeID) {
   RecipeNutritionist.deleteRecipe(nutritionistID, recipeID)
     .then(function (response) {
       utils.writeJson(res, response);
@@ -27,7 +27,7 @@ module.exports.deleteRecipe = function deleteRecipe (req, res,  nutritionistID, 
     });
 };
 
-module.exports.getRecipeNutrionist = function getRecipeNutrionist (req, res, nutritionistID, recipeID) {
+module.exports.getRecipeNutrionist = function getRecipeNutrionist (req, res, next, nutritionistID, recipeID) {
   RecipeNutritionist.getRecipeNutrionist(nutritionistID, recipeID)
     .then(function (response) {
       utils.writeJson(res, response);
@@ -37,7 +37,7 @@ module.exports.getRecipeNutrionist = function getRecipeNutrionist (req, res, nut
     });
 };
 
-module.exports.updateRecipeNutritionist = function updateRecipeNutritionist (req, res,  body, nutritionistID, recipeID) {
+module.exports.updateRecipeNutritionist = function updateRecipeNutritionist (req, res, next, body, nutritionistID, recipeID) {
   RecipeNutritionist.updateRecipeNutritionist(body, nutritionistID, recipeID)
     .then(function (response) {
       utils.writeJson(res, response);

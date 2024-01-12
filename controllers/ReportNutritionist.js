@@ -4,7 +4,7 @@ var utils = require('../utils/writer.js');
 var ReportNutritionist = require('../service/ReportNutritionistService');
 
 // Function to delete a recipe report
-module.exports.deleteRecipeReport = function deleteRecipeReport (req, res,  nutritionistID, reportID) {
+module.exports.deleteRecipeReport = function deleteRecipeReport (req, res, next, nutritionistID, reportID) {
   ReportNutritionist.deleteRecipeReport(nutritionistID, reportID)
     .then(function (response) {
       utils.writeJson(res, response);
@@ -15,7 +15,7 @@ module.exports.deleteRecipeReport = function deleteRecipeReport (req, res,  nutr
 };
 
 // Function to get a recipe report
-module.exports.getRecipeReport = function getRecipeReport (req, res,  nutritionistID, reportID) {
+module.exports.getRecipeReport = function getRecipeReport (req, res, next, nutritionistID, reportID) {
   ReportNutritionist.getRecipeReport(nutritionistID, reportID)
     .then(function (response) {
       utils.writeJson(res, response);
@@ -26,7 +26,7 @@ module.exports.getRecipeReport = function getRecipeReport (req, res,  nutritioni
 };
 
 // Function to get all recipe reports
-module.exports.getRecipeReports = function getRecipeReports (req, res,  nutritionistID) {
+module.exports.getRecipeReports = function getRecipeReports (req, res, next, nutritionistID) {
   ReportNutritionist.getRecipeReports(nutritionistID)
     .then(function (response) {
       utils.writeJson(res, response);
@@ -37,7 +37,7 @@ module.exports.getRecipeReports = function getRecipeReports (req, res,  nutritio
 };
 
 // Function to update a recipe report
-module.exports.updateRecipeReport = function updateRecipeReport (req, res,  body, nutritionistID, reportID) {
+module.exports.updateRecipeReport = function updateRecipeReport (req, res, next, body, nutritionistID, reportID) {
   ReportNutritionist.updateRecipeReport(body, nutritionistID, reportID)
     .then(function (response) {
       utils.writeJson(res, response);

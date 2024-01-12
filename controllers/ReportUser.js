@@ -4,7 +4,7 @@ var utils = require('../utils/writer.js'); // Importing the writer.js module fro
 var ReportUser = require('../service/ReportUserService'); // Importing the ReportUserService module from the service folder
 
 // Function to create a diet report
-module.exports.createDietReport = function createDietReport (req, res,  body, userID, recipeID) {
+module.exports.createDietReport = function createDietReport (req, res, next, body, userID, recipeID) {
   ReportUser.createDietReport(body, userID, recipeID)
     .then(function (response) {
       utils.writeJson(res, response); // Writing the response as JSON using the writeJson function from the utils module
@@ -15,7 +15,7 @@ module.exports.createDietReport = function createDietReport (req, res,  body, us
 };
 
 // Function to create a gym report
-module.exports.createGymReport = function createGymReport (req, res,  body, userID) {
+module.exports.createGymReport = function createGymReport (req, res, next, body, userID) {
   ReportUser.createGymReport(body, userID)
     .then(function (response) {
       utils.writeJson(res, response); // Writing the response as JSON using the writeJson function from the utils module

@@ -7,7 +7,7 @@ var utils = require('../utils/writer.js');
  */
 var UserUser = require('../service/UserUserService');
 
-module.exports.addUserDetails = function addUserDetails (req, res,  body) {
+module.exports.addUserDetails = function addUserDetails (req, res, next, body) {
   UserUser.addUserDetails(body)
     .then(function (response) {
       utils.writeJson(res, response);
@@ -17,7 +17,7 @@ module.exports.addUserDetails = function addUserDetails (req, res,  body) {
     });
 };
 
-module.exports.editUserDetails = function editUserDetails (req, res,  body, userID) {
+module.exports.editUserDetails = function editUserDetails (req, res, next, body, userID) {
   UserUser.editUserDetails(body, userID)
     .then(function (response) {
       utils.writeJson(res, response);
@@ -27,7 +27,7 @@ module.exports.editUserDetails = function editUserDetails (req, res,  body, user
     });
 };
 
-module.exports.getUserDetails = function getUserDetails (req, res,  userID) {
+module.exports.getUserDetails = function getUserDetails (req, res, next, userID) {
   UserUser.getUserDetails(userID)
     .then(function (response) {
       utils.writeJson(res, response);
