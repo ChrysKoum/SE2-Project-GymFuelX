@@ -198,11 +198,11 @@ test('PUT RecipeNutritionist returns error 400 with bad parameters', async (t) =
   //status Code should be 400
   t.is(statusCode, 400, "Should return 400 Bad Request for non-numeric userID");
   //checking the body structure
-  t.is(body.message, "request.body.time should be integer");
+  t.is(body.message, "request.body.servings should be string");
   t.like(body.errors, [
     {
-      path: ".body.time",
-      message: "should be integer",
+      path: ".body.servings",
+      message: "should be string",
       errorCode: "type.openapi.validation",
     },
   ]);
