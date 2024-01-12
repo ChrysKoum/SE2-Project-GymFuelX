@@ -67,12 +67,10 @@ function getTestCases(expectedStatusCode) {
  */
 async function performTest(testContext) {
   const {
-    ParamsTesting,
     t,
     requestFunction,
     expectedStatusCode,
     errorMessage,
-    path,
     userID,
   } = testContext;
   const { body, statusCode } = await requestFunction(userID);
