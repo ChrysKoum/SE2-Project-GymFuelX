@@ -108,9 +108,15 @@ const userIDfor400 = [
 
 // Replace the duplicated test with a call to the utility function
 test("GET user with non-numeric user ID returns 400", async (t) => {
-  await testForNonNumericUserID(t, async (userID) => {
-    return t.context.got.get(`user/${userID}/gymprogram`);
-  }, 400, "Bad Request");
+  await testForNonNumericUserID(
+    ["userID"],
+    t,
+    async (userID) => {
+      return t.context.got.get(`user/${userID}/gymprogram`);
+    },
+    400,
+    "Bad Request"
+  );
 });
 
 // Test for error posting a report for a Gym program report with false data - 400 

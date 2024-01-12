@@ -4,8 +4,12 @@ const test = require("ava");
 const listen = require("test-listen");
 const got = require("got");
 const app = require("../index");
-
+// Importing the getGymProgram function
 const { getGymProgram } = require("../service/GymprogramUserService.js");
+// Importing test utility functions
+const { testForNonNumericUserID, generateTestID } = require("../utils/testUtils.js");
+
+const userID = generateTestID();
 
 // Setup before running tests
 test.before(async (t) => {
@@ -29,7 +33,6 @@ test.after.always((t) => {
 
 // Test case for the getGymProgram function
 test("getGymProgram returns the correct structure for a valid userID", async (t) => {
-  const userID = 23;
   const program = await getGymProgram(userID);
   t.truthy(program.GymProgramDetails);
   // Checking each exercise detail in the program
@@ -45,7 +48,6 @@ test("getGymProgram returns the correct structure for a valid userID", async (t)
 
 // Test case for the getGymProgram API endpoint
 test("getGymProgram API endpoint returns the correct structure for a valid userID", async (t) => {
-  const userID = 23;
   const { body, statusCode } = await t.context.got(`user/${userID}/gymprogram`);
   const program = body;
   t.is(statusCode, 200, "Should return 200 OK for valid userID");
@@ -61,57 +63,23 @@ test("getGymProgram API endpoint returns the correct structure for a valid userI
 });
 
 // Test case for non-integer userID, expecting a 400 response
-const userIDfor400 = [
-  1.2,
-  "abc",
-  true,
-  "@special",
-  null,
-  undefined,
-  "!",
-  "@",
-  "^",
-  "&",
-  "*",
-];
 
 test("getGymProgram with non-integer userID returns 400", async (t) => {
-  for (const userID of userIDfor400) {
-    const { body, statusCode } = await t.context.got(
-      `user/${userID}/gymprogram`
-    );
-    t.is(
-      statusCode,
-      400,
-      "Should return 400 Bad Request for non-integer userID"
-    );
-    t.is(body.message, "request.params.userID should be integer");
-    t.deepEqual(body.errors, [
-      {
-        path: ".params.userID",
-        message: "should be integer",
-        errorCode: "type.openapi.validation",
-      },
-    ]);
-  }
+  await testForNonNumericUserID(["userID"],t,
+    async (nonValidID) => {
+      return t.context.got.get(`user/${nonValidID}/gymprogram`);
+    },400,"Bad Request"
+  );
 });
 
+
 // Test case for empty userID, expecting a 404 response
-const userIDfor404 = ["", []];
 test("getGymProgram with empty userID returns 404", async (t) => {
-  for (const userID of userIDfor404) {
-    const { body, statusCode } = await t.context.got(
-      `user/${userID}/gymprogram`
-    );
-    t.is(statusCode, 404, "Should return 404 Not Found for empty userID");
-    t.is(body.message, "not found");
-    t.deepEqual(body.errors, [
-      {
-        path: "/user//gymprogram",
-        message: "not found",
-      },
-    ]);
-  }
+  await testForNonNumericUserID(["userID"],t,
+    async (nonValidID) => {
+      return t.context.got.get(`user/${nonValidID}/gymprogram`);
+    },404,"Not Found", ["user","gymprogram"]
+  );
 });
 
 // Test for checking response headers
