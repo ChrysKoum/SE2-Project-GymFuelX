@@ -7,10 +7,8 @@ const app = require("../index.js");
 //import the functions from RecipeNutritionistService
 const { getRecipeNutrionist, updateRecipeNutritionist, deleteRecipe, addRecipe } = require("../service/RecipeNutritionistService");
 
-// Importing the generateMockRecipeData function
-const { generateMockRecipeData } = require("../utils/testUtils.js");
-// Importing test utility functions
-const { testForNonNumericUserID, generateTestID } = require("../utils/testUtils.js");
+// Importing test utility functions and generateTestID function
+const { generateMockRecipeData, testForNonNumericUserID, generateTestID } = require("../utils/testUtils.js");
 
 // Helper functions
 // Generate a random userID
