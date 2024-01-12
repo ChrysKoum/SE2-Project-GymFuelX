@@ -10,9 +10,11 @@ var DietprogramUser = require("../service/DietprogramUserService");
 module.exports.getDietProgram = function getDietProgram(
   req,
   res,
-  
-  userID
+  next,
+  ...args
 ) {
+  // Assuming args[0] is 'userID'
+  const [userID] = args;
   DietprogramUser.getDietProgram(userID)
     .then(function (response) {
       utils.writeJson(res, response);

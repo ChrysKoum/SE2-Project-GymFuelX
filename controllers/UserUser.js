@@ -7,7 +7,14 @@ var utils = require('../utils/writer.js');
  */
 var UserUser = require('../service/UserUserService');
 
-module.exports.addUserDetails = function addUserDetails (req, res, next, body) {
+module.exports.addUserDetails = function addUserDetails(
+  req,
+  res,
+  next,
+  ...args
+) {
+  // Assuming args[0] is 'body'
+  const [body] = args;
   UserUser.addUserDetails(body)
     .then(function (response) {
       utils.writeJson(res, response);
@@ -17,7 +24,14 @@ module.exports.addUserDetails = function addUserDetails (req, res, next, body) {
     });
 };
 
-module.exports.editUserDetails = function editUserDetails (req, res, next, body, userID) {
+module.exports.editUserDetails = function editUserDetails(
+  req,
+  res,
+  next,
+  ...args
+) {
+  // Assuming args[0] is 'body', args[1] is 'userID'
+  const [body, userID] = args;
   UserUser.editUserDetails(body, userID)
     .then(function (response) {
       utils.writeJson(res, response);
@@ -27,7 +41,14 @@ module.exports.editUserDetails = function editUserDetails (req, res, next, body,
     });
 };
 
-module.exports.getUserDetails = function getUserDetails (req, res, next, userID) {
+module.exports.getUserDetails = function getUserDetails(
+  req,
+  res,
+  next,
+  ...args
+) {
+  // Assuming args[0] is 'userID'
+  const [userID] = args;
   UserUser.getUserDetails(userID)
     .then(function (response) {
       utils.writeJson(res, response);
