@@ -3,7 +3,7 @@
 ## School of Electrical & Computer Engineering | 9th Semester, University of Thessaloniki, 2023
 
 
-### Project Website: [GymFuelX Project](https://github.com/ChrysKoum/SE2-Project-GymFuelX)
+### Project Website: [GymFuelX Project](https://chryskoum.github.io/SE1-Project-GymFuelX/)
 
 
 ## Table of contents
@@ -77,8 +77,8 @@ Testing is a critical aspect of the development process, ensuring the applicatio
 
 - **Chrysostomos Koumides:** [Personal Website](https://github.com/ChrysKoum/ChrysK)
 - **Dimos Kompitselidis:** [Personal Website](https://komisd.github.io/Portfolio-Website/)
-- **Antreas Eustathios Eleyferiadis**
-- **Antreas Theodorou**
+- **Michalis Dadopoulos:** [GitHub Account](https://github.com/MDadopoulos)
+- **Tryfon Kalt:** [GitHub Account](https://github.com/tryfkalt)
 
 ## Hackathon
 
