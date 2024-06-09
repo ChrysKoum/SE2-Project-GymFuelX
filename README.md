@@ -36,7 +36,7 @@ open http://localhost:8080/docs
 
 ## Overview
 
-GymFuelX, a cutting-edge application in fitness technology, continues to evolve in the Software Engineering II course. Building on the foundations laid in Software Engineering I, this project enhances its capabilities with advanced techniques and methodologies in software development, testing, operation, and management.
+GymFuelX, a state-of-the-art application in fitness and diet technology, is continuously evolving within the Software Engineering II course. Building on the foundational concepts covered in Software Engineering I—such as User Requirements, UI/UX Design, Software Specifications, and System Implementation—we now advance the software cycle through the stages of Development, Testing, Debugging, Deployment, Operations, and Maintenance.
 
 ### Introduction
 
