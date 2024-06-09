@@ -36,8 +36,8 @@ open http://localhost:8080/docs
 
 ## Overview
 
-In Software Engineering I, we established a solid foundation by focusing on User Requirements, UI/UX Design, Software Specifications, and System Implementation. Building on this groundwork, Software Engineering II advanced our skills through the stages of Development, Testing, and Debugging. These principles were practically applied in the development of GymFuelX, an innovative fitness and diet technology application. This project encapsulates our journey through the software engineering lifecycle, showcasing our ability to evolve an application from initial concepts to a fully functional product. **
-[SE I Repository Project Link](https://github.com/ChrysKoum/SE1-Project-GymFuelX)**
+In Software Engineering I, we established a solid foundation by focusing on User Requirements, UI/UX Design, Software Specifications, and System Implementation. Building on this groundwork, Software Engineering II advanced our skills through the stages of Development, Testing, and Debugging. These principles were practically applied in the development of GymFuelX, an innovative fitness and diet technology application. This project encapsulates our journey through the software engineering lifecycle, showcasing our ability to evolve an application from initial concepts to a fully functional product. 
+[SE I Repository Project Link](https://github.com/ChrysKoum/SE1-Project-GymFuelX)
 
 ### Introduction
 
