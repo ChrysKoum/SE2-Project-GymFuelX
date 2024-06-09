@@ -81,6 +81,10 @@ The foundations of GymFuelX were established in the Software Engineering I cours
 - **Prototype Development:** Initial version of GymFuelX to showcase core functionalities.
 - **Static Modeling:** Conceptual representation of the application's data structure.
 
+
+**Link of SE I**
+[SE I Repository Project Link](https://github.com/ChrysKoum/SE1-Project-GymFuelX)
+
 ## Team
 
 - **Chrysostomos Koumides:** [Personal Website](https://github.com/ChrysKoum/ChrysK)
