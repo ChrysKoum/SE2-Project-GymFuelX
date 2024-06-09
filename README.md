@@ -2,9 +2,7 @@
 
 ## School of Electrical & Computer Engineering | 9th Semester, University of Thessaloniki, 2023
 
-
 ### Project Website: [GymFuelX Project](https://chryskoum.github.io/SE1-Project-GymFuelX/)
-
 
 ## Table of contents
 
@@ -15,6 +13,7 @@
     - [Project Development](#project-development)
     - [Agile Methodology](#agile-methodology)
     - [Testing](#testing)
+- [Software Engineering I](#software-engineering-i)
 - [Team](#team)
 - [Hackathon](#hackathon)
 
@@ -38,6 +37,7 @@ open http://localhost:8080/docs
 ## Overview
 
 GymFuelX, a cutting-edge application in fitness technology, continues to evolve in the Software Engineering II course. Building on the foundations laid in Software Engineering I, this project enhances its capabilities with advanced techniques and methodologies in software development, testing, operation, and management.
+
 ### Introduction
 
 GymFuelX integrates workout routines with nutrition management, providing users with customized fitness and nutrition plans. The focus is on health, innovation, and leveraging technological advancements to meet users' wellness needs.
@@ -72,6 +72,14 @@ Testing is a critical aspect of the development process, ensuring the applicatio
 - **System Testing:** Verifying the complete system's functionality.
 - **User Acceptance Testing (UAT):** Ensuring the application meets user requirements.
 - **Automated Testing with Selenium:** Conducting automated tests to streamline the testing process.
+
+## Software Engineering I
+
+The foundations of GymFuelX were established in the Software Engineering I course. This initial phase focused on understanding user requirements, system specifications, and building a prototype of the application. Key elements included:
+
+- **User Requirements and System Specifications:** Detailed understanding of user needs and system expectations.
+- **Prototype Development:** Initial version of GymFuelX to showcase core functionalities.
+- **Static Modeling:** Conceptual representation of the application's data structure.
 
 ## Team
 
