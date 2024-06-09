@@ -36,7 +36,8 @@ open http://localhost:8080/docs
 
 ## Overview
 
-GymFuelX, a state-of-the-art application in fitness and diet technology, is continuously evolving within the Software Engineering II course. Building on the foundational concepts covered in Software Engineering I (such as User Requirements, UI/UX Design, Software Specifications, and System Implementation) we now advance the software cycle through the stages of Development, Testing, Debugging, Deployment, Operations, and Maintenance.
+In Software Engineering I, we established a solid foundation by focusing on User Requirements, UI/UX Design, Software Specifications, and System Implementation. Building on this groundwork, Software Engineering II advanced our skills through the stages of Development, Testing, and Debugging. These principles were practically applied in the development of GymFuelX, an innovative fitness and diet technology application. This project encapsulates our journey through the software engineering lifecycle, showcasing our ability to evolve an application from initial concepts to a fully functional product. **
+[SE I Repository Project Link](https://github.com/ChrysKoum/SE1-Project-GymFuelX)**
 
 ### Introduction
 
@@ -82,8 +83,8 @@ The foundations of GymFuelX were established in the Software Engineering I cours
 - **Static Modeling:** Conceptual representation of the application's data structure.
 
 
-**Link of SE I**
-[SE I Repository Project Link](https://github.com/ChrysKoum/SE1-Project-GymFuelX)
+**SE I Repository Project Link: **
+[Link](https://github.com/ChrysKoum/SE1-Project-GymFuelX)
 
 ## Team
 
