@@ -1,7 +1,5 @@
 [![Cyclopt rating](https://server.cyclopt.services/api/badges/6547b332bb63ee6879f30ebf)](https://platform.cyclopt.com)
 
-![logocicle](https://github.com/ChrysKoum/SE2-Project-GymFuelX/assets/104517252/f48e48f0-60a2-4f5d-904c-b45ecaf0cba1)
-
 <img height="300" width="300" alt="GymFuelX Logo" src="https://github.com/ChrysKoum/SE2-Project-GymFuelX/assets/104517252/f48e48f0-60a2-4f5d-904c-b45ecaf0cba1">
 
 # Software-Engineering-II-Project in AUTH | GymFuelX Application Documentation
