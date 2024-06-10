@@ -1,3 +1,5 @@
+[![Cyclopt rating](https://server.cyclopt.services/api/badges/6547b332bb63ee6879f30ebf)](https://platform.cyclopt.com)
+
 # Software-Engineering-II-Project in AUTH | GymFuelX Application Documentation
 
 ## School of Electrical & Computer Engineering | 9th Semester, University of Thessaloniki, 2023
