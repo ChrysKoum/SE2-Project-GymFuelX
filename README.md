@@ -85,7 +85,7 @@ The foundations of GymFuelX were established in the Software Engineering I cours
 - **Static Modeling:** Conceptual representation of the application's data structure.
 
 
-**SE I Repository Project Link: **
+**SE I Repository Project Link:**
 [Link](https://github.com/ChrysKoum/SE1-Project-GymFuelX)
 
 ## Team
